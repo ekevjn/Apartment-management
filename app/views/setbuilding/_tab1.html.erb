@@ -1,0 +1,26 @@
+<div class="ui segment">
+  <div class="aligned center" id="layout-overview">
+    <%= render "step1overview" %>
+  </div>
+  <div id="importmessage">
+  </div>
+  <div id="importbuildingspace">
+    <div class="ui segment">
+      <div class="ui two column middle aligned very relaxed stackable grid">
+        <div class="column">
+          <%= render partial: "step1input", locals: {building: @building} %>
+        </div>
+        <!-- <div class="ui vertical divider">
+          Or
+        </div> -->
+        <div class="center aligned column">
+          <%= render "step1choice", locals: {building: @building} %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.ui.dropdown').dropdown();
+</script>

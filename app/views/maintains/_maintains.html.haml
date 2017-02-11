@@ -1,0 +1,48 @@
+.table-responsive
+  %table.table.table-bordered.table-hover.pretty
+    %thead
+      %tr
+        %th{:width => "3%"}= sortable "id",'id'
+        %th{:width => "15%"}= sortable "facility_id",'Tài sản'
+        %th{:width => "15%"}= sortable "fixed_time", "Thời gian sửa"
+        %th{:width => "17%"}= sortable "price", 'Chi phí'
+        %th{:width => "30%"}= sortable "description", 'Mô tả'
+        %th{:width => "20%"}= link_to "Hành động", "#"
+    %tbody
+      - @maintains.each do |maintain|
+        %tr
+          %td= maintain.id
+          %td= maintain.facility_name
+          %td= maintain.fixed_time.strftime("%d/%m/%Y") if maintain.fixed_time.present?
+          %td= number_to_vnd(maintain.price, false)
+          %td= maintain.description
+          %td
+            %a.btn.btn-sm.glyphicon.glyphicon-info-sign{"aria-label" => "Left Align", :id => "btnViewModal_#{maintain.id}", :title => "Chi tiết"}
+            %a.btn.btn-sm.glyphicon.glyphicon-edit{"aria-label" => "Left Align", :id => "btnEditModal_#{maintain.id}", :title => "Sửa"}
+            %a.btn.btn-sm.glyphicon.glyphicon-remove-sign{"aria-label" => "Left Align", :id => "btnDeleteModal_#{maintain.id}", :title => "Hủy"}
+            / Show modal
+            = render partial: 'showModal', locals: { maintain: maintain }
+            / Edit modal
+            .ui.modal.scrolling{:id => "editModal_#{maintain.id}"}
+              .header
+                %h4.text-center.h1
+                  %span.glyphicon.glyphicon-edit{"aria-hidden" => "true", :style => "color:blue"}
+                  = maintain.id
+                  \- #{maintain.facility_name}
+              .content
+                - @maintain = maintain
+                = render partial: 'form', locals: { maintain: @maintain }
+            / Delete modal
+            .ui.basic.modal{:id => "deleteModal_#{maintain.id}"}
+              .ui.icon.header
+                %i.huge.inverted.remove.icon
+                Xóa vé
+              .content.text-center.header
+                Bạn có chắc chắn muốn xóa thông tin bảo trì "#{maintain.facility_name}" không?
+              .actions
+                %button.ui.cancel.inverted.red.basic.button Không
+                = link_to "Đồng ý", maintain_path(maintain.id), method: :delete, class: "ui inverted green basic button"
+  .col-md-12
+    .pull-right
+      = will_paginate @maintains
+= javascript_include_tag "common/management"

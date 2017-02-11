@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  tower_id: 
+  tower_name: MyString
+  content: MyText
+  tower_email: MyString
+  excuted_time: 2016-04-14 16:21:55
+
+two:
+  title: MyString
+  tower_id: 
+  tower_name: MyString
+  content: MyText
+  tower_email: MyString
+  excuted_time: 2016-04-14 16:21:55

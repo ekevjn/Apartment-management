@@ -1,0 +1,96 @@
+<%= form_for(@ground,url: createground_setbuilding_index_path, remote: true,
+        html: {role: :form, 'data-model' => 'ground'}) do |f| %>
+<h4 class="ui dividing header">Tạo Mặt Bằng</h4>
+<div class="ui form">
+  <div class="field">
+    <label>Nhập tên (*)</label>
+    <div class="field">
+      <%= f.text_field :name, placeholder: "Nhập tên mặt bằng" %>
+      <span class="help-block"></span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Diện tích mặt bằng</label>
+    <div class="two fields">
+      <div class="field">
+        <%= f.text_field :area_length, placeholder: "m" %>
+        <span class="help-block"></span>
+      </div>
+      <div class="field">
+        <%= f.text_field :area_width, placeholder: "m"  %>
+        <span class="help-block"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Loại mặt bằng (*)</label>
+    <div class="field">
+      <%= f.text_field :kind, class: 'form-control' %>
+      <span class="help-block"></span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Trạng thái</label>
+    <%= text_field_tag :status, "#{Ground::STATUS_EMPTY}",
+              class: 'form-control', disabled: true %>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Tầng (*)</label>
+    <div class="field">
+      <%= f.text_field :floor, placeholder: "Nhập tầng của mặt bằng" %>
+      <span class="help-block"></span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Tòa nhà</label>
+    <div class="ui small message">
+      <%= @ground.building_name %>
+      <%= f.hidden_field :building_id %>
+    </div>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label >Số phòng</label>
+    <div class="field">
+      <%= f.text_field :num_rooms, placeholder: "Nhập số phòng của mặt bằng" %>
+      <span class="help-block"></span>
+    </div>
+    <span class="help-block"></span>
+  </div>
+
+  <%= f.submit('Tạo' , class: 'ui green button') %>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).bind('ajaxError', 'form#new_ground', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + model + '[' + field + ']"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+    };
+
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+</script>

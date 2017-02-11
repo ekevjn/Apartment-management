@@ -1,0 +1,6 @@
+$('#setting_account_success').modal("show");
+$("#list_account_script").html("<%= escape_javascript(render("list_account_script")) %>");
+$('.field').each(function(){
+  $('.help-block').html('');
+  $('.help-block').removeClass('ui red message');
+});

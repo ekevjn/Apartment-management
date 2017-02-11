@@ -1,0 +1,103 @@
+<span class="help-block ui red message text-center">
+  Thẻ xe <%= @vehicle_card.card_no %> chưa thanh toán xong phí gửi xe.
+   Vui lòng thanh toán trước khi thực hiện
+</span>
+<%= form_tag(payout_setcard_index_path, remote: true)  do %>
+  <div class="container" id="payment">
+    <div  class="ui grid">
+      <div class="fourteen wide column">
+        <h3 class="ui block header ">
+          Chi phí thẻ xe <%= @vehicle_finance.card_no %> tháng <%= @vehicle_finance.started_time.strftime("%m/%Y") %>
+        </h3>
+        <%= hidden_field_tag :vehicle_finance_id,  @vehicle_finance.id %>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-danger btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+                Nợ phải trả
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right"><%= number_to_vnd(@vehicle_finance.debt) %></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-success btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              Đã trả
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right"><%= number_to_vnd(@vehicle_finance.paid) %></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-primary btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              Chi phí trong tháng
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right"><%= number_to_vnd(@vehicle_finance.fee) %></p>
+          </div>
+        </div>
+        <div class="ui horizontal divider">
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-default btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              Tổng tiền phải trả
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right" id= "service_pay"><%= number_to_vnd(@vehicle_finance.remain) %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br/><br/>
+    <div class="row">
+      <div class="col-sm-3">
+        <label>Tổng tiền thanh toán</label>
+      </div>
+      <div class="col-sm-3">
+        <%= text_field_tag :given_money, number_to_vnd(@vehicle_finance.remain, false), disabled: true, class: 'form-control text-right', placeholder: "Nhập tiền thanh toán" %>
+      </div>
+    </div>
+    <div class="row">
+      <br/>
+      <div class="col-sm-4 col-sm-offset-2">
+        <input type='submit' value="Thanh toán"
+          class="ui green button form-control" id="btnPayout" >
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- Modal thong bao thất bại -->
+<div class="ui basic modal" id="payout_failed">
+  <i class="close icon"></i>
+  <div class="header">
+      Thanh toán thất bại
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="remove icon"></i>
+    </div>
+    <div class="description">
+      <p><div id="exception_messages"></div></p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao thất bại -->

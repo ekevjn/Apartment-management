@@ -1,0 +1,21 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <%= image_tag("logo.png", class: "logo" , alt: "logo") %>
+        <%= image_tag("logo-nav.png", class: "logo-nav" , alt: "logo-nav") %>
+      </a>
+    </div>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to " Quản-lí", towers_path, class: "glyphicon glyphicon-th"  %></li>
+        <% if admin_logged_in? %>
+          <li><%= link_to " Đăng-xuất", admin_logout_path, class: "glyphicon glyphicon-log-out", method: :delete %></li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+</header>
+<div id="layout-messages">
+  <%= render 'layouts/messages' %>
+</div>

@@ -1,0 +1,57 @@
+<table class="ui celled striped table">
+  <thead>
+    <tr>
+      <th>Mã số thẻ</th>
+      <th>Mặt bằng</th>
+      <th>Cư dân</th>
+      <th>Tình trạng</th>
+      <th>Ngày tạo</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @vehicle_cards.each do |vehicle_card| %>
+      <tr>
+        <td><%= vehicle_card.card_no %></td>
+        <td><%= vehicle_card.ground_name %></td>
+        <td><%= vehicle_card.citizen_name %></td>
+        <td><%= vehicle_card.status %></td>
+        <td><%= vehicle_card.created_at.strftime("%d/%m/%Y") %></td>
+        <td>
+          <%= link_to "Đóng dịch vụ", close_service_setcard_index_path(vehicle_card.id),
+              class: "ui  green basic button", remote: true  %>
+          <%= link_to "Mất thẻ", close_service_setcard_index_path(vehicle_card.id, type: 'lost'),
+              class: "ui green basic button", remote: true  %>
+          <%= link_to "Khóa thẻ", close_service_setcard_index_path(vehicle_card.id, type: 'lock'),
+              class: "ui green basic button", remote: true  %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div id="close-services"></div>
+
+<!-- Modal thong bao thanh cong -->
+<div class="ui basic modal" id="payout_success">
+  <i class="close icon"></i>
+  <div class="header">
+      Thanh toán thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p><div>Thanh toán thành công và đã đóng dịch vụ. Bạn có thể thao tác tiếp theo!</div></p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao thanh cong -->

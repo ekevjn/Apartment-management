@@ -1,0 +1,23 @@
+<button class="ui big blue labeled icon button" id="back_button">
+  <i class="backward icon"></i>Quay lại
+</button>
+<script type="text/javascript">
+  $('#back_button').click(function(){
+    if ($('#step2_overview').hasClass('active')) {
+      $('#step2_overview').removeClass('active').addClass('disabled');
+      $('#step1_overview').removeClass('completed').addClass('active');
+      $("#first_time_content").html("<%= escape_javascript(render("step1_setting_tower")) %>");
+      $('#back_div').html("");
+    }
+    if ($('#step3_overview').hasClass('active')) {
+      $('#step3_overview').removeClass('active').addClass('disabled');
+      $('#step2_overview').removeClass('completed').addClass('active');
+      $("#first_time_content").html("<%= escape_javascript(render("step2_import_building")) %>");
+    }
+    if ($('#step4_overview').hasClass('active')) {
+      $('#step4_overview').removeClass('active').addClass('disabled');
+      $('#step3_overview').removeClass('completed').addClass('active');
+      $("#first_time_content").html("<%= escape_javascript(render("step3_import_ground")) %>");
+    }
+  });
+</script>

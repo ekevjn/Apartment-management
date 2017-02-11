@@ -1,0 +1,11 @@
+$('#error_content').html('Thực hiện thành công');
+$('#inputpostsuccess').modal("show");
+var form = document.getElementById("postform");
+form.reset();
+$('.field').each(function(){
+  $('.help-block').html('');
+  $('.help-block').removeClass('ui red message');
+});
+for (instance in CKEDITOR.instances){
+  CKEDITOR.instances[instance].setData(" ");
+}

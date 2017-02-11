@@ -1,0 +1,77 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="3%"><%= sortable "id" %></th>
+        <th width="20%"><%= sortable "name", "Tòa chung cư" %></th>
+        <th width="15%"><%= sortable "subdomain" %></th>
+        <th width="10%"><%= sortable "del_flg", "Đang hoạt động" %></th>
+        <th width="20%"><%= sortable "email" %></th>
+        <th width="10%"><%= sortable "created_at", "Ngày tạo" %></th>
+        <th width="22%"><%= link_to "Hành động" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @towers.each do |tower| %>
+        <tr>
+          <td><%= tower.id %></td>
+          <td><%= tower.name %></td>
+          <td><%= tower.subdomain %></td>
+          <td><%= check_box_tag 'active', 'yes',
+                      (tower.active), { disabled: true } %></td>
+          <td><%= tower.email %></td>
+          <td><%= tower.created_at.strftime("%d/%m/%Y") %></td>
+          <td>
+            <a class="btn btn-sm glyphicon glyphicon-info-sign" aria-label="Left Align"
+                id='<%= "btnViewModal_#{tower.id}" %>' title="Chi tiết" >
+            </a>
+            <a class="btn btn-sm glyphicon glyphicon-edit" aria-label="Left Align"
+                id='<%= "btnEditModal_#{tower.id}" %>' title="Sửa" >
+            </a>
+            <a class="btn btn-sm glyphicon glyphicon-remove-sign" aria-label="Left Align"
+                id='<%= "btnDeleteModal_#{tower.id}" %>' title="Hủy" >
+            </a>
+
+            <!-- Show modal -->
+            <%= render partial: 'showModal', locals: { tower: tower } %>
+
+            <!-- Edit modal -->
+            <div class="ui modal scrolling" id='<%= "editModal_#{tower.id}" %>'>
+              <div class="header">
+                <h4 class="text-center h1">
+                  <span class="glyphicon glyphicon-edit" aria-hidden="true" style="color:blue"></span>
+                  <%= tower.id %> - <%= tower.name %>
+                </h4>
+              </div>
+              <div class="content">
+                <% @tower = tower %>
+                <%= render partial: 'form', locals: { tower: @tower } %>
+              </div>
+            </div>
+
+            <!-- Delete modal -->
+            <div class="ui basic modal" id='<%= "deleteModal_#{tower.id}" %>'>
+              <div class="ui icon header">
+                <i class="huge inverted remove icon"></i>
+                Hủy chung cư
+              </div>
+              <div class="content text-center header">
+                Bạn có chắc chắn muốn dừng hoạt động chung cư "<%= tower.name %>" này không?
+              </div>
+              <div class="actions">
+                <button class="ui cancel inverted red basic button">Không</button>
+                <%= link_to "Đồng ý", tower_path(tower.id), method: :delete, class: "ui inverted green basic button" %>
+              </div>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= will_paginate @towers %>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag "common/management" %>

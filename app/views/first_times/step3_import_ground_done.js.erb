@@ -1,0 +1,4 @@
+$('#step3_overview').removeClass('active').addClass('completed');
+$('#step4_overview').removeClass('disabled').addClass('active');
+$('#import_success').modal("show");
+$("#first_time_content").html("<%= escape_javascript(render("step4_import_citizen")) %>");

@@ -1,0 +1,163 @@
+<% citizen = @citizen if @citizen %>
+<%= form_for(citizen, remote: true,
+        html: {role: :form, 'data-model' => 'citizen'}) do |f| %>
+<div class="ui grid">
+  <div class="sixteen wide column">
+    <div class="panel panel-primary">
+      <div class="panel-heading text-center">Thông tin cư dân</div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Tên cư dân (*)</label>
+            <div class="col-sm-9">
+              <%= f.text_field :name, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+
+          <% if citizen.ground_id.blank? %>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Mặt bằng</label>
+              <div class="col-sm-9">
+                <% if citizen.new_record? %>
+                  <%= text_field_tag :ground_name_search, '',
+                        class: 'form-control', :id => "ground_name_search_add" %>
+                  <%= f.hidden_field :ground_id, id: "ground_name_id_add" %>
+                <% else %>
+                  <%= text_field_tag :ground_name_search, citizen.ground_name,
+                        class: 'form-control', id: "ground_name_search_edit_#{citizen.id}" %>
+                  <%= f.hidden_field :ground_id, id: "ground_name_id_edit_#{citizen.id}" %>
+                <% end %>
+                <span class="help-block"></span>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Chứng minh thư</label>
+            <div class="col-sm-9">
+              <%= f.text_field :government_id, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Điện thoại</label>
+            <div class="col-sm-9">
+              <%= f.text_field :phone, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Email</label>
+            <div class="col-sm-9">
+              <%= f.email_field :email, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Giới tính</label>
+            <div class="col-sm-9">
+              <div class="radio-inline">
+                <label>
+                  <%= f.radio_button :gender, '1', :checked => true %>Nam
+                </label>
+              </div>
+              <div class="radio-inline">
+                <label>
+                  <%= f.radio_button :gender, '0'%>Nữ
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Ngày sinh (*)</label>
+            <div class="col-sm-9">
+              <input type="text" class='form-control datepicker' name="dob"
+                value='<%= citizen.dob.strftime("%d/%m/%Y") if citizen.dob %>' />
+              <%= f.hidden_field :dob %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Quê quán</label>
+            <div class="col-sm-9">
+              <%= f.text_field :hometown, class: 'form-control' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Quốc tịch</label>
+            <div class="col-sm-9">
+              <%= f.text_field :nationality, class: 'form-control' %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Ưu đãi nước</label>
+            <div class="col-sm-9">
+              <div class="checkbox">
+                <label>
+                  <%= f.check_box :is_water_deal %>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <% if !citizen.new_record? && citizen.del_flg == 1  %>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Đang hoạt động</label>
+              <div class="col-sm-9">
+                <div class="checkbox">
+                  <label>
+                    <%= f.check_box :active %>
+                  </label>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right floated four wide column actions">
+    <div class="ui negative button" >Hủy</div>
+    <%= f.submit(citizen.new_record? ? 'Tạo' : 'Lưu', class: 'ui green button') %>
+  </div>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  // autocomplete ground name for edit modal
+  $('[id^="ground_name_search_edit_"]').each(function(i, el){
+    el = $(el);
+    var name_id = el.attr('id');
+    var id = name_id.substr(name_id.lastIndexOf("_")+1);
+    $(this).autocomplete({
+      source: '/grounds/autocomplete.json',
+      appendTo: "#editModal_" + id,
+      messages: {
+        noResults: '',
+        results: function() {}
+      },
+      select: function( event, ui ) {
+        $( "#ground_name_search_edit_" + id).val( ui.item.value );
+        $( "#ground_name_id_edit_" + id).val( ui.item.key );
+        return false;
+      },
+      change: function (event, ui) {
+        if (ui.item == null || ui.item == undefined) {
+          $("#ground_name_search_edit_" + id).val("");
+          $("#ground_name_id_edit_" + id).val("");
+          $("#ground_name_search_edit_" + id).attr("disabled", false);
+        }
+      }
+    });
+  });
+</script>

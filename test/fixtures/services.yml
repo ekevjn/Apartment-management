@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  apartment_id: 
+  num_citizens: 1
+  area: MyString
+  debt: 9.99
+  paid: 9.99
+  fee: 9.99
+  started_time: 2016-04-14 16:23:05
+  is_current: false
+
+two:
+  apartment_id: 
+  num_citizens: 1
+  area: MyString
+  debt: 9.99
+  paid: 9.99
+  fee: 9.99
+  started_time: 2016-04-14 16:23:05
+  is_current: false

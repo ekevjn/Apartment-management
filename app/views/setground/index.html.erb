@@ -1,0 +1,151 @@
+<%= render 'layouts/sidebarnew' %>
+<%= render 'layouts/topnav' %>
+<div class="right_col" role="main" style="min-height: 1575px;">
+  <div id="layout-messages">
+    <%= render 'layouts/messages' %>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active" id="groundinput_tab"><a>Nhập thủ công</a></li>
+        <li role="presentation" id="groundimage_tab"><a>Hình ảnh mặt bằng</a></li>
+        <li role="presentation" id="groundimport_tab"><a>Nhập mặt bằng từ excel</a></li>
+        <li role="presentation" id="leaveground_tab"><a>Cư dân rời mặt bằng</a></li>
+        <li role="presentation" id="groundowner_tab"><a>Đổi chủ hộ</a></li>
+        <li role="presentation" id="ownerimport_tab"><a>Nhập chủ hộ từ excel</a></li>
+        <li role="presentation" id="groundopen_tab"><a>Mở - Đóng dịch vụ</a></li>
+        <li role="presentation" id="groundliabilities_tab"><a>Công nợ mặt bằng</a></li>
+        <li role="presentation" id="groundhistory_tab"><a>Lịch sử đổi chủ</a></li>
+      </ul>
+      <br>
+      <div id="tab_content">
+        <%= render "tab1" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#setground_tab').addClass('active');
+  // nhap thu cong
+  $('#groundinput_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab1")) %>");
+    $('#groundinput_tab').addClass('active');
+    $('#groundimport_tab').removeClass('active');
+    $('#groundopen_tab').removeClass('active');
+    $('#groundowner_tab').removeClass('active');
+    $('#groundliabilities_tab').removeClass('active');
+    $('#groundhistory_tab').removeClass('active');
+    $('#groundimage_tab').removeClass('active');
+    $('#ownerimport_tab').removeClass('active');
+    $('#leaveground_tab').removeClass('active');
+  });
+  // hinh anh mat bang
+  $('#groundimage_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab2")) %>");
+    $('#groundimage_tab').addClass('active');
+    $('#groundinput_tab').removeClass('active');
+    $('#groundimport_tab').removeClass('active');
+    $('#groundopen_tab').removeClass('active');
+    $('#groundowner_tab').removeClass('active');
+    $('#groundliabilities_tab').removeClass('active');
+    $('#groundhistory_tab').removeClass('active');
+    $('#ownerimport_tab').removeClass('active');
+    $('#leaveground_tab').removeClass('active');
+  });
+  // nhap mat bang tu excel
+  $('#groundimport_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab3")) %>");
+    $('#groundimport_tab').addClass('active');
+    $('#groundinput_tab').removeClass('active');
+    $('#groundopen_tab').removeClass('active');
+    $('#groundowner_tab').removeClass('active');
+    $('#groundliabilities_tab').removeClass('active');
+    $('#groundhistory_tab').removeClass('active');
+    $('#groundimage_tab').removeClass('active');
+    $('#ownerimport_tab').removeClass('active');
+    $('#leaveground_tab').removeClass('active');
+  });
+  // cu dan roi mat bang
+  $('#leaveground_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab4")) %>");
+    $('#leaveground_tab').addClass('active');
+    $('#groundimport_tab').removeClass('active');
+    $('#groundinput_tab').removeClass('active');
+    $('#groundopen_tab').removeClass('active');
+    $('#groundowner_tab').removeClass('active');
+    $('#groundliabilities_tab').removeClass('active');
+    $('#groundhistory_tab').removeClass('active');
+    $('#groundimage_tab').removeClass('active');
+    $('#ownerimport_tab').removeClass('active');
+  });
+  // doi chu ho
+  $('#groundowner_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab5")) %>");
+    $('#groundowner_tab').addClass('active');
+    $('#groundinput_tab').removeClass('active');
+    $('#groundimport_tab').removeClass('active');
+    $('#ownerimport_tab').removeClass('active');
+    $('#groundopen_tab').removeClass('active');
+    $('#groundliabilities_tab').removeClass('active');
+    $('#groundhistory_tab').removeClass('active');
+    $('#groundimage_tab').removeClass('active');
+    $('#leaveground_tab').removeClass('active');
+  });
+  // nhap chu ho tu excel
+  $('#ownerimport_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab6")) %>");
+    $('#ownerimport_tab').addClass('active');
+    $('#groundowner_tab').removeClass('active');
+    $('#groundinput_tab').removeClass('active');
+    $('#groundimport_tab').removeClass('active');
+    $('#groundopen_tab').removeClass('active');
+    $('#groundliabilities_tab').removeClass('active');
+    $('#groundhistory_tab').removeClass('active');
+    $('#groundimage_tab').removeClass('active');
+    $('#leaveground_tab').removeClass('active');
+  });
+  // mo - dong dich vu
+  $('#groundopen_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab7")) %>");
+    $('#groundopen_tab').addClass('active');
+    $('#groundinput_tab').removeClass('active');
+    $('#groundimport_tab').removeClass('active');
+    $('#groundowner_tab').removeClass('active');
+    $('#groundliabilities_tab').removeClass('active');
+    $('#groundhistory_tab').removeClass('active');
+    $('#groundimage_tab').removeClass('active');
+    $('#ownerimport_tab').removeClass('active');
+    $('#leaveground_tab').removeClass('active');
+  });
+  // cong no mat bang
+  $('#groundliabilities_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab8")) %>");
+    $('#groundliabilities_tab').addClass('active');
+    $('#groundinput_tab').removeClass('active');
+    $('#groundimport_tab').removeClass('active');
+    $('#groundopen_tab').removeClass('active');
+    $('#groundowner_tab').removeClass('active');
+    $('#groundhistory_tab').removeClass('active');
+    $('#groundimage_tab').removeClass('active');
+    $('#ownerimport_tab').removeClass('active');
+    $('#leaveground_tab').removeClass('active');
+  });
+</script>
+<div id="list_owner_histories_script">
+  <script type="text/javascript">
+    // lich su doi chu ho
+    $('#groundhistory_tab').click(function(){
+      $("#tab_content").html("<%= escape_javascript(render("tab9")) %>");
+      $('#groundhistory_tab').addClass('active');
+      $('#groundinput_tab').removeClass('active');
+      $('#groundimport_tab').removeClass('active');
+      $('#groundopen_tab').removeClass('active');
+      $('#groundowner_tab').removeClass('active');
+      $('#groundliabilities_tab').removeClass('active');
+      $('#groundimage_tab').removeClass('active');
+      $('#ownerimport_tab').removeClass('active');
+      $('#leaveground_tab').removeClass('active');
+    });
+  </script>
+</div>

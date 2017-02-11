@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to my site</title>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <!--content wrapper-->
+  <div class="content-wrapper">
+    <!--logo-->
+    <div class="logo-sl-page text-center">
+      <a href="#"><%= image_tag("logo.png", alt:"logo") %></a>
+    </div>
+    <section class="cta-form cta-light section-spacing">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 col-md-5 center-block">
+            <%= form_for(@tower, url: register_path,
+                  class:"cta-signup-form", remote: true,
+                  html: { multipart: true, role: :form, 'data-model' => 'tower' }) do |f| %>
+              <h2 class="text-center">Đăng ký chung cư</h2>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <%= f.label "Tên chủ chung cư (*)" %>
+                    <%= f.text_field :manager_name, class: 'form-control', placeholder: "Nhập tên chủ chung cư" %>
+                    <span class="help-block"></span>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label "Điện thoại (*)" %>
+                    <%= f.text_field :phone, class: 'form-control', placeholder: "Nhập số điện thoại" %>
+                    <span class="help-block"></span>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label "Tên chung cư (*)" %>
+                    <%= f.text_field :name, class: 'form-control', placeholder: "Nhập tên chung cư" %>
+                    <span class="help-block"></span>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label "Subdomain (*)" %>
+                    <%= f.text_field :subdomain, class: 'form-control', placeholder: "Nhập tên subdomain" %>
+                    <span class="help-block"></span>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label "Email (*)" %>
+                    <%= f.email_field :email, class: 'form-control', placeholder: "Nhập email chủ chung cư" %>
+                    <span class="help-block"></span>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label "Mật khẩu (*)" %>
+                    <%= f.password_field :password, class: 'form-control', placeholder: "Nhập mật khẩu" %>
+                    <span class="help-block"></span>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label "Xác nhận mật khẩu (*)" %>
+                    <%= f.password_field :password_confirmation, class: 'form-control', placeholder: "Nhập lại mật khẩu" %>
+                    <span class="help-block"></span>
+                  </div>
+                  <!-- <div style="margin-top: 100px">
+                    <%= image_tag("register.jpg", alt: "Register", size: "400x250") %>
+                  </div>
+                  <br/>
+                  <div class="picture">
+                    <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png',
+                    :id => "tower_picture" %>
+                  </div> -->
+                  <div class="form-btn">
+                    <%= f.submit "Đăng kí", class: "btn-landpage" %>
+                    <!-- <p class="form-tém">By clicking sign up you agree to our <a href="#" dât-toggle="modal" dât-target="#modal-tém">Tém</a> and read our <a href="#" dât-toggle="modal" dât-target="#modal-tém">Privacy Policy</a>.</p> -->
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+    <%= link_to "Quay lại", register_choose_path %>
+  </div>
+</body>
+</html>

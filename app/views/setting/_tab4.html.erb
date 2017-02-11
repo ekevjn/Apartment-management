@@ -1,0 +1,80 @@
+<div class="ui segment">
+  <%= form_for(Account.new, url: update_account_setting_index_path,
+        html: { role: :form, 'data-model' => 'account',
+        remote: true, id: "updateaccountform" }) do |f| %>
+    <h2 class="ui header">
+      <i class="users icon"></i>
+      <div class="content">
+        Thay đổi mật khẩu tài khoản
+      </div>
+    </h2>
+    <div class="ui form">
+      <div class="field">
+        <div class="field">
+          <label>Email (*)</label>
+          <%= f.text_field :email, name: "email", placeholder: "Nhập email tài khoản" %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <label>Mật khẩu mới (*)</label>
+          <%= f.password_field :password, name: 'password', placeholder: "Nhập mật khẩu mới của tài khoản"  %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <label>Xác nhận mật khẩu (*)</label>
+          <%= f.password_field :password_confirmation, name: 'password_confirmation',  placeholder: "Xác nhận lại mật khẩu"  %>
+          <span class="help-block"></span>
+        </div>
+      </div>
+    </div>
+    <%= f.submit('Lưu', class: 'ui green button') %>
+  <% end %>
+</div>
+
+<!-- Modal thong bao tao tai khoan thanh cong -->
+<div class="ui basic modal" id="setting_account_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Thay đổi mật khẩu thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p>Tài khoản đã đưọc thay đổi</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao tao tai khoan thanh cong -->
+
+<script type="text/javascript">
+  $(document).bind('ajaxError', 'form#updateaccountform', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + field + '"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+    };
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+</script>

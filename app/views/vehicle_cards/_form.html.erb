@@ -1,0 +1,164 @@
+<% vehicle_card = @vehicle_card if @vehicle_card %>
+<%= form_for(vehicle_card, remote: true,
+html: {role: :form, 'data-model' => 'vehicle_card'}) do |f| %>
+<div class="ui grid">
+<div class="sixteen wide column">
+    <div class="panel panel-primary">
+      <div class="panel-heading text-center">Thông tin thẻ xe</div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Mã số thẻ (*)</label>
+            <div class="col-sm-9">
+              <%= f.text_field :card_no, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Số xe (*)</label>
+            <div class="col-sm-9">
+              <%= f.text_field :license_no, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Loại xe (*)</label>
+            <div class="col-sm-9">
+            <%= f.select :vehicle_type, VehicleCard::VEHICLE_TYPE, {},
+                        { class: 'form-control' } %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Mặt bằng (*)</label>
+            <div class="col-sm-9">
+              <% if vehicle_card.new_record? %>
+                <%= text_field_tag :ground_name_search, '',
+                      class: 'form-control', :id => "ground_name_search_add" %>
+                <%= f.hidden_field :ground_id, id: "ground_name_id_add" %>
+              <% else %>
+                <%= text_field_tag :ground_name_search, vehicle_card.ground_name,
+                      class: 'form-control', id: "ground_name_search_edit_#{vehicle_card.id}" %>
+                <%= f.hidden_field :ground_id, id: "ground_name_id_edit_#{vehicle_card.id}" %>
+              <% end %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Cư dân (*)</label>
+            <div class="col-sm-9">
+              <% if vehicle_card.new_record? %>
+                  <%= text_field_tag :owner_name_search, '', class: 'form-control', :id => "owner_name_search_add" %>
+                  <%= f.hidden_field :citizen_id, id: "ground_owner_id_add" %>
+              <% else %>
+                <%= text_field_tag :owner_name_search, vehicle_card.citizen_name ,
+                      class: 'form-control', id: "owner_name_search_edit_#{vehicle_card.id}" %>
+                <%= f.hidden_field :citizen_id, id: "ground_owner_id_edit_#{vehicle_card.id}" %>
+              <% end %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Phí tạo thẻ</label>
+            <div class="col-sm-9">
+              <%= f.text_field :created_fee, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Ngày đăng kí</label>
+            <div class="col-sm-9">
+              <input type="text" class='form-control datepicker' name="registered_time"
+              value='<%= vehicle_card.registered_time.strftime("%d/%m/%Y") if vehicle_card.registered_time %>' />
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Tháng tính phí</label>
+            <div class="col-sm-9">
+              <input type="text" class='form-control monthpicker' name="started_time"
+              value='<%= vehicle_card.started_time.strftime("%m/%Y") if vehicle_card.started_time %>' />
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Tháng hết hạn</label>
+            <div class="col-sm-9">
+              <input type="text" class='form-control monthpicker' name="outdate_time"
+              value='<%= vehicle_card.outdate_time.strftime("%m/%Y") if vehicle_card.outdate_time %>' />
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Mô tả</label>
+            <div class="col-sm-9">
+              <%= f.text_area :description, row: 4, class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right floated four wide column actions">
+    <div class="ui negative button" >Hủy</div>
+      <%= f.submit(vehicle_card.new_record? ? 'Tạo' : 'Lưu', class: 'ui green button') %>
+  </div>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  // autocomplete citizen name for edit ground
+  $('[id^="owner_name_search_edit_"]').each(function(i, el){
+    el = $(el);
+    var name_id = el.attr('id');
+    var id = name_id.substr(name_id.lastIndexOf("_")+1);
+    $(this).autocomplete({
+      source: '/citizens/autocomplete.json',
+      appendTo: "#editModal_" + id,
+      messages: {
+        noResults: '',
+        results: function() {}
+      },
+      select: function( event, ui ) {
+        $( "#owner_name_search_edit_" + id).val( ui.item.name );
+        $( "#ground_owner_id_edit_" + id).val( ui.item.key );
+        return false;
+      },
+      change: function (event, ui) {
+        if (ui.item == null || ui.item == undefined) {
+          $("#owner_name_search_edit_" + id).val("");
+          $("#ground_owner_id_edit_" + id).val("");
+          $("#owner_name_search_edit_" + id).attr("disabled", false);
+        }
+      }
+    });
+  });
+
+  // autocomplete ground name for edit modal
+  $('[id^="ground_name_search_edit_"]').each(function(i, el){
+    el = $(el);
+    var name_id = el.attr('id');
+    var id = name_id.substr(name_id.lastIndexOf("_")+1);
+    $(this).autocomplete({
+      source: '/grounds/autocomplete.json',
+      appendTo: "#editModal_" + id,
+      messages: {
+        noResults: '',
+        results: function() {}
+      },
+      select: function( event, ui ) {
+        $( "#ground_name_search_edit_" + id).val( ui.item.value );
+        $( "#ground_name_id_edit_" + id).val( ui.item.key );
+        return false;
+      },
+      change: function (event, ui) {
+        if (ui.item == null || ui.item == undefined) {
+          $("#ground_name_search_edit_" + id).val("");
+          $("#ground_name_id_edit_" + id).val("");
+          $("#ground_name_search_edit_" + id).attr("disabled", false);
+        }
+      }
+    });
+  });
+</script>

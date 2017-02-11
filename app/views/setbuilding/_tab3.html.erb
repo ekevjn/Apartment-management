@@ -1,0 +1,49 @@
+<div class="ui segment">
+  <%= form_tag(liabilities_setbuilding_index_path, remote: true) do |f| %>
+  <div class="row">
+    <div class="col-md-5">
+      <br>
+      <i class="building icon"></i>
+      Chọn tòa nhà
+      <div class="ui selection dropdown">
+        <input type="hidden" name="building_id">
+        <i class="dropdown icon"></i>
+        <div class="text">Chọn tòa nhà</div>
+        <div class="menu">
+          <% list_active_building.each do | building | %>
+          <div class="item" data-value="<%= building.id %>"><%= building.name %></div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-offset-1 col-md-3">
+      <label>Tháng bắt đầu (*)</label>
+      <input type="text" class='form-control monthpicker' name="started_time"/>
+      <span class="help-block"></span>
+    </div>
+
+    <div class="col-md-3">
+      <label>Tháng kết thúc (*)</label>
+      <input type="text" class='form-control monthpicker' name="end_time"/>
+      <span class="help-block"></span>
+    </div>
+  </div>
+
+  <%= submit_tag('Xem công nợ', class: 'ui green button') %>
+  <div class="ui red message invisible error-choice">Hãy chọn tòa nhà</div>
+  <% end %>
+
+  <div id="chartspace">
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  $('.ui.dropdown').dropdown();
+  $('.monthpicker').datepicker({
+    format: 'mm/yyyy',
+    startView: "months",
+    minViewMode: "months"
+  });
+</script>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GoTower - Quản lí chung cư</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="nav-sm">
+  <% if isSubDomain? && !request.original_fullpath.starts_with?("/accounts") &&
+      !request.original_fullpath.starts_with?("/first_times") %>
+    <div class="container body">
+      <div class="main_container">
+        <%= yield %>
+        <%= render 'layouts/footersubdomain' if @sub_page.blank?  %>
+      </div>
+    </div>
+  <% else %>
+    <%= yield %>
+  <% end %>
+</body>
+</html>

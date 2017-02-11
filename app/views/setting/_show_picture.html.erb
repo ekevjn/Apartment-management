@@ -1,0 +1,7 @@
+<% if @tower.picture? %>
+  <%= image_tag @tower.picture.url, :size => "304x236",
+        :class => "img-thumbnail" %>
+<% else %>
+  <%= image_tag "no-image-available.jpg", :size => "304x236",
+        :class => "img-thumbnail" %>
+<% end %>

@@ -1,0 +1,269 @@
+<%= form_for(Ground.new,url: ground_owner_setground_index_path, remote: true,
+html: {role: :form, 'data-model' => 'ground', id: "ground"}) do |f| %>
+<h2 class="ui header">
+  <i class="block layout icon"></i>
+  <div class="content">
+    Đổi chủ hộ
+  </div>
+</h2>
+<div class="ui form">
+  <div class="field">
+    <label>Tên mặt bằng (*)</label>
+    <%= text_field_tag :ground_name_search, '',
+    class: 'form-control', :id => "ground_owner_search_add", placeholder:"Nhập tên mặt bằng"  %>
+    <%= hidden_field_tag :ground_id, '', id: "ground_owner_id" %>
+  </div>
+
+  <div class="field">
+    <label>Chủ mặt bằng (*)</label>
+    <div class="field">
+      <%= text_field_tag :owner_name_search, '', class: 'form-control', :id => "owner_name_search_add", placeholder:"Nhập tên chủ hộ" %>
+      <%= hidden_field_tag :owner_id,'', id: "ground_owner_id_add" %>
+    </div>
+    <span class="help-block"></span>
+  </div>
+
+  <%= f.submit('Đổi chủ hộ' , class: 'ui green button') %>
+  <input type="button" name="commit" value="Thêm cư dân mới" class="ui blue button"
+         data-target="#collapseAddCitizen" data-toggle="collapse">
+</div>
+<% end %>
+
+<div class="collapse" id="collapseAddCitizen">
+  <%= form_for(Citizen.new, remote: true, url: create_owner_setground_index_path,
+    html: {role: :form, 'data-model' => 'citizen'}) do |f| %>
+    <h2 class="ui header">
+      <i class="users icon"></i>
+      <div class="content">
+        Tạo cư dân
+      </div>
+    </h2>
+    <div class="ui form">
+      <div class="field">
+        <label>Cư dân (*)</label>
+        <%= f.text_field :name, placeholder: "Nhập tên cư dân" %>
+        <span class="help-block"></span>
+      </div>
+
+      <div class="field">
+        <label>Chứng minh thư</label>
+        <%= f.text_field :government_id, placeholder: "Nhập số chứng minh nhân dân" %>
+        <span class="help-block"></span>
+      </div>
+
+      <div class="field">
+        <label>Số điện thoại</label>
+        <%= f.text_field :phone, placeholder: "Nhập số điện thoại" %>
+        <span class="help-block"></span>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <%= f.email_field :email, placeholder: "Nhập email cư dân" %>
+        <span class="help-block"></span>
+      </div>
+
+      <div class="field">
+        <label>Giới tính (*)</label>
+        <div class="ui selection dropdown" id="genderdropdown">
+          <%= f.hidden_field :gender %>
+          <i class="dropdown icon"></i>
+          <div class="default text">Giới tính</div>
+          <div class="menu">
+            <div class="item" data-value="1">Nam</div>
+            <div class="item" data-value="0">Nữ</div>
+          </div>
+        </div>
+        <span class="help-block"></span>
+      </div>
+
+      <div class="field">
+        <label>Ngày sinh (*)</label>
+        <input type="text" class='form-control datepicker' name="dob" />
+        <%= f.hidden_field :dob %>
+        <span class="help-block"></span>
+      </div>
+
+      <div class="field">
+        <label>Quê quán (*)</label>
+        <%= f.text_field :hometown, placeholder: "Nhập quê quán" %>
+        <span class="help-block"></span>
+      </div>
+
+      <div class="field">
+        <label>Quốc tịch (*)</label>
+        <%= f.text_field :nationality, placeholder: "Nhập quốc tịch" %>
+        <span class="help-block"></span>
+      </div>
+
+      <div class="field">
+        <label>Ưu đãi nước</label>
+        <div class="ui toggle checkbox">
+          <input type="checkbox" name="citizen[is_water_deal]">
+          <label></label>
+        </div>
+
+        <span class="help-block"></span>
+      </div>
+
+      <div class="field">
+        <br/>
+      </div>
+
+      <%= f.submit('Tạo', class: 'ui green button') %>
+    </div>
+  <% end %>
+</div>
+<div id="close-services"></div>
+
+<!-- Modal thong bao thanh cong -->
+<div class="ui basic modal" id="owner_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Đổi chủ hộ thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p>Đổi chủ hộ thành công</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao thanh cong -->
+
+<!-- Modal thong bao thanh cong -->
+<div class="ui basic modal" id="service_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p><div id="success_content">Thực hiện thành công</div></p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao thanh cong -->
+
+<!-- Modal thong bao tao cu dan thanh cong -->
+<div class="ui basic modal" id="create_citizen">
+  <i class="close icon"></i>
+  <div class="header">
+    Tạo cư dân mới thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p><div id="success_content">Tạo cư dân mới thành công</div></p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao tao cu dan thanh cong -->
+
+<script type="text/javascript">
+  $(document).bind('ajaxError', 'form#new_citizen', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + model + '[' + field + ']"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+    };
+
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+
+  // autocomplete citizen name for add ground
+  $("#owner_name_search_add").autocomplete({
+    source: '/citizens/autocomplete.json',
+    select: function(event, ui) {
+      $( "#owner_name_search_add" ).val( ui.item.name );
+      $( "#ground_owner_id_add" ).val( ui.item.key );
+      $( "#owner_name_search_add" ).removeClass("alert alert-danger");
+      return false;
+    },
+    messages: {
+        noResults: '',
+        results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#owner_name_search_add").val("");
+        $("#ground_owner_id_add").val("");
+        $("#owner_name_search_add").attr("disabled", false);
+      }
+    },
+    search: function(event, ui) {
+      $("#owner_name_search_add").addClass("alert alert-danger");
+    }
+  });
+
+  // autocomplete ground name for add modal
+  $("#ground_owner_search_add").autocomplete({
+    source: '/grounds/autocomplete.json',
+    appendTo: "#addModal",
+    select: function( event, ui ) {
+      $( "#ground_owner_search_add" ).val( ui.item.value );
+      $( "#ground_owner_id" ).val( ui.item.key );
+      return false;
+    },
+    messages: {
+        noResults: '',
+        results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#ground_owner_search_add").val("");
+        $("#ground_owner_id").val("");
+        $("#ground_owner_search_add").attr("disabled", false);
+      }
+    }
+  });
+  $('.ui.dropdown').dropdown();
+  $('.datepicker').datepicker({
+    format: 'dd/mm/yyyy'
+  });
+</script>

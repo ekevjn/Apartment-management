@@ -1,0 +1,108 @@
+<div class="ui segment">
+  <%= form_tag(create_chart_dashboard_index_path, remote: true) do |f| %>
+  <div class="row">
+    <div class="col-md-3">
+      <label>Chọn đối tượng</label>
+      <i class="lightning icon"></i>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="table_id">
+        <i class="dropdown icon"></i>
+        <div class="text">Đối tượng</div>
+        <div class="menu">
+          <div class="item" data-value="Water">Dịch vụ nước</div>
+          <div class="item" data-value="Service">Dịch vụ chung</div>
+          <div class="item" data-value="VehicleCard">Dịch vụ xe</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <label>Chọn loại biểu đồ</label>
+      <i class="pie chart icon"></i>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="chart_id">
+        <i class="dropdown icon"></i>
+        <div class="text">Biểu đồ</div>
+        <div class="menu">
+          <div class="item" data-value="line_chart">Biểu đồ đường</div>
+          <div class="item" data-value="column_chart">Biểu đồ cột</div>
+          <div class="item" data-value="bar_chart">Biểu đồ ngang</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <label>Chọn loại</label>
+      <i class="sort icon"></i>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="kind_id">
+        <i class="dropdown icon"></i>
+        <div class="text">Loại</div>
+        <div class="menu">
+          <div class="item" data-value="debt">Số nợ tháng trước</div>
+          <div class="item" data-value="paid">Đã thanh toán</div>
+          <div class="item" data-value="fee">Chi phí trong tháng</div>
+          <div class="item" data-value="must_pay">Tổng chi phí phải trả</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <label>Chọn kiểu nhóm chọn</label>
+      <i class="sort icon"></i>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="group_by_id">
+        <i class="dropdown icon"></i>
+        <div class="text">Nhóm chọn</div>
+        <div class="menu">
+          <div class="item" data-value="count">Đếm số (count)</div>
+          <div class="item" data-value="sum">Tính tổng (sum)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-3">
+      <label>Tháng bắt đầu</label>
+      <input type="text" class='form-control monthpicker' name="started_time"/>
+      <span class="help-block"></span>
+    </div>
+
+    <div class="col-md-offset-1 col-md-3">
+      <label>Tháng kết thúc</label>
+      <input type="text" class='form-control monthpicker' name="end_time"/>
+      <span class="help-block"></span>
+    </div>
+
+    <div class="col-md-offset-1 col-md-3">
+      <label>Chọn đơn vị</label>
+      <i class="sort icon"></i>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="group_date_id">
+        <i class="dropdown icon"></i>
+        <div class="text">Đơn vị</div>
+        <div class="menu">
+          <div class="item" data-value="group_by_month">Theo tháng</div>
+          <div class="item" data-value="group_by_quarter">Theo quý</div>
+          <div class="item" data-value="group_by_year">Theo năm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <%= submit_tag('Vẽ biểu đồ', class: 'ui green button') %>
+  <div class="ui red message invisible error-choice">Hãy chọn loại biểu đồ</div>
+  <% end %>
+  <div id="chart_space">
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.ui.dropdown').dropdown();
+  $('.monthpicker').datepicker({
+    format: 'mm/yyyy',
+    startView: "months",
+    minViewMode: "months"
+  });
+</script>

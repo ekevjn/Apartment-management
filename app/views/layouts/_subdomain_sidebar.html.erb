@@ -1,0 +1,42 @@
+<div class="ui sticky black big launch right attached fixed toggle button ">
+  <i class="content icon"></i>
+  <span class="text">Menu</span>
+</div>
+
+<div class="ui demo left vertical sidebar menu">
+  <%= link_to grounds_path, class: "item" do %>Mặt bằng
+    <i class="home icon"></i>
+  <% end %>
+  <%= link_to buildings_path, class: "item" do %>Tòa nhà
+    <i class="building outline icon"></i>
+  <% end %>
+  <%= link_to citizens_path, class: "item" do %>Cư dân
+    <i class="user icon"></i>
+  <% end %>
+  <%= link_to citizen_cards_path, class: "item" do %>Thẻ cư dân
+    <i class="credit card alternative icon"></i>
+  <% end %>
+  <%= link_to setfacility_index_path, class: "item" do %>Tài sản
+    <i class="cubes icon"></i>
+  <% end %>
+  <%= link_to vehicle_cards_path, class: "item" do %>Thẻ xe
+    <i class="car icon"></i>
+  <% end %>
+  <%= link_to vehicle_finances_path, class: "item" do %>Phí xe
+    <i class="credit card alternative icon icon"></i>
+  <% end %>
+  <%= link_to services_path, class: "item" do %>Phí chung
+    <i class="money icon"></i>
+  <% end %>
+  <%= link_to waters_path, class: "item" do %>Phí nước
+    <i class="theme icon"></i>
+  <% end %>
+  <%= link_to ground_histories_path, class: "item" do %>Lịch sử đổi chủ hộ
+      <i class="history icon"></i>
+    <% end %>
+  <% if current_account.is_manager %>
+    <%= link_to histories_path, class: "item" do %>Lịch sử
+      <i class="history icon"></i>
+    <% end %>
+  <% end %>
+</div>

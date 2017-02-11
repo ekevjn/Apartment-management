@@ -1,0 +1,25 @@
+<div class="col-md-offset-2 navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <%= image_tag("logo.png", class: "logo" , alt: "logo") %>
+        <%= image_tag("logo-nav.png", class: "logo-nav" , alt: "logo-nav") %>
+      </a>
+    </div>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to " Dashboard", dashboard_index_path, class: "glyphicon glyphicon-dashboard"  %></li>
+        <li><%= link_to " Quản-lí", grounds_path, class: "glyphicon glyphicon-th"  %></li>
+        <li><%= link_to " Trợ-giúp", help_path, class: "glyphicon glyphicon-info-sign" %></li>
+        <% if !account_signed_in? %>
+        <li><%= link_to " Đăng-nhập", new_account_session_path, class: "glyphicon glyphicon-log-in" %></li>
+        <% else %>
+        <li><%= link_to " Đăng-xuất", destroy_account_session_path, class: "glyphicon glyphicon-log-out", method: :delete %></li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+</div>
+<div id="layout-messages">
+  <%= render 'layouts/messages' %>
+</div>

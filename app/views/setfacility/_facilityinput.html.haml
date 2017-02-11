@@ -1,0 +1,87 @@
+= form_for(@facility,url: setfacility_index_path, remote: true,                   |
+  html: {role: :form, 'data-model' => 'facility', id: "facilityform"}) do |f| |
+  %h2.ui.header
+    %i.block.layout.icon
+    .content
+      Tạo tài sản
+  .ui.form
+    .field
+      %label Nhập tên
+      .field
+        = f.text_field :name, placeholder: "Nhập tên tài sản"
+        %span.help-block
+    .field
+      %label Vị trí
+      .field
+        = f.text_field :position, class: 'form-control'
+        %span.help-block
+    .field
+      %label Trạng thái
+      #statuschoicedropdown.ui.selection.dropdown
+        = f.hidden_field :status
+        %i.dropdown.icon
+        .default.text Chọn trạng thái tài sản
+        .menu
+          - Facility::STATUS_CREATE.each do |status|
+            .item{"data-value" => status}= status
+      %span.help-block
+    .field
+      %label Ngày mua
+      .field
+        = f.date_field :buy_time, placeholder: "Nhập ngày mua của tài sản"
+        %span.help-block
+    .field
+      %label Bảo hành
+      .field
+        = f.date_field :guarantee_time, placeholder: "Nhập ngày tài sản hết bảo hành"
+        %span.help-block
+    .field
+      %label Tòa nhà
+      .ui.selection.dropdown
+        = f.hidden_field :building_id
+        %i.dropdown.icon
+        .text Chọn tòa nhà
+        .menu
+          - list_active_building.each do | building |
+            .item{"data-value" => building.id}= building.name
+      %span.help-block
+    = f.submit('Tạo' , class: 'ui green button')
+/ Modal thong bao input thanh cong
+#facility_success.ui.basic.modal
+  %i.close.icon
+  .header
+    Tạo tài sản thành công
+  .image.content
+    .image
+      %i.checkmark.icon
+    .description
+      %p Tạo tài sản thành công
+  .actions
+    .two.fluid.ui.inverted.buttons
+      .ui.ok.green.basic.inverted.button
+        %i.checkmark.icon
+        Cảm ơn
+/ Modal thong bao input thanh cong
+:javascript
+  $(document).bind('ajaxError', 'form#facilityform', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + model + '[' + field + ']"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+    };
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+  $('.ui.dropdown').dropdown();

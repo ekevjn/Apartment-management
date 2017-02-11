@@ -1,0 +1,62 @@
+  <div class="panel panel-info">
+    <div class="panel-heading">Tổng quan</div>
+    <div class="panel-body">
+      <div class="col-md-4">
+        <h3 class="ui header">Tổng nợ tích lũy: <%= number_to_vnd(@debt) %>  </h3>
+        <h3 class="ui header">Tổng tiền đã thanh toán: <%= number_to_vnd(@paid) %>  </h3>
+        <h3 class="ui header">Tổng chí phí phát sinh trong tháng: <%= number_to_vnd(@fee) %>  </h3>
+        <div class="ui big green labeled icon button">
+          <i class="cloud download icon"></i>
+          <%= link_to 'Xuất báo cáo công nợ tòa nhà',
+          liabilities_building_summary_path(building_id: @building_id, started_time: @started_time_report,
+          end_time: @end_time_report, :format => 'pdf' ), style: "color: white", target: '_blank' %>
+        </div>
+      </div>
+      <div class="col-md-offset-2 col-md-4">
+        <%= bar_chart({"Nợ" => @debt, "Thanh toán" => @paid, "Chi phí" => @fee}) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-info">
+    <div class="panel-heading">Công nợ nước của tòa nhà</div>
+    <div class="panel-body">
+      <div class="col-md-4">
+        <h3 class="ui header">Nợ nước tích lũy: <%= number_to_vnd(@debt_water) %>  </h3>
+        <h3 class="ui header">Tiền nước đã thanh toán: <%= number_to_vnd(@paid_water) %>  </h3>
+        <h3 class="ui header">Chi phí tiền nước phát sinh trong tháng: <%= number_to_vnd(@fee_water) %>  </h3>
+      </div>
+      <div class="col-md-offset-2 col-md-4">
+        <%= column_chart({"Nợ" => @debt_water, "Thanh toán" => @paid_water, "Chi phí" => @fee_water}) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-info">
+    <div class="panel-heading">Công nợ chí phí chung của tòa nhà</div>
+    <div class="panel-body">
+      <div class="col-md-4">
+        <h3 class="ui header">Nợ chi phí công cộng tích lũy: <%= number_to_vnd(@debt_service) %>  </h3>
+        <h3 class="ui header">Chi phí chung đã thanh toán: <%= number_to_vnd(@paid_service) %>  </h3>
+        <h3 class="ui header">Chi phí chung phát sinh trong tháng: <%= number_to_vnd(@fee_service) %>  </h3>
+      </div>
+      <div class="col-md-offset-2 col-md-4">
+        <%= column_chart({"Nợ" => @debt_service, "Thanh toán" => @paid_service, "Chi phí" => @fee_service}) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-info">
+    <div class="panel-heading">Công nợ giữ xe của tòa nhà</div>
+    <div class="panel-body">
+      <div class="col-md-4">
+        <h3 class="ui header">Nợ giữ xe tích lũy: <%= number_to_vnd(@debt_vehicle) %>  </h3>
+        <h3 class="ui header">Tiền giữ xe đã thanh toán: <%= number_to_vnd(@paid_vehicle) %>  </h3>
+        <h3 class="ui header">Chi phí giữ xe phát sinh trong tháng: <%= number_to_vnd(@fee_vehicle) %>  </h3>
+      </div>
+      <div class="col-md-offset-2 col-md-4">
+        <%= column_chart({"Nợ" => @debt_vehicle, "Thanh toán" => @paid_vehicle, "Chi phí" => @fee_vehicle}) %>
+      </div>
+    </div>
+  </div>
+

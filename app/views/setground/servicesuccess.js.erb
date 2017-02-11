@@ -1,0 +1,4 @@
+$("#layout-messages").html("<%= escape_javascript(render("layouts/messages")) %>");
+$('#service_success').modal("show");
+$('#success_content').html('<%= @success_content %>');
+$("#list_owner_histories_script").html("<%= escape_javascript(render("list_owner_histories_script")) %>");

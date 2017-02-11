@@ -1,0 +1,77 @@
+<div class="ui segment">
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Loại mặt bằng
+      </div>
+      <div class="panel-body">
+        <%= pie_chart Ground.group(:kind).count, width: "520px", height: "200px" %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Loại xe
+      </div>
+      <div class="panel-body">
+        <%= pie_chart VehicleCard.group(:vehicle_type).count, width: "400px", height: "200px" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Doanh thu tiền nước theo tháng (VNĐ)
+      </div>
+    </div>
+    <div class="panel-body">
+      <%= line_chart Water.group_by_month(:started_time, { format: "%b %Y" }).sum("debt + fee - paid") %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Tổng nợ nước theo tháng (VNĐ)
+      </div>
+    </div>
+    <div class="panel-body">
+      <%= column_chart Water.group_by_month(:started_time, { format: "%b %Y" }).sum(:debt) %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Sử dụng nước theo tháng (m&sup3)
+      </div>
+    </div>
+    <div class="panel-body">
+      <%= area_chart Water.group_by_month(:started_time, { format: "%b %Y" }).sum(:water_num) %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Doanh thu tiền chung theo tháng (VNĐ)
+      </div>
+    </div>
+    <div class="panel-body">
+      <%= line_chart Service.group_by_month(:started_time, { format: "%b %Y" }).sum("debt + fee - paid") %>
+    </div>
+  </div>
+</div>
+
+</div>

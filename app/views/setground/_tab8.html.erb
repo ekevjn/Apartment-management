@@ -1,0 +1,61 @@
+<div class="ui segment">
+  <%= form_tag(liabilities_setground_index_path, remote: true) do |f| %>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="field">
+          <label>Tên mặt bằng (*)</label>
+          <%= text_field_tag :ground_name_search, '',
+          class: 'form-control', :id => "ground_lia_search_add", placeholder:"Nhập tên mặt bằng"  %>
+          <%= hidden_field_tag :ground_id,'', id: "ground_lia_id_add" %>
+          <span class="help-block"></span>
+        </div>
+      </div>
+
+      <div class="col-md-offset-1 col-md-3">
+        <label>Tháng bắt đầu (*)</label>
+        <input type="text" class='form-control monthpicker' name="started_time"/>
+        <span class="help-block"></span>
+      </div>
+
+      <div class="col-md-3">
+        <label>Tháng kết thúc (*)</label>
+        <input type="text" class='form-control monthpicker' name="end_time"/>
+        <span class="help-block"></span>
+      </div>
+    </div>
+
+    <%= submit_tag('Xem công nợ', class: 'ui green button') %>
+    <div class="ui red message invisible error-choice">Hãy chọn tòa nhà</div>
+  <% end %>
+
+  <div id="chartspace"></div>
+</div>
+
+<script type="text/javascript">
+  $('.ui.dropdown').dropdown();
+  $('.monthpicker').datepicker({
+    format: 'mm/yyyy',
+    startView: "months",
+    minViewMode: "months"
+  });
+    // autocomplete ground name for add modal
+  $("#ground_lia_search_add").autocomplete({
+    source: '/grounds/autocomplete.json',
+    select: function( event, ui ) {
+      $( "#ground_lia_search_add" ).val( ui.item.value );
+      $( "#ground_lia_id_add" ).val( ui.item.key );
+      return false;
+    },
+    messages: {
+        noResults: '',
+        results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#ground_lia_search_add").val("");
+        $("#ground_lia_id_add").val("");
+        $("#ground_lia_search_add").attr("disabled", false);
+      }
+    }
+  });
+</script>

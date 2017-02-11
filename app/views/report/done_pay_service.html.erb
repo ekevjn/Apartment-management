@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to my site</title>
+  <meta charset='utf-8' />
+  <%= stylesheet_link_tag wicked_pdf_asset_base64("bootstrap-sass-official")  %>
+</head>
+<body>
+  <% if @is_report %>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-6">
+          <h3 class="text-center">CÔNG HÒA XÃ HÔỊ CHỦ NGHĨA VIÊT NAM</h3>
+            <h6 class="text-center" style="text-decoration: underline;">Độc lập - Tự do - Hạnh phúc</h6>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="text-center">
+          <h1>THÔNG BÁO</h1>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        Kính gửi: <%= (@owner.gender == 1) ? "Ông" : "Bà" %> <%= @owner.name %><br/>
+        Phòng: <%= @ground.name %>
+      </div>
+      <div class="col-sm-12">
+        Ông (bà) đã thanh toán thành công tiền phí chung cư trong  tháng <%= @service.started_time.month %> năm <%= @service.started_time.year %> như sau
+      </div>
+      <div class="col-sm-12">
+        1. Phí dịch vụ chung cư: <%= number_to_vnd(@service.fee) %><br/>
+        2. Số tiền nợ tháng trưóc <%= number_to_vnd(@service.debt) %><br/>
+        <strong>Tổng số tiền đã thanh toán: <%= number_to_vnd(@service.remain) %></strong>
+      </div>
+      <br/><br/>
+      <div class="col-sm-12">
+        Cảm ơn ông (bà) đã sử dụng dịch vụ của chúng tôi!
+      </div>
+      <br/><br/>
+      <div class="col-sm-12">
+        <div class="pull-right">
+          <h5>Ban Quản trị</h5>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</body>
+</html>

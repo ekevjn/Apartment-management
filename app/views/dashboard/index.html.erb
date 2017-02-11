@@ -1,0 +1,54 @@
+<%= render 'layouts/sidebarnew' %>
+<%= render 'layouts/topnav' %>
+<div class="right_col" role="main" style="min-height: 1575px;">
+  <div id="layout-messages">
+    <%= render 'layouts/messages' %>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active" id="mapground"><a>Sơ đồ mặt bằng</a></li>
+        <li role="presentation" id="report"><a>Báo cáo thống kê</a></li>
+        <li role="presentation" id="export_report"><a>Xuất báo cáo</a></li>
+        <li role="presentation" id="create_chart"><a>Vẽ biểu đồ</a></li>
+      </ul>
+      <br>
+      <div id="tab_content">
+        <%= render "tab1" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#dashboard_tab').addClass('active');
+  $('#mapground').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab1")) %>");
+    $('#mapground').addClass('active');
+    $('#report').removeClass('active');
+    $('#export_report').removeClass('active');
+    $('#create_chart').removeClass('active');
+  });
+  $('#report').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab2")) %>");
+    $('#mapground').removeClass('active');
+    $('#report').addClass('active');
+    $('#export_report').removeClass('active');
+    $('#create_chart').removeClass('active')
+  });
+  $('#export_report').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab3")) %>");
+    $('#mapground').removeClass('active');
+    $('#report').removeClass('active');
+    $('#export_report').addClass('active');
+    $('#create_chart').removeClass('active')
+  });
+  $('#create_chart').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab4")) %>");
+    $('#mapground').removeClass('active');
+    $('#report').removeClass('active');
+    $('#export_report').removeClass('active');
+    $('#create_chart').addClass('active');
+    $('.ui.selection.dropdown').dropdown();
+  });
+</script>

@@ -1,0 +1,36 @@
+- maintain = @maintain if @maintain
+= form_for(maintain, remote: true,                        |
+  html: {role: :form, 'data-model' => 'maintain'}) do |f| |
+  .ui.grid
+    .sixteen.wide.column
+      .panel.panel-primary
+        .panel-heading.text-center Thông tin bảo trì
+        .panel-body
+          .col-md-12
+            .form-horizontal
+              .form-group
+                %label.col-sm-3.control-label Tài sản
+                .col-sm-9
+                  = f.select :facility_id,                               |
+                    list_active_facility.map{ |fa| [fa.name, "#{fa.id}"] }, |
+                    { prompt: 'Chọn tài sản' },                          |
+                    { class: 'form-control' }                            |
+                  %span.help-block
+              .form-group
+                %label.col-sm-3.control-label Ngày bảo trì
+                .col-sm-9
+                  = f.date_field :fixed_time, placeholder: "Nhập ngày bảo trì"
+                  %span.help-block
+              .form-group
+                %label.col-sm-3.control-label Chi phí
+                .col-sm-9
+                  = f.number_field :price, class: 'form-control'
+                  %span.help-block
+              .form-group
+                %label.col-sm-3.control-label Miêu tả
+                .col-sm-9
+                  = f.text_field :description, class: 'form-control'
+                  %span.help-block
+    .right.floated.four.wide.column.actions
+      .ui.negative.button Hủy
+      = f.submit(maintain.new_record? ? 'Tạo' : 'Lưu', class: 'btn btn-primary')

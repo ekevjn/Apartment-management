@@ -1,0 +1,61 @@
+<%= render 'layouts/sidebarnew' %>
+<%= render 'layouts/topnav' %>
+<div class="right_col" role="main" style="min-height: 1575px;">
+  <div id="layout-messages">
+    <%= render 'layouts/messages' %>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active" id="vehicleinput_tab">
+          <a>Tạo thẻ xe</a>
+        </li>
+        <li role="presentation" id="vehicleimport_tab">
+          <a>Nhập từ thẻ xe từ excel</a>
+        </li>
+        <li role="presentation" id="open_vehiclefinance_tab">
+          <a>Mở dịch vụ thẻ xe</a>
+        </li>
+        <li role="presentation" id="close_vehiclefinance_tab">
+          <a>Khóa - Báo mất thẻ</a>
+        </li>
+      </ul>
+      <br>
+      <div id="tab_content">
+        <%= render "tab1" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#setcard_tab').addClass('active');
+  $('#vehicleinput_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab1")) %>");
+    $('#vehicleinput_tab').addClass('active');
+    $('#vehicleimport_tab').removeClass('active');
+    $('#open_vehiclefinance_tab').removeClass('active');
+    $('#close_vehiclefinance_tab').removeClass('active');
+  });
+  $('#vehicleimport_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab2")) %>");
+    $('#vehicleimport_tab').addClass('active')
+    $('#vehicleinput_tab').removeClass('active');
+    $('#open_vehiclefinance_tab').removeClass('active');
+    $('#close_vehiclefinance_tab').removeClass('active');
+  });
+  $('#open_vehiclefinance_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab3")) %>");
+    $('#open_vehiclefinance_tab').addClass('active');
+    $('#vehicleimport_tab').removeClass('active');
+    $('#vehicleinput_tab').removeClass('active');
+    $('#close_vehiclefinance_tab').removeClass('active');
+  });
+  $('#close_vehiclefinance_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab4")) %>");
+    $('#close_vehiclefinance_tab').addClass('active');
+    $('#vehicleimport_tab').removeClass('active');
+    $('#vehicleinput_tab').removeClass('active');
+    $('#open_vehiclefinance_tab').removeClass('active');
+  });
+</script>

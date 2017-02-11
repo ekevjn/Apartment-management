@@ -1,0 +1,45 @@
+<h2 class="ui header">
+  <i class="grid layout icon"></i>
+  <div class="content">
+    Sơ đồ mặt bằng
+  </div>
+</h2>
+<table class="ui celled definition table">
+  <tbody>
+    <% if @num_floors > 0 %>
+      <% @num_floors.times do |i| %>
+      <tr>
+        <td>Tầng <%= (i + 1) %></td>
+        <% @grounds.each do |ground| %>
+          <% if ground.floor == (i+1) %>
+            <td class="center aligned" id='<%= "showground_#{ground.id}" %>' data-tooltip="Diện tích: <%= ground.area %>. Số phòng: <%= ground.num_rooms %>. Trạng thái: <%= ground.status %>. Chủ hộ: <%= ground.owner_name %>">
+              <% if ground.status == 'Còn trống' %>
+                <i class="green square icon large" ></i>
+              <% elsif ground.status == 'Đã mua'%>
+                <i class="blue square icon large" ></i>
+              <% elsif ground.status == 'Đang sử dụng'%>
+                <i class="red square icon large"></i>
+              <% end %>
+              <%= link_to ground.name, show_ground_dashboard_index_path(:ground_id => ground.id), method: :post, remote: true %>
+            </td>
+          <% end %>
+        <% # render partial: 'show_ground', locals: { ground: ground } %>
+        <% end %>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="ui form">
+  <div class="fields">
+    <div class="field"><strong>Chú thích: </strong></div>
+    <div class="field"><i class="green square icon large" ></i> Còn trống </div>
+    <div class="field"><i class="blue square icon large" ></i> Đã mua </div>
+    <div class="field"><i class="red square icon large"></i> Đang sử dụng </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.activating.element').popup();
+</script>

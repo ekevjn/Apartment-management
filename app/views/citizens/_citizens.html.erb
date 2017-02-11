@@ -1,0 +1,85 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="2%"><%= sortable "id" %></th>
+        <th width="15%"><%= sortable "name", "Tên" %></th>
+        <th width="10%"><%= sortable "ground_id", "Mặt bằng" %></th>
+        <th width="25%"><%= sortable "email" %></th>
+        <th width="5%"><%= sortable "gender", "Giới tính" %></th>
+        <th width="10%"><%= sortable "nationality", "Quốc tịch" %></th>
+        <th width="2%"><%= sortable "is_water_deal", "Hưởng ưu đãi" %></th>
+        <th width="2%"><%= sortable "del_flg", "Đang hoạt động" %></th>
+        <th width="29%"><%= link_to "Hành động", "#" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @citizens.each do |citizen| %>
+      <tr>
+        <td><%= citizen.id %></td>
+        <td><%= citizen.name %></td>
+        <td><%= citizen.ground.name if citizen.ground_id %></td>
+        <td><%= citizen.email %></td>
+        <td><%= (citizen.gender == 1 ? 'Nam' : 'Nữ') %></td>
+        <td><%= citizen.nationality %></td>
+        <td><%= check_box_tag 'is_water_deal', citizen.is_water_deal,
+          citizen.is_water_deal?, { disabled: true } %></td>
+        <td><%= check_box_tag 'active', 'yes',
+            (citizen.del_flg == 0), { disabled: true } %></td>
+        <td>
+          <a class="btn btn-sm glyphicon glyphicon-info-sign" aria-label="Left Align"
+              data-toggle="modal" id='<%= "btnViewModal_#{citizen.id}" %>'
+              title="Chi tiết" >
+          </a>
+          <a class="btn btn-sm glyphicon glyphicon-edit" aria-label="Left Align"
+            data-toggle="modal" id='<%= "btnEditModal_#{citizen.id}" %>'
+            title="Sửa" >
+          </a>
+          <a class="btn btn-sm glyphicon glyphicon-remove-sign" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnDeleteModal_#{citizen.id}" %>'
+          title="Hủy" >
+        </a>
+        <!-- Show modal -->
+        <%= render partial: 'showModal', locals: { citizen: citizen } %>
+
+        <!-- Edit modal -->
+        <div class="ui modal scrolling" id='<%= "editModal_#{citizen.id}" %>'>
+          <div class="header">
+            <h4 class="text-center h1">
+              <span class="glyphicon glyphicon-edit" aria-hidden="true" style="color:blue"></span>
+              <%= citizen.id %> - <%= citizen.name %>
+            </h4>
+          </div>
+          <div class="content">
+            <% @citizen = citizen %>
+            <%= render partial: 'form', locals: { citizen: @citizen} %>
+          </div>
+        </div>
+
+        <!-- Delete modal -->
+        <div class="ui basic modal" id='<%= "deleteModal_#{citizen.id}" %>'>
+          <div class="ui icon header">
+            <i class="huge inverted remove icon"></i>
+            Hủy cư dân
+          </div>
+          <div class="content text-center header">
+            Bạn có muốn hủy cư dân "<%= citizen.name %>" không?
+          </div>
+          <div class="actions">
+            <button class="ui cancel inverted red basic button">Không</button>
+            <%= link_to "Đồng ý", citizen_path(citizen.id), method: :delete, class: "ui inverted green basic button" %>
+          </div>
+        </div>
+
+      </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= will_paginate @citizens %>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag "common/management" %>

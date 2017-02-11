@@ -1,0 +1,20 @@
+.ui.two.column.middle.aligned.very.relaxed.stackable.grid
+  .center.aligned.column
+    .ui.form
+      = form_tag import_setmaintain_index_path, multipart: true,                   |
+          remote: true, class: "form-inline form-group", id: "import_setmaintain" do |
+        .ui.big.blue.labeled.icon.button.fileinput-button
+          %i.upload.icon
+          Nhập thông tin bảo trì từ file
+          = file_field_tag :file, class: "input-group btn btn-default"
+  .ui.vertical.divider
+    Or
+  .center.aligned.column
+    .ui.big.green.labeled.icon.button
+      %i.cloud.download.icon
+      = link_to "Tải file mẫu danh sách thông tin bảo trì",                            |
+        export_setmaintain_index_path( {format: 'xls'} ), style: "color: white" |
+:javascript
+  $("#import_setmaintain").fileupload({
+    dataType: "script"
+  });

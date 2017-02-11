@@ -1,0 +1,104 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="3%"><%= sortable "id" %></th>
+        <th width="10%"><%= sortable "vehicle_card_id", "Mã thẻ xe" %></th>
+        <th width="10%"><%= sortable "ground_id", "Mặt bằng" %></th>
+        <th width="10%"><%= sortable "debt", "Nợ" %></th>
+        <th width="10%"><%= sortable "paid", "Đã trả" %></th>
+        <th width="12%"><%= sortable "fee", "Phí trong tháng" %></th>
+        <th width="10%"><%= sortable "started_time", "Tháng tính phí" %></th>
+        <th width="5%"><%= sortable "is_current", "Hiện tại" %></th>
+        <th width="30%"><%= link_to "Hành động" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @vehicle_finances.each do |vehicle_finance| %>
+      <tr>
+        <td><%= vehicle_finance.id %></td>
+        <td><%= vehicle_finance.vehicle_card.card_no %></td>
+        <td><%= vehicle_finance.ground_name %></td>
+        <td><%= number_to_vnd(vehicle_finance.debt, false) %></td>
+        <td><%= number_to_vnd(vehicle_finance.paid, false) %></td>
+        <td><%= number_to_vnd(vehicle_finance.fee, false) %></td>
+        <td><%= vehicle_finance.started_time.strftime("%m/%Y") if vehicle_finance.started_time.present? %></td>
+        <td><%= check_box_tag 'is_current', vehicle_finance.is_current,
+          vehicle_finance.is_current?, { disabled: true } %></td>
+        <td>
+          <a class="btn btn-sm glyphicon glyphicon-info-sign" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnViewModal_#{vehicle_finance.id}" %>'
+          title="Chi tiết" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-usd"
+          data-toggle="modal" id='<%= "btnPayModal_#{vehicle_finance.id}" %>'
+          title="Thanh toán" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-edit" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnEditModal_#{vehicle_finance.id}" %>'
+          title="Sửa" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-remove-sign" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnDeleteModal_#{vehicle_finance.id}" %>'
+          title="Hủy" ></a>
+          </a>
+
+          <!-- Show modal -->
+          <%= render partial: 'showModal', locals: { vehicle_finance: vehicle_finance } %>
+
+          <!-- Pay modal -->
+          <%= render partial: 'payModal', locals: { vehicle_finance: vehicle_finance } %>
+
+          <!-- Edit modal -->
+          <% if vehicle_finance.is_current %>
+            <div class="ui modal scrolling" id='<%= "editModal_#{vehicle_finance.id}" %>'>
+              <div class="header">
+                <h4 class="text-center h1">
+                  <span class="glyphicon glyphicon-edit" aria-hidden="true" style="color:blue"></span>
+                  <%= vehicle_finance.id %> - <%= vehicle_finance.card_no %>
+                </h4>
+              </div>
+              <div class="content">
+                <% @vehicle_finance = vehicle_finance %>
+                <%= render partial: 'form', locals: { vehicle_finance: @vehicle_finance} %>
+              </div>
+            </div>
+          <% else %>
+            <div class="ui basic modal" id='<%= "editModal_#{vehicle_finance.id}" %>'>
+              <div class="ui icon header">
+                <i class="huge inverted remove icon"></i>
+                Thất bại
+              </div>
+              <div class="content text-center header">
+                Bạn không thể thay đổi thông tin lịch sử cũ
+              </div>
+              <div class="actions">
+                <button class="ui cancel inverted red basic button">Hủy</button>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Delete modal -->
+          <div class="ui basic modal" id='<%= "deleteModal_#{vehicle_finance.id}" %>'>
+            <div class="ui icon header">
+              <i class="huge inverted remove icon"></i>
+              Hủy phí xe
+            </div>
+            <div class="content text-center header">
+              Bạn có chắc chắn muốn hủy phí xe của "<%= vehicle_finance.ground_name %>"?
+            </div>
+            <div class="actions">
+              <button class="ui cancel inverted red basic button">Không</button>
+              <%= link_to "Đồng ý", vehicle_finance_path(vehicle_finance.id), method: :delete, class: "ui inverted green basic button"  %>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= will_paginate @vehicle_finances %>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag "common/management" %>
+

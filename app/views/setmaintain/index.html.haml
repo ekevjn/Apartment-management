@@ -1,0 +1,33 @@
+= render 'layouts/sidebarnew'
+= render 'layouts/topnav'
+.right_col{:role => "main", :style => "min-height: 1575px;"}
+  #layout-messages
+    = render 'layouts/messages'
+  .row
+    .col-md-12.col-sm-12.col-xs-12
+      %ul.nav.nav-tabs
+        %li#maintaininput_tab.active{:role => "presentation"}
+          %a Nhập thủ công
+        %li#maintainimport_tab{:role => "presentation"}
+          %a Nhập thông tin bảo trì từ excel
+      %br/
+      #tab_content
+        = render "tab1"
+:javascript
+  $('#setmaintain_tab').addClass('active');
+  $('#maintaininput_tab').click(function(){
+    $("#tab_content").html("#{escape_javascript(render("tab1"))}");
+    $('#maintaininput_tab').addClass('active');
+    $('#maintainimport_tab').removeClass('active');
+    $('#maintainopen_tab').removeClass('active');
+    $('#maintainowner_tab').removeClass('active');
+  });
+  $('#maintainimport_tab').click(function(){
+    $("#tab_content").html("#{escape_javascript(render("tab2"))}");
+    $('#maintaininput_tab').removeClass('active');
+    $('#maintainimport_tab').addClass('active');
+    $('#maintainopen_tab').removeClass('active');
+    $('#maintainowner_tab').removeClass('active');
+    $('#maintainliabilities_tab').removeClass('active');
+    $('#maintainhistory_tab').removeClass('active');
+  });

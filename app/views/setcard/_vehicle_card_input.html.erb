@@ -1,0 +1,208 @@
+<%= form_for(VehicleCard.new, url: create_vehicle_card_setcard_index_path,
+  remote: true, html: {role: :form, 'data-model' => 'vehicle_card', id: "vehiclecardform"}) do |f| %>
+<h2 class="ui header">
+  <i class="block layout icon"></i>
+  <div class="content">
+    Tạo thẻ xe
+  </div>
+</h2>
+<div class="ui form">
+  <div class="field">
+    <label>Mã số thẻ (*)</label>
+    <div class="field">
+      <%= f.text_field :card_no, placeholder: "Nhập mã số thẻ xe" %>
+      <span class="help-block"></span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Loại xe (*)</label>
+    <div class="ui selection dropdown" id="typechoicedropdown">
+      <%= f.hidden_field :vehicle_type %>
+      <i class="dropdown icon"></i>
+      <div class="default text">Chọn loại xe</div>
+      <div class="menu">
+        <% VehicleCard::VEHICLE_TYPE.each do |type| %>
+          <div class="item" data-value="<%= type %>"><%= type %></div>
+        <% end %>
+      </div>
+    </div>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Số xe (*)</label>
+    <div class="field">
+      <%= f.text_field :license_no, placeholder: "Nhập mã số xe (biển số)" %>
+      <span class="help-block"></span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Tên mặt bằng (*)</label>
+      <%= text_field_tag :ground_name_search, '',
+      class: 'form-control', :id => "ground_search_add", placeholder:"Nhập tên mặt bằng"  %>
+      <%= f.hidden_field :ground_id, id: "ground_id_add" %>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Tên cư dân (*)</label>
+    <div class="field">
+      <%= text_field_tag :owner_name_search, '', class: 'form-control', :id => "owner_name_search_add" %>
+      <%= f.hidden_field :citizen_id, id: "ground_owner_id_add" %>
+      <span class="help-block"></span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Trạng thái</label>
+    <%= text_field_tag :status, "#{VehicleCard::STATUS_CREATED}",
+              class: 'form-control', disabled: true %>
+  </div>
+
+  <div class="field">
+    <label>Ngày đăng ký</label>
+    <input type="text" class='form-control datepicker' name="registered_time" />
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Tháng tính phí</label>
+    <input type="text" class='form-control monthpicker' name="started_time" />
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Tháng hết hạn</label>
+    <input type="text" class='form-control monthpicker' name="outdate_time" />
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Phí khởi tạo</label>
+    <div class="field">
+      <%= f.text_field :created_fee, placeholder: "Nhập phí khởi tạo" %>
+      <span class="help-block"></span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Mô tả xe</label>
+    <div class="field">
+      <%= f.text_field :description, placeholder: "Nhập mô tả xe" %>
+      <span class="help-block"></span>
+    </div>
+  </div>
+
+  <%= f.submit('Tạo' , class: 'ui green button') %>
+</div>
+<% end %>
+
+<!-- Modal thong bao input thanh cong -->
+<div class="ui basic modal" id="vehicle_card_input_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Tạo thẻ thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p>Tạo thẻ thành công</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao input thanh cong -->
+
+<script type="text/javascript">
+  $(document).bind('ajaxError', 'form#vehiclecardform', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+
+  // autocomplete ground name
+  $("#ground_search_add").autocomplete({
+    source: '/grounds/autocomplete.json',
+    select: function( event, ui ) {
+      $( "#ground_search_add" ).val( ui.item.value );
+      $( "#ground_id_add" ).val( ui.item.key );
+      return false;
+    },
+    messages: {
+      noResults: '',
+      results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#ground_search_add").val("");
+        $("#ground_id_add").val("");
+        $("#ground_search_add").attr("disabled", false);
+      }
+    }
+  });
+
+  // autocomplete citizen name
+  $("#owner_name_search_add").autocomplete({
+    source: '/citizens/autocomplete.json',
+    select: function(event, ui) {
+      $( "#owner_name_search_add" ).val( ui.item.name );
+      $( "#ground_owner_id_add" ).val( ui.item.key );
+      $( "#owner_name_search_add" ).removeClass("alert alert-danger");
+      return false;
+    },
+    messages: {
+        noResults: '',
+        results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#owner_name_search_add").val("");
+        $("#ground_owner_id_add").val("");
+        $("#owner_name_search_add").attr("disabled", false);
+      }
+    },
+    search: function(event, ui) {
+      $("#owner_name_search_add").addClass("alert alert-danger");
+    }
+  });
+
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + model + '[' + field + ']"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+
+    };
+
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+
+  $('.ui.dropdown').dropdown();
+  $('.monthpicker').datepicker({
+    format: 'mm/yyyy',
+    startView: "months",
+    minViewMode: "months"
+  });
+  $('.datepicker').datepicker({
+    format: 'dd/mm/yyyy'
+  });
+</script>

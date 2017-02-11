@@ -1,0 +1,70 @@
+.ui.modal.scrolling{:id => "viewModal_#{facility.id}"}
+  .header
+    %h4.modal-title.text-center.h1
+      %span.glyphicon.glyphicon-info-sign{"aria-hidden" => "true", :style => "color:blue"}
+      = "#{facility.id} - #{facility.name}"
+  .content
+    .row
+      .col-md-12
+        .panel.panel-primary
+          .panel-heading.text-center Thông tin tài sản
+          .panel-body
+            .col-md-4.col-md-offset-1
+              %form.form-horizontal
+                .form-group
+                  .col-sm-6
+                    %p.form-control-static
+                .form-group
+                  %label.col-sm-5.control-label Tài sản
+                  .col-sm-7
+                    %p.form-control-static= facility.name
+                .form-group
+                  %label.col-sm-5.control-label Tình trạng
+                  .col-sm-7
+                    %p.form-control-static= facility.status
+                .form-group
+                  %label.col-sm-5.control-label Tòa nhà
+                  .col-sm-7
+                    %p.form-control-static= facility.building.name if facility.building_id
+                .form-group
+                  %label.col-sm-5.control-label Ngày tạo
+                  .col-sm-7
+                    %p.form-control-static= facility.created_at.strftime("%d/%m/%Y")
+                .form-group
+                  .col-sm-6
+                    %p.form-control-static
+            / end form
+            .col-md-6.col-md-offset-1
+              %form.form-horizontal
+                .form-group
+                  .col-sm-6
+                    %p.form-control-static
+                .form-group
+                  %label.col-sm-5.control-label Vị trí
+                  .col-sm-7
+                    %p.form-control-static= facility.position
+                .form-group
+                  %label.col-sm-5.control-label Ngày bảo hành
+                  .col-sm-7
+                    %p.form-control-static= facility.guarantee_time.strftime("%d/%m/%Y")
+                .form-group
+                  %label.col-sm-5.control-label Ngày mua
+                  .col-sm-7
+                    %p.form-control-static= facility.buy_time.strftime("%d/%m/%Y")
+                .form-group
+                  %label.col-sm-5.control-label Đơn vị bảo hành
+                  .col-sm-7
+                    %p.form-control-static= facility.guarantee_company
+                .form-group
+                  .col-sm-6
+                    %p.form-control-static
+            / end form
+          / end panel body
+        / end panel
+      / end reporting
+    / end row
+  / end modal body
+  .actions
+    .ui.negative.right.labeled.icon.button
+      Đóng
+      %i.remove.icon

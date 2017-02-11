@@ -1,0 +1,108 @@
+<div class="row">
+  <!-- Filter box -->
+  <div class="col-md-3">
+    <div class="ui floating labeled icon dropdown button" id="dropdown-filter">
+      <i class="filter icon"></i>
+      <span class="text">
+        <% if @selected_come_date.present? %>
+          <i class="orange circle icon"></i>
+          <%= @selected_come_date %>
+        <% else %>
+          Lọc theo tháng đến
+        <% end %>
+      </span>
+      <div class="menu">
+        <% if @come_dates.present? %>
+          <% @come_dates.each do |date| %>
+            <div class="item">
+              <i class="orange circle icon"></i>
+              <%= come_month_filterable date %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="ui floating labeled icon dropdown button" id="dropdown-filter">
+      <i class="filter icon"></i>
+      <span class="text">
+        <% if @selected_end_date.present? %>
+          <i class="orange circle icon"></i>
+          <%= @selected_end_date %>
+        <% else %>
+          Lọc theo tháng đi
+        <% end %>
+      </span>
+      <div class="menu">
+        <% if @end_dates.present? %>
+          <% @end_dates.each do |date| %>
+            <div class="item">
+              <i class="orange circle icon"></i>
+              <%= end_month_filterable date %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <!-- Filter box -->
+
+  <!-- Export button -->
+  <div class="col-md-2 col-md-offset-4" data-toggle="tooltip" title="Export ra excel">
+    <%= link_to ground_histories_path({ :format => 'xls' }), class: "ui labeled icon red button" do %>
+      <i class="arrow circle down icon "></i>Export
+    <% end %>
+  </div>
+  <!-- Export button -->
+</div>
+<hr/>
+<div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="6%"><%= sortable "id" %></th>
+        <th width="22%"><%= sortable "ground_id",'Mặt bằng' %></th>
+        <th width="22%"><%= sortable "citizen_id", 'Chủ hộ' %></th>
+        <th width="22%"><%= sortable "come_date", "Ngày đến" %></th>
+        <th width="22%"><%= sortable "end_date", "Ngày rời" %></th>
+        <th width="6%"><%= link_to "Chi tiết", "#" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @ground_histories.each do |ground_history| %>
+      <tr>
+          <td><%= ground_history.id %></td>
+          <td><%= ground_history.ground_name %></td>
+          <td><%= ground_history.citizen_name %></td>
+          <td><%= ground_history.come_date_text %></td>
+          <td><%= ground_history.end_date_text %></td>
+          <td>
+            <a class="btn btn-sm glyphicon glyphicon-info-sign" aria-label="Left Align"
+                id='<%= "btnViewModal_#{ground_history.id}" %>' title="Chi tiết" >
+            </a>
+            <!-- Show modal -->
+            <%= render partial: 'showModal', locals: { ground_history: ground_history } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= will_paginate @ground_histories %>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag "common/management" %>
+<script type="text/javascript">
+  $('.ui.dropdown')
+    .dropdown()
+  ;
+   $('#dropdown-filter div.item').click(function(e){
+    if($(e.target).is('a')) return;
+    $(this).find('a').click();
+  });
+</script>
+

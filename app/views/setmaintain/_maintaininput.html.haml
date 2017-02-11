@@ -1,0 +1,72 @@
+= form_for(@maintain,url: setmaintain_index_path, remote: true,                   |
+  html: {role: :form, 'data-model' => 'maintain', id: "maintainform"}) do |f| |
+  %h2.ui.header
+    %i.block.layout.icon
+    .content
+      Tạo thông tin bảo trì
+  .ui.form
+    .field
+      %label Tài sản
+      .ui.selection.dropdown
+        = f.hidden_field :facility_id
+        %i.dropdown.icon
+        .text Chọn tài sản
+        .menu
+          - list_active_facility.each do | facility |
+            .item{"data-value" => facility.id}= facility.name
+      %span.help-block
+    .field
+      %label Ngày bảo trì
+      .field
+        = f.date_field :fixed_time, placeholder: "Nhập ngày bảo trì của tài sản"
+        %span.help-block
+    .field
+      %label Nhập chi phí
+      .field
+        = f.number_field :price, placeholder: "Nhập tên tài sản"
+        %span.help-block
+    .field
+      %label Nhập mô tả
+      .field
+        = f.text_field :description, class: 'form-control'
+        %span.help-block
+    = f.submit('Tạo' , class: 'ui green button')
+/ Modal thong bao input thanh cong
+#maintain_success.ui.basic.modal
+  %i.close.icon
+  .header
+    Tạo thông tin bảo trì thành công
+  .image.content
+    .image
+      %i.checkmark.icon
+    .description
+    %p Tạo thông tin bảo trì thành công
+  .actions
+    .two.fluid.ui.inverted.buttons
+      .ui.ok.green.basic.inverted.button
+        %i.checkmark.icon
+        Cảm ơn
+/ Modal thong bao input thanh cong
+:javascript
+  $(document).bind('ajaxError', 'form#maintainform', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + model + '[' + field + ']"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+    };
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+  $('.ui.dropdown').dropdown();

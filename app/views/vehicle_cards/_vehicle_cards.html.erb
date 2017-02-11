@@ -1,0 +1,77 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="2%"><%= sortable "id" %></th>
+        <th width="7%"><%= sortable "card_no", "Mã số thẻ" %></th>
+        <th width="7%"><%= sortable "license_no", "Số xe" %></th>
+        <th width="15%"><%= sortable "vehicle_type", "Loại xe" %></th>
+        <th width="10%"><%= sortable "ground_id", "Mặt bằng" %></th>
+        <th width="15%"><%= sortable "status", "Trạng thái" %></th>
+        <th width="15%"><%= sortable "citizen_id", "Cư dân" %></th>
+        <th width="29%" class="text-center"><%= link_to "Hành động" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @vehicle_cards.each do |vehicle_card| %>
+      <tr>
+        <td><%= vehicle_card.id %></td>
+        <td><%= vehicle_card.card_no %></td>
+        <td><%= vehicle_card.license_no %></td>
+        <td><%= vehicle_card.vehicle_type %></td>
+        <td><%= vehicle_card.ground_name %></td>
+        <td><%= vehicle_card.status %></td>
+        <td><%= vehicle_card.citizen_name %></td>
+        <td class="text-center">
+          <a class="btn btn-sm glyphicon glyphicon-info-sign" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnViewModal_#{vehicle_card.id}" %>'
+          title="Chi tiết" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-edit" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnEditModal_#{vehicle_card.id}" %>'
+          title="Sửa" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-remove-sign" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnDeleteModal_#{vehicle_card.id}" %>'
+          title="Hủy" ></a>
+          <!-- Show modal -->
+          <%= render partial: 'showModal', locals: { vehicle_card: vehicle_card } %>
+
+          <!-- Edit modal -->
+          <div class="ui modal scrolling" id='<%= "editModal_#{vehicle_card.id}" %>'>
+            <div class="header">
+              <h4 class="modal-title text-center h1">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" style="color:blue"></span>
+                <%= vehicle_card.id %> - <%= vehicle_card.card_no %>
+              </h4>
+            </div>
+            <div class="content">
+              <% @vehicle_card = vehicle_card %>
+              <%= render partial: 'form', locals: { vehicle_card: @vehicle_card} %>
+            </div>
+          </div>
+
+          <!-- Delete modal -->
+          <div class="ui basic modal" id='<%= "deleteModal_#{vehicle_card.id}" %>'>
+            <div class="ui icon header">
+              <i class="huge inverted remove icon"></i>
+              Ngừng thẻ xe
+            </div>
+            <div class="content text-center header">
+              Bạn có chắc là muốn ngừng hoạt động của thẻ xe "<%= vehicle_card.card_no %>"này không ?
+            </div>
+            <div class="actions">
+              <button class="ui cancel inverted red basic button">Không</button>
+              <%= link_to "Đồng ý", vehicle_card_path(vehicle_card.id), method: :delete, class: "ui inverted green basic button"  %>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= will_paginate @vehicle_cards %>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag "common/management" %>

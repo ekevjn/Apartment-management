@@ -1,0 +1,88 @@
+<% vehicle_finance = @vehicle_finance if @vehicle_finance %>
+<%= form_for(vehicle_finance, remote: true,
+html: {role: :form, 'data-model' => 'vehicle_finance'}) do |f| %>
+<div class="ui grid">
+  <div class="sixteen wide column">
+    <div class="panel panel-primary">
+      <div class="panel-heading text-center">Thông tin phí giữ xe</div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Thẻ xe (*)</label>
+            <div class="col-sm-9">
+              <% if vehicle_finance.new_record? %>
+                <%= text_field_tag :card_search, '',
+                      class: 'form-control', :id => "card_no_search_add" %>
+                <%= f.hidden_field :vehicle_card_id, id: "card_no_id_add" %>
+              <% else %>
+                <%= text_field_tag :card_search, vehicle_finance.license_no,
+                      class: 'form-control', id: "card_no_search_edit_#{vehicle_finance.id}" %>
+                <%= f.hidden_field :vehicle_card_id, id: "card_no_id_edit_#{vehicle_finance.id}" %>
+              <% end %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Nợ</label>
+            <div class="col-sm-9">
+              <%= f.text_field :debt, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Đã trả</label>
+            <div class="col-sm-9">
+              <%= f.text_field :paid, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <% if vehicle_finance.new_record? %>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Tháng tính phí (*)</label>
+            <div class="col-sm-9">
+              <input type="text" class='form-control monthpicker' name="started_time"
+              value='<%= vehicle_finance.started_time.strftime("%m/%Y") if vehicle_finance.started_time %>' />
+              <%= f.hidden_field :started_time %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right floated four wide column actions">
+    <div class="ui negative button" >Đóng</div>
+    <%= f.submit(vehicle_finance.new_record? ? 'Tạo' : 'Lưu', class: 'ui green button') %>
+  </div>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  // autocomplete card_no for edit vehicle finances
+  $('[id^="card_no_search_edit_"]').each(function(i, el){
+    el = $(el);
+    var name_id = el.attr('id');
+    var id = name_id.substr(name_id.lastIndexOf("_")+1);
+    $(this).autocomplete({
+      source: '/vehicle_cards/autocomplete.json',
+      appendTo: "#editModal_" + id,
+      messages: {
+        noResults: '',
+        results: function() {}
+      },
+      select: function( event, ui ) {
+        $( "#card_no_search_edit_" + id).val( ui.item.value );
+        $( "#card_no_id_edit_" + id).val( ui.item.key );
+        return false;
+      },
+      change: function (event, ui) {
+        if (ui.item == null || ui.item == undefined) {
+          $("#card_no_search_edit_" + id).val("");
+          $("#card_no_id_edit_" + id).val("");
+          $("#card_no_search_edit_" + id).attr("disabled", false);
+        }
+      }
+    });
+  });
+</script>

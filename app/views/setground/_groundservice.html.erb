@@ -1,0 +1,82 @@
+<%= form_tag(ground_service_setground_index_path, remote: true) do %>
+  <h2 class="ui header">
+    <i class="block layout icon"></i>
+    <div class="content">Mở - Đóng dịch vụ</div>
+  </h2>
+  <div class="ui form">
+    <div class="field">
+      <label>Tên mặt bằng (*)</label>
+      <%= text_field_tag :ground_name_search, '',
+            class: 'form-control', :id => "ground_name_search_add",
+            placeholder:"Nhập tên mặt bằng"  %>
+      <%= hidden_field_tag :id, '', id: "ground_name_id_add" %>
+    </div>
+
+    <div class="field">
+      <label>Mở - Đóng dịch vụ (*)</label>
+      <div class="ui selection dropdown" id="statuschoicedropdown">
+        <%= hidden_field_tag :status %>
+        <i class="dropdown icon"></i>
+        <div class="default text">Chọn trạng thái mặt bằng</div>
+        <div class="menu">
+          <div class="item" data-value="close-services">Đóng dịch vụ</div>
+          <div class="item" data-value="open-services">Mở dịch vụ</div>
+        </div>
+      </div>
+      <span class="help-block"></span>
+    </div>
+
+    <button class="ui green button" type="submit">Thực hiện</button>
+  </div>
+<% end %>
+<br/>
+<div id="close-services"></div>
+
+<!-- Modal thong bao thanh toan thanh cong -->
+<div class="ui basic modal" id="service_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p><div id="success_content">Thực hiện thành công</div></p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao thanh toan thanh cong -->
+
+<script type="text/javascript">
+  $('.ui.dropdown').dropdown();
+  // autocomplete ground name
+  $("#ground_name_search_add").autocomplete({
+    source: '/grounds/autocomplete.json',
+    select: function( event, ui ) {
+      $( "#ground_name_search_add" ).val( ui.item.value );
+      $( "#ground_name_id_add" ).val( ui.item.key );
+      return false;
+    },
+    messages: {
+        noResults: '',
+        results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#ground_name_search_add").val("");
+        $("#ground_name_id_add").val("");
+        $("#ground_name_search_add").attr("disabled", false);
+      }
+    }
+  });
+</script>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to my site</title>
+  <meta charset='utf-8' />
+  <%= stylesheet_link_tag wicked_pdf_asset_base64("bootstrap-sass-official")  %>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="text-center">
+          <h3 class="text-center">CÔNG HÒA XÃ HỘI CHỦ NGHĨA VIÊT NAM</h3>
+          <h6 class="text-center" style="text-decoration: underline;">Độc lập - Tự do - Hạnh phúc</h6>
+        </div>
+        <div class="text-center">
+          <h1>DANH SÁCH CĂN HỘ TRONG CHUNG CƯ</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th width="2%">STT</th>
+            <th width="10%">Mặt bằng</th>
+            <th width="10%">Loại</th>
+            <th width="10%">Tình trạng</th>
+            <th width="10%">Diện tích</th>
+            <th width="10%">Tòa nhà</th>
+            <th width="17%">Chủ căn hộ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @grounds.each do |ground| %>
+          <tr>
+              <td><%= ground.id %></td>
+              <td><%= ground.name %></td>
+              <td><%= ground.kind %></td>
+              <td><%= ground.status %></td>
+              <td><%= ground.area_length * ground.area_width %> m&sup2</td>
+              <td><%= ground.building_name %></td>
+              <td><%= ground.owner_name %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

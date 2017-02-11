@@ -1,0 +1,71 @@
+<div class="ui segment">
+  <%= form_tag(send_mail_posts_path ,remote: true, role: :form) do %>
+  <h2 class="ui header">
+    <i class="users icon"></i>
+    <div class="content">
+      Gửi thông báo qua email
+    </div>
+  </h2>
+  <div class="ui form">
+    <div class="field">
+      <div class="field">
+        <label>Gửi đến cư dân (*)</label>
+        <div class="field">
+          <%= text_field_tag :citizen_name_search, '', class: 'form-control',
+                :id => "citizen_name_search_add" %>
+          <%= hidden_field_tag :citizen_id, '', id: "ground_citizen_id_add" %>
+        </div>
+        <span class="help-block"></span>
+      </div>
+      <div class="field">
+        <label>Tiêu đề (*)</label>
+        <%= text_field_tag :title, '',placeholder: "Nhập tiêu đề bài đăng" %>
+        <span class="help-block"></span>
+      </div>
+      <div class="field">
+        <label>Nội dung</label>
+        <%= text_area_tag :content, '', class: "ckeditor" %>
+        <span class="help-block"></span>
+      </div>
+    </div>
+  </div>
+  <%= submit_tag('Gửi', class: 'ui green button') %>
+  <% end %>
+</div>
+<div id="send_mail_modal_container"></div>
+
+<script type="text/javascript">
+  // autocomplete citizen name for add ground
+  $("#citizen_name_search_add").autocomplete({
+    source: '/citizens/autocomplete.json',
+    select: function(event, ui) {
+      $( "#citizen_name_search_add" ).val( ui.item.name );
+      $( "#ground_citizen_id_add" ).val( ui.item.key );
+      $( "#citizen_name_search_add" ).removeClass("alert alert-danger");
+      return false;
+    },
+    messages: {
+      noResults: '',
+      results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#citizen_name_search_add").val("");
+        $("#ground_citizen_id_add").val("");
+        $("#citizen_name_search_add").attr("disabled", false);
+      }
+    },
+    search: function(event, ui) {
+      $("#citizen_name_search_add").addClass("alert alert-danger");
+    }
+  });
+
+  $(document).ready(function(){
+    if ($('textarea').length > 0) {
+      var data = $('.ckeditor');
+      $.each(data, function(i) {
+        CKEDITOR.replace(data[i].id)
+      });
+    }
+  });
+</script>

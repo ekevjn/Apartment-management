@@ -1,0 +1,83 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="2%"><%= sortable "id" %></th>
+        <th width="10%"><%= sortable "name",'Mặt bằng' %></th>
+        <th width="10%"><%= sortable "kind", "Loại" %></th>
+        <th width="10%"><%= sortable "status", 'Tình trạng' %></th>
+        <th width="10%"><%= sortable "area", 'Diện tích' %></th>
+        <th width="7%"><%= sortable "num_rooms", 'Số phòng' %></th>
+        <th width="10%"><%= sortable "building_id", "Tòa nhà" %></th>
+        <th width="17%"><%= sortable "owner_id", "Chủ phòng" %></th>
+        <th width="5%"><%= sortable "del_flg", "Đang hoạt động" %></th>
+        <th width="19%"><%= link_to "Hành động", "#" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @grounds.each do |ground| %>
+      <tr>
+          <td><%= ground.id %></td>
+          <td><%= ground.name %></td>
+          <td><%= ground.kind %></td>
+          <td><%= ground.status %></td>
+          <td><%= ground.area_width * ground.area_length %> m&sup2</td>
+          <td><%= ground.num_rooms %></td>
+          <td><%= ground.building_name %></td>
+          <td><%= ground.owner_name %></td>
+          <td><%= check_box_tag 'active', 'yes',
+                      (ground.active), { disabled: true } %></td>
+          <td>
+            <a class="btn btn-sm glyphicon glyphicon-info-sign" aria-label="Left Align"
+                id='<%= "btnViewModal_#{ground.id}" %>' title="Chi tiết" >
+            </a>
+            <a class="btn btn-sm glyphicon glyphicon-edit" aria-label="Left Align"
+                id='<%= "btnEditModal_#{ground.id}" %>' title="Sửa" >
+            </a>
+            <a class="btn btn-sm glyphicon glyphicon-remove-sign" aria-label="Left Align"
+                id='<%= "btnDeleteModal_#{ground.id}" %>' title="Hủy" >
+            </a>
+
+            <!-- Show modal -->
+            <%= render partial: 'showModal', locals: { ground: ground } %>
+
+            <!-- Edit modal -->
+            <div class="ui modal scrolling" id='<%= "editModal_#{ground.id}" %>'>
+              <div class="header">
+                <h4 class="text-center h1">
+                  <span class="glyphicon glyphicon-edit" aria-hidden="true" style="color:blue"></span>
+                  <%= ground.id %> - <%= ground.name %>
+                </h4>
+              </div>
+              <div class="content">
+                <% @ground = ground %>
+                <%= render partial: 'form', locals: { ground: @ground } %>
+              </div>
+            </div>
+
+            <!-- Delete modal -->
+            <div class="ui basic modal" id='<%= "deleteModal_#{ground.id}" %>'>
+              <div class="ui icon header">
+                <i class="huge inverted remove icon"></i>
+                Hủy mặt bằng
+              </div>
+              <div class="content text-center header">
+                Bạn có chắc chắn muốn dừng hoạt động mặt bằng "<%= ground.name %>" này không?
+              </div>
+              <div class="actions">
+                <button class="ui cancel inverted red basic button">Không</button>
+                <%= link_to "Đồng ý", ground_path(ground.id), method: :delete, class: "ui inverted green basic button" %>
+              </div>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= will_paginate @grounds %>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag "common/management" %>

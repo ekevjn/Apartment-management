@@ -1,0 +1,5 @@
+Xin chào <%= @tower.manager_name %>,
+
+Cảm ơn bạn đã đăng ký subdomain <%= @tower.subdomain %> của GoTower.net. Vui lòng nhấn vào link bên dưới để kích hoạt chung cư của bạn
+
+<%= edit_register_url(@tower.activation_token, email: @tower.email) %>

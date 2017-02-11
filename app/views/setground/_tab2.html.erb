@@ -1,0 +1,42 @@
+<h2 class="ui header">
+  <i class="block layout icon"></i>
+  <div class="content">Hình ảnh mặt bằng</div>
+</h2>
+
+<%= form_tag show_images_setground_index_path, :method => 'get',
+      :id => "grouds_search", class: "form-group" do %>
+  <div class="ui form">
+    <div class="field">
+      <label>Tên mặt bằng (*)</label>
+      <%= text_field_tag :ground_name_search, '', class: 'form-control',
+          :id => "ground_image_search_add", placeholder:"Nhập tên mặt bằng"  %>
+      <%= hidden_field_tag "ground_id", '', id: "ground_image_id_add" %>
+    </div>
+  </div>
+<% end %>
+ <div id="show_images"></div>
+
+<script type="text/javascript">
+  $('.ui.dropdown').dropdown();
+  // autocomplete ground name
+  $("#ground_image_search_add").autocomplete({
+    source: '/grounds/autocomplete.json',
+    select: function( event, ui ) {
+      $( "#ground_image_search_add" ).val( ui.item.value );
+      $( "#ground_image_id_add" ).val( ui.item.key );
+      $.get($("#grouds_search").attr("action"), $("#grouds_search").serialize(), null, "script");
+      return false;
+    },
+    messages: {
+      noResults: '',
+      results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#ground_image_search_add").val("");
+        $("#ground_image_id_add").val("");
+        $("#ground_image_search_add").attr("disabled", false);
+      }
+    }
+  });
+</script>

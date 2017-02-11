@@ -1,0 +1,114 @@
+<%= form_for(@citizen, remote: true, url: createcitizen_setbuilding_index_path,
+html: {role: :form, 'data-model' => 'citizen'}) do |f| %>
+<h4 class="ui dividing header">Tạo Cư Dân</h4>
+<div class="ui form">
+
+  <div class="field">
+    <label>Cư dân (*)</label>
+    <%= f.text_field :name, placeholder: "Nhập tên cư dân" %>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Mặt bằng</label>
+    <div class="ui small message">
+      <%= @citizen.ground_name %>
+      <%= f.hidden_field :ground_id %>
+    </div>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Chứng minh thư</label>
+    <%= f.text_field :government_id, placeholder: "Nhập số chứng minh nhân dân" %>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Số điện thoại</label>
+    <%= f.text_field :phone, placeholder: "Nhập số điện thoại" %>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Email</label>
+    <%= f.email_field :email, placeholder: "Nhập email cư dân" %>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Giới tính (*)</label>
+    <div class="ui selection dropdown" id="genderdropdown">
+      <%= f.hidden_field :gender %>
+      <i class="dropdown icon"></i>
+      <div class="default text">Giới tính</div>
+      <div class="menu">
+        <div class="item" data-value="1">Nam</div>
+        <div class="item" data-value="0">Nữ</div>
+      </div>
+    </div>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Ngày sinh (*)</label>
+    <input type="text" class='form-control datepicker' name="dob"
+    value='<%= @citizen.dob.strftime("%d/%m/%Y") if @citizen.dob %>' />
+    <%= f.hidden_field :dob %>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Quê quán (*)</label>
+    <%= f.text_field :hometown, placeholder: "Nhập quê quán" %>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Quốc tịch (*)</label>
+    <%= f.text_field :nationality, placeholder: "Nhập quốc tịch" %>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <label>Ưu đãi nước</label>
+    <div class="ui toggle checkbox">
+      <input type="checkbox" name="citizen[is_water_deal]">
+      <label></label>
+    </div>
+    <span class="help-block"></span>
+  </div>
+
+  <div class="field">
+    <br/>
+  </div>
+
+  <%= f.submit('Tạo', class: 'ui green button') %>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  $(document).bind('ajaxError', 'form#new_citizen', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + model + '[' + field + ']"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+    };
+
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+</script>

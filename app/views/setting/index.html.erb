@@ -1,0 +1,108 @@
+<%= render 'layouts/sidebarnew' %>
+<%= render 'layouts/topnav' %>
+<div class="right_col" role="main" style="min-height: 1575px;">
+  <div id="layout-messages">
+    <%= render 'layouts/messages' %>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active" id="settingfinace_tab">
+          <a>Thiết lập tài chính</a>
+        </li>
+        <li role="presentation" id="settingreport_tab">
+          <a>Thiết lập báo cáo</a>
+        </li>
+        <% if current_account.is_manager %>
+        <li role="presentation" id="settingaccount_tab">
+          <a>Thiết lập tài khoản</a>
+        </li>
+        <li role="presentation" id="updateaccount_tab">
+          <a>Thay đổi mật khẩu tài khoản</a>
+        </li>
+        <li role="presentation" id="listaccount_tab">
+          <a>Danh sách tài khoản</a>
+        </li>
+        <% end %>
+      </ul>
+      <br>
+      <div id="tab_content">
+        <%= render "tab1" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal thong bao input thanh cong -->
+<div class="ui basic modal" id="setting_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Thay đổi thiết lập thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p>Đã cập nhật lại thiết lập</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao input thanh cong -->
+
+<script type="text/javascript">
+  $('#setting_tab').addClass('active');
+  // click tab
+  $('#settingfinace_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab1")) %>");
+    $('#settingfinace_tab').addClass('active');
+    $('#settingreport_tab').removeClass('active');
+    $('#settingaccount_tab').removeClass('active');
+    $('#updateaccount_tab').removeClass('active');
+    $('#listaccount_tab').removeClass('active');
+  });
+  $('#settingreport_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab2")) %>");
+    $('#settingreport_tab').addClass('active');
+    $('#settingfinace_tab').removeClass('active');
+    $('#settingaccount_tab').removeClass('active');
+    $('#updateaccount_tab').removeClass('active');
+    $('#listaccount_tab').removeClass('active');
+  });
+  $('#settingaccount_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab3")) %>");
+    $('#settingaccount_tab').addClass('active');
+    $('#settingfinace_tab').removeClass('active');
+    $('#settingreport_tab').removeClass('active');
+    $('#updateaccount_tab').removeClass('active');
+    $('#listaccount_tab').removeClass('active');
+  });
+  $('#updateaccount_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab4")) %>");
+    $('#updateaccount_tab').addClass('active');
+    $('#settingfinace_tab').removeClass('active');
+    $('#settingreport_tab').removeClass('active');
+    $('#settingaccount_tab').removeClass('active');
+    $('#listaccount_tab').removeClass('active');
+  });
+</script>
+<div id="list_account_script">
+  <script type="text/javascript">
+    $('#listaccount_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab5")) %>");
+    $('#listaccount_tab').addClass('active');
+    $('#settingfinace_tab').removeClass('active');
+    $('#settingreport_tab').removeClass('active');
+    $('#settingaccount_tab').removeClass('active');
+    $('#updateaccount_tab').removeClass('active');
+  });
+  </script>
+</div>

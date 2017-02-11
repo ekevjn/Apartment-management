@@ -1,0 +1,182 @@
+<div class="ui modal scrolling" id='<%= "viewModal_#{tower.id}" %>'>
+  <div class="header">
+    <h4 class="modal-title text-center h1">
+      <span class="glyphicon glyphicon-info-sign" aria-hidden="true" style="color:blue"></span>
+      <%= "#{tower.id} - #{tower.name}" %>
+    </h4>
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading text-center">Thông tin về subdomain</div>
+          <div class="panel-body">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Chung cư</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.name %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Subdomain</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.subdomain %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Tình trạng</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.status %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Điện thoại</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.phone %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Email</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.email %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Ngày tạo</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.created_at.strftime("%d/%m/%y") %></p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="panel panel-success">
+          <div class="panel-heading text-center">Thông tin về chung cư</div>
+          <div class="panel-body">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Chủ sở hữu</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.manager_name %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Kí hiệu</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.symbol %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Địa chỉ</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.address %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Diện tích</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.area %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Fax</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.fax %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Taxcode</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.taxcode %></p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading text-center">Thông tin cho báo cáo</div>
+          <div class="panel-body">
+            <div class="col-md-6">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Người quản lí</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= tower.manager_name %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Ban quản trị</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= tower.management_board %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Số tài khoản</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= tower.bank_no %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Người nhận</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= tower.receiver_name %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Ngân hàng</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= tower.bank_name %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Ngân hàng (tiếng anh)</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= tower.bank_eng %></p>
+                  </div>
+                </div>
+              </form>
+            </div><!-- end form reporting -->
+            <div class="col-md-4 col-md-offset-1">
+              <% if tower.picture? %>
+                <%= image_tag tower.picture.url,
+                      :size => "304x236",
+                      :class => "img-thumbnail" %>
+              <% else %>
+                <%= image_tag "no-image-available.jpg",
+                      :size => "304x236",
+                      :class => "img-thumbnail" %>
+              <% end %>
+              <h1 class="h2 text-center">Logo</h1>
+            </div>
+          </div><!-- end panel body -->
+        </div><!-- end panel -->
+      </div> <!-- end reporting -->
+    </div><!-- end row -->
+  </div> <!-- end modal body -->
+  <div class="actions">
+    <div class="ui negative right labeled icon button" >
+     Đóng<i class="remove icon"></i></div>
+  </div>
+</div>

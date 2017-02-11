@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <p class="form-control-static">Căn hộ <%= @ground_name %> đã thanh toán xong dịch vụ đã chọn trong tháng <%= Date.today.strftime("%m/%Y") %></p>
+    </div>
+    <div class="col-sm-12">
+      <% if @pay_type.present? %>
+        <div class="ui one column middle aligned very relaxed stackable grid">
+          <% if @pay_type.include?('service') %>
+            <div class="center aligned column">
+              <div class="ui form">
+                <div class="ui big green labeled icon button">
+                  <i class="cloud download icon"></i>
+                  <%= link_to 'Xuất hóa đơn phí dịch vụ',
+                        done_pay_service_path(@service.id, { :format => 'pdf' }),
+                        style: "color: white", target: '_blank' %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+          <% if @pay_type.include?('water') %>
+            <div class="center aligned column">
+              <div class="ui big green labeled icon button">
+                <i class="cloud download icon"></i>
+                <%= link_to 'Xuất hóa đơn phí nước',
+                      done_pay_water_path(@water.id, { :format => 'pdf' }),
+                      style: "color: white", target: '_blank' %>
+              </div>
+            </div>
+          <% end %>
+          <% if @pay_type.include?('vehicle_finance') %>
+            <div class="center aligned column">
+              <div class="ui big green labeled icon button">
+                <i class="cloud download icon"></i>
+                <%= link_to 'Xuất hóa đơn phí giữ xe',
+                      done_pay_vehicle_path(@ground_id, {
+                        :ids => @vehicle_finances_ids, :format => 'pdf' }),
+                      style: "color: white", target: '_blank' %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

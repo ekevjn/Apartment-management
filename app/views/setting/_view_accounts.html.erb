@@ -1,0 +1,44 @@
+<div class="ui segment">
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover pretty">
+      <thead>
+        <tr>
+          <th width="5%">Id</th>
+          <th width="50">Email tài khoản</th>
+          <th width="15">Tài khoản</th>
+          <th width="10">Trạng thái</th>
+          <th width="10">Thay đổi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% Account.all.each do |account| %>
+        <tr>
+            <td><%= account.id %></td>
+            <td><%= account.email %></td>
+            <td><%= account.is_manager_text %></td>
+            <td><%= account.active_text %></td>
+            <td class="text-center">
+              <% if account.del_flg != 0 %>
+                <%= link_to "Mở hoạt động", deactive_account_setting_index_path(:id => account.id, :del_flg => 0), class: "ui green basic button", remote: true  %>
+              <% else %>
+                <%= link_to "Ngừng hoạt động", deactive_account_setting_index_path(:id => account.id, :del_flg => 1), class: "ui red basic button", remote: true  %>
+              <% end %>
+            </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('[id^="btnDeleteModal_"]').each(function(i, el){
+    el = $(el);
+    var name_id = el.attr('id');
+    var id = name_id.substr(name_id.lastIndexOf("_")+1);
+    $(this).click(function(){
+      $('#deleteModal_' + id)
+      .modal('show');
+    });
+  });
+</script>

@@ -1,0 +1,15 @@
+.container.container-messages
+  %br/
+  .row
+    .col-md-10.col-md-offset-1.text-center
+      - flash.each do |message_type, message|
+        %div{:class => "alert alert-#{message_type}"}
+          = message
+          %a.close{"data-dismiss" => "alert"} ×
+          - if message_type == 'danger'
+            \. Xóa vé thất bại
+            %p.text-center
+              = link_to "Thanh toán dịch vụ", services_path(:search => @ground.name)
+              |
+              \#{link_to "Thanh toán tiền nước", waters_path(:search => @ground.name)} |
+              \#{link_to "Thanh toán tiền gửi xe", vehicle_finances_path(:search => @ground.name)}

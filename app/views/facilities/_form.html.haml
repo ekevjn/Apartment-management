@@ -1,0 +1,60 @@
+- facility = @facility if @facility
+= form_for(facility, remote: true,                        |
+  html: {role: :form, 'data-model' => 'facility'}) do |f| |
+  .ui.grid
+    .sixteen.wide.column
+      .panel.panel-primary
+        .panel-heading.text-center Thông tin tài sản
+        .panel-body
+          .col-md-12
+            .form-horizontal
+              .form-group
+                %label.col-sm-3.control-label Tài sản
+                .col-sm-9
+                  = f.text_field :name, class: 'form-control'
+                  %span.help-block
+              .form-group
+                %label.col-sm-3.control-label Tình trạng
+                .col-sm-9
+                  - if facility.new_record?
+                    = f.select :status,          |
+                      Facility::STATUS_CREATE, {}, |
+                      { class: 'form-control' }  |
+                  - else
+                    = f.select :status,          |
+                      Facility::STATUS, {}, |
+                      { class: 'form-control' }  |
+                  %span.help-block
+              .form-group
+                %label.col-sm-3.control-label Vị trí
+                .col-sm-9
+                  = f.text_field :position, class: 'form-control'
+                  %span.help-block
+              .form-group
+                %label.col-sm-3.control-label Ngày mua
+                .col-sm-9
+                  = f.date_field :buy_time, placeholder: "Nhập ngày mua của tài sản"
+                  %span.help-block
+              .form-group
+                %label.col-sm-3.control-label Bảo hành
+                .col-sm-9
+                  = f.date_field :guarantee_time, placeholder: "Nhập ngày tài sản hết bảo hành"
+                  %span.help-block
+              .form-group
+                %label.col-sm-3.control-label Tòa nhà
+                .col-sm-9
+                  = f.select :building_id,                               |
+                    list_active_building.map{ |b| [b.name, "#{b.id}"] }, |
+                    { prompt: 'Chọn tòa nhà' },                          |
+                    { class: 'form-control' }                            |
+                  %span.help-block
+              - if !facility.new_record? && facility.del_flg == 1
+                .form-group
+                  %label.col-sm-3.control-label Đang sử dụng
+                  .col-sm-9
+                    .checkbox
+                      %label
+                        = f.check_box :active
+    .right.floated.four.wide.column.actions
+      .ui.negative.button Hủy
+      = f.submit(facility.new_record? ? 'Tạo' : 'Lưu', class: 'btn btn-primary')

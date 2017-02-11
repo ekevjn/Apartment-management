@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  area: MyString
+  type: 
+  status: MyString
+  building_id: 
+  owner_id: 1
+  num_rooms: 1
+  num_citizens: 1
+  num_citizen_cards: 1
+  charge_time: 2016-04-14 16:22:12
+
+two:
+  name: MyString
+  area: MyString
+  type: 
+  status: MyString
+  building_id: 
+  owner_id: 1
+  num_rooms: 1
+  num_citizens: 1
+  num_citizen_cards: 1
+  charge_time: 2016-04-14 16:22:12

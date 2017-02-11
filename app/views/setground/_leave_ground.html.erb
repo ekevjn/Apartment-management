@@ -1,0 +1,102 @@
+<%= form_tag(leave_ground_setground_index_path, remote: true) do |f| %>
+  <h2 class="ui header">
+    <i class="block layout icon"></i>
+    <div class="content">
+      Rời khỏi mặt bằng
+    </div>
+  </h2>
+  <div class="ui form">
+    <div class="field">
+      <label>Cư dân (*)</label>
+      <%= text_field_tag :citizen_name_search, '', class: 'form-control', :id => "citizen_name_search_add", placeholder: "Nhập tên cư dân" %>
+      <%= hidden_field_tag :citizen_id,'', id: "citizen_id_add" %>
+    </div>
+
+    <div class="field">
+      <label>Mặt bằng hiện tại</label>
+      <%= text_field_tag :ground_name, 'Mặt bằng của cư dân trên<', class: 'form-control', :id => "ground_name", disabled: true%>
+    </div>
+
+    <%= submit_tag('Rời đi', class: 'ui green button') %>
+  </div>
+<% end %>
+
+<div id="close-services"></div>
+
+<!-- Modal thong bao thanh cong -->
+<div class="ui basic modal" id="owner_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Đổi chủ hộ thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p>Đổi chủ hộ thành công</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao thanh cong -->
+
+<!-- Modal thong bao thanh cong -->
+<div class="ui basic modal" id="service_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p><div>Thực hiện thành công</div></p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao thanh cong -->
+
+<script type="text/javascript">
+  // autocomplete citizen name for add ground
+  $("#citizen_name_search_add").autocomplete({
+    source: '/citizens/autocomplete.json',
+    select: function(event, ui) {
+      $("#citizen_name_search_add").val( ui.item.name );
+      $("#citizen_id_add").val( ui.item.key );
+      $("#citizen_name_search_add").removeClass("alert alert-danger");
+      $("#ground_name").val(ui.item.ground_name);
+      return false;
+    },
+    messages: {
+        noResults: '',
+        results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#citizen_name_search_add").val("");
+        $("#citizen_id_add").val("");
+        $("#citizen_name_search_add").attr("disabled", false);
+      }
+    },
+    search: function(event, ui) {
+      $("#citizen_name_search_add").addClass("alert alert-danger");
+    }
+  });
+</script>

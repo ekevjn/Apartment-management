@@ -1,0 +1,142 @@
+<div class="ui modal scrolling" id='<%= "viewModal_#{ground.id}" %>'>
+  <div class="header">
+    <h4 class="modal-title text-center h1">
+      <span class="glyphicon glyphicon-info-sign" aria-hidden="true" style="color:blue"></span>
+      <%= "#{ground.id} - #{ground.name}" %>
+    </h4>
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-primary">
+          <div class="panel-heading text-center">Thông tin mặt bằng</div>
+          <div class="panel-body">
+            <div class="col-md-5 col-md-offset-1">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Mặt bằng</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.name %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Tòa nhà</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.building.name if ground.building_id %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Tầng</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.floor %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Diện tích </label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.area_width * ground.area_length %> m&sup2</p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Loại</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.kind %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Tình trạng</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.status %></p>
+                  </div>
+                </div>
+              </form>
+            </div><!-- end form -->
+            <div class="col-md-5">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Chủ phòng</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.owner_name %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Số phòng</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.num_rooms %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Số thẻ dân</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.num_citizen_cards %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Số cư dân</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.num_citizens %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Số ưu đãi</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.num_water_deal %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-5 control-label">Hoạt động</label>
+                  <div class="col-sm-7">
+                    <p class="form-control-static"><%= ground.active_text %></p>
+                  </div>
+                </div>
+              </form>
+            </div><!-- end form -->
+          </div><!-- end panel body -->
+        </div><!-- end panel -->
+      </div> <!-- end reporting -->
+      <% if ground.citizen_list.present? %>
+        <div class="col-md-12">
+          <div class="panel panel-success">
+            <div class="panel-heading text-center">Cư dân thành viên</div>
+            <div class="panel-body">
+              <div class="col-md-8 col-md-offset-2">
+                <form class="form-horizontal">
+                  <% ground.citizen_list.each do |citizen| %>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label text-right">
+                        <% if citizen.id == ground.owner_id %>
+                          Chủ hộ
+                        <% else %>
+                          Thành viên
+                        <% end %>
+                      </label>
+                      <div class="col-md-9">
+                        <p class="form-control-static text-left">
+                          <%= citizen.name %> - <%= citizen.age %> tuổi - <%= citizen.is_water_deal_text %> hưởng ưu đãi
+                        </p>
+                      </div>
+                    </div>
+                  <% end %>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div><!-- end row -->
+  </div> <!-- end modal body -->
+  <div class="actions">
+    <div class="ui negative right labeled icon button" >
+     Đóng<i class="remove icon"></i></div>
+  </div>
+</div>

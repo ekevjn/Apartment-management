@@ -1,0 +1,10 @@
+<h1>GoTower.net</h1>
+
+<p>Hi <%= @tower.manager_name %>,</p>
+
+<p>
+Cảm ơn bạn đã đăng ký subdomain <%= @tower.subdomain %> của GoTower.net. Vui lòng nhấn vào link bên dưới để kích hoạt chung cư của bạn
+</p>
+
+<%= link_to "Kích hoạt", edit_register_url(@tower.activation_token,
+                                                    email: @tower.email) %>

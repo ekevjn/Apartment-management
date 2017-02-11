@@ -1,0 +1,12 @@
+<div class="ui segment">
+  <div class="aligned center" id="layout-overview">
+    <%= render "step1overview" %>
+  </div>
+  <div id="paymentspace">
+    <div class="ui middle aligned very relaxed stackable grid">
+      <div class="column">
+        <%= render partial: "step1pay", locals: {ground: @ground} %>
+      </div>
+    </div>
+  </div>
+</div>

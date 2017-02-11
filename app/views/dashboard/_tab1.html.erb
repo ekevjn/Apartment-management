@@ -1,0 +1,39 @@
+<div class="ui segment">
+  <%= form_tag(map_ground_dashboard_index_path, remote: true,  id: "building_dropdown") do |f| %>
+    <i class="building icon"></i>
+    Chọn tòa nhà
+    <div class="ui selection dropdown">
+      <input type="hidden" name="building_id">
+      <i class="dropdown icon"></i>
+      <div class="text">Chọn tòa nhà</div>
+      <div class="menu">
+        <% list_active_building.each do | building | %>
+        <div class="item" data-value="<%= building.id %>"><%= building.name %></div>
+        <% end %>
+      </div>
+    </div>
+    <%= submit_tag('Chọn', class: 'ui green button') %>
+    <div class="ui red message invisible error-choice">Hãy chọn tòa nhà</div>
+  <% end %>
+  <div id='back_map_ground'>
+    <button id="back_map_ground_button" class="ui big blue labeled icon button">
+      <i class="backward icon"></i>Quay lại
+    </button>
+    <hr/>
+  </div>
+  <div id="map_ground_space">
+  </div>
+  <div id="show_ground">
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.ui.dropdown').dropdown();
+  $('#back_map_ground').hide();
+  $("#back_map_ground_button").click(function(){
+    $('#building_dropdown').show();
+    $('#map_ground_space').show();
+    $('#show_ground').hide();
+    $('#back_map_ground').hide();
+  });
+</script>

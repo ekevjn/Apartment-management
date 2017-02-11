@@ -1,0 +1,45 @@
+<div class="ui segment">
+  <div class="row">
+
+    <div class="col-md-6">
+      <div class="center aligned column">
+        <%= link_to report_list_citizen_path( {format: 'pdf'} ),
+              class: "ui big green labeled icon button",
+              style: "color: white", target: '_blank' do %>
+          <i class="cloud download icon"></i>Báo cáo danh sách cư dân
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="center aligned column">
+        <%= link_to report_list_ground_path( {format: 'pdf'} ),
+              class: "ui big green labeled icon button",
+              style: "color: white", target: '_blank' do %>
+          <i class="cloud download icon"></i>Báo cáo danh sách mặt bằng
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="center aligned column">
+        <%= link_to report_list_vehicle_card_path( {format: 'pdf'} ),
+              class: "ui big green labeled icon button",
+              style: "color: white", target: '_blank' do %>
+          <i class="cloud download icon"></i>Báo cáo danh sách gửi xe
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="center aligned column">
+        <%= link_to report_list_facility_path( {format: 'pdf'} ),
+              class: "ui big green labeled icon button",
+              style: "color: white", target: '_blank' do %>
+          <i class="cloud download icon"></i>Báo cáo danh sách tài sản
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,121 @@
+<div class="ui segment">
+  <div class="ui two column middle aligned very relaxed stackable grid">
+    <div class="column">
+      <%= form_for(@tower, url: report_setting_index_path, remote: true,
+            html: {role: :form, 'data-model' => 'tower',
+            id: "settingreportform" }) do |f| %>
+        <h2 class="ui header">
+          <i class="file open outline icon"></i>
+          <div class="content">
+            Thiết lập báo cáo
+          </div>
+        </h2>
+        <div class="ui form">
+          <div class="field">
+            <div class="field">
+              <label>Tên chủ sở hữu (*)</label>
+              <%= f.text_field :manager_name, placeholder: "Nhập tên chủ sở hữu" %>
+              <span class="help-block"></span>
+            </div>
+            <div class="field">
+              <label>Ban quản lý</label>
+              <%= f.text_field :management_board, placeholder: "Nhập tên ban quản lý" %>
+              <span class="help-block"></span>
+            </div>
+            <div class="field">
+              <label>Số tài khoản ngân hàng</label>
+              <%= f.text_field :bank_no, placeholder: "Nhập số tài khoản ngân hàng" %>
+              <span class="help-block"></span>
+            </div>
+            <div class="field">
+              <label>Tên người nhận</label>
+              <%= f.text_field :receiver_name, placeholder: "Nhập tên người nhận" %>
+              <span class="help-block"></span>
+            </div>
+            <div class="field">
+              <label>Tên ngân hàng</label>
+              <%= f.text_field :bank_name, placeholder: "Nhập tên ngân hàng" %>
+              <span class="help-block"></span>
+            </div>
+            <div class="field">
+              <label>Tên ngân hàng (tiếng anh)</label>
+              <%= f.text_field :bank_eng,
+                    placeholder: "Nhập tên ngân hàng (tiếng anh) " %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+        </div>
+        <%= f.submit('Lưu', class: 'ui green button') %>
+      <% end %>
+    </div>
+    <!-- <div class="ui vertical divider">
+      Or
+    </div> -->
+    <div class="center aligned column">
+      <h2 class="ui header">
+        <div class="content">
+          Thiết lập logo
+        </div>
+      </h2>
+      <%= form_for @tower, url: upload_picture_setting_index_path,
+            remote: true, multipart: true, :html => { id: "images_tower" } do |f| %>
+        <div class="ui form">
+          <div class="field" id="show_picture">
+            <% if @tower.picture? %>
+              <%= image_tag @tower.picture.url, :size => "304x236",
+                      :class => "img-thumbnail" %>
+            <% else %>
+              <%= image_tag "no-image-available.jpg", :size => "304x236",
+                      :class => "img-thumbnail" %>
+            <% end %>
+          </div>
+          <div class="field">
+            <br/>
+            <span class="btn btn-success fileinput-button">
+              <i class="glyphicon glyphicon-edit"></i>
+              <span>Sửa hình ảnh...</span>
+              <%= f.file_field :picture,
+                    accept: 'image/jpeg,image/gif,image/png', :id => "tower_picture" %>
+            </span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  // validate form
+  $(document).bind('ajaxError', 'form#settingreportform', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + model + '[' + field + ']"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+    };
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+
+  $('#tower_picture').bind('change', function() {
+    var size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 5) {
+      alert('Maximum file size is 5MB. Please choose a smaller file.');
+    }
+  });
+  $("#images_tower").fileupload({
+    dataType: "script"
+  });
+</script>
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to my site</title>
+  <meta charset='utf-8' />
+  <%= stylesheet_link_tag wicked_pdf_asset_base64("bootstrap-sass-official")  %>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="text-center">
+          <h3 class="text-center">CÔNG HÒA XÃ HỘI CHỦ NGHĨA VIÊT NAM</h3>
+          <h6 class="text-center" style="text-decoration: underline;">Độc lập - Tự do - Hạnh phúc</h6>
+        </div>
+        <div class="text-center">
+          <h1>DANH SÁCH TÀI SẢN TRONG CHUNG CƯ</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="5%">STT</th>
+        <th width="20%">Tên tài sản</th>
+        <th width="10%">Trạng thái</th>
+        <th width="10%">Vị trí</th>
+        <th width="5%">Tòa nhà</th>
+        <th width="10%">Thời gian mua</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @facilities.each do |facility| %>
+      <tr>
+        <td><%= facility.id %></td>
+        <td><%= facility.name %></td>
+        <td><%= facility.status %></td>
+        <td><%= facility.position %></td>
+        <td><%= facility.building_name %></td>
+        <td><%= facility.buy_time.strftime("%d/%m/%Y") %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+
+  </div>
+</body>
+</html>

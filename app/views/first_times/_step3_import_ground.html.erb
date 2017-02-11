@@ -1,0 +1,80 @@
+<div class="ui two column middle aligned very relaxed stackable grid">
+  <div class="center aligned column">
+    <div class="ui form">
+      <%= form_tag import_ground_first_times_path, multipart: true,
+          remote: true, id: "import_setground" do %>
+        <span class="ui big blue labeled icon button fileinput-button">
+          <i class="upload icon"></i>
+          <span>Nhập mặt bằng từ file</span>
+          <%= file_field_tag :file, class: "input-group btn btn-default" %>
+        </span>
+      <% end %>
+    </div>
+  </div>
+  <!-- <div class="ui vertical divider">
+    Or
+  </div> -->
+  <div class="center aligned column">
+    <%= link_to export_ground_first_times_path( {format: 'xls'} ),
+            class: "ui big green labeled icon button", style: "color: white" do %>
+      <i class="cloud download icon"></i>Tải file mẫu danh sách mặt bằng
+    <% end %>
+  </div>
+</div>
+
+<!-- Modal thong bao import thanh cong -->
+<div class="ui basic modal" id="import_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Nhập dữ liệu thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p>Đã nhập dữ liệu mặt bằng từ file excel thành công</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao import thanh cong -->
+
+<!-- Modal thong bao import that bai -->
+<div class="ui basic modal" id="import_failed">
+  <i class="close icon"></i>
+  <div class="header">
+    Nhập dữ liệu thât bại
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="remove icon"></i>
+    </div>
+    <div class="description">
+      <h2><p id="failed_messages"></p></h2>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Đóng
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao import that bai -->
+
+<script type="text/javascript">
+  $("#import_setground").fileupload({
+    dataType: "script"
+  });
+</script>
+

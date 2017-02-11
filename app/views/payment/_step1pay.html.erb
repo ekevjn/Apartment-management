@@ -1,0 +1,81 @@
+<%= form_tag(choose_pay_payment_index_path, remote: true,role: :form, 'data-model' => 'ground', id: 'step1payform') do %>
+<h2 class="ui header">
+  <i class="users icon"></i>
+  <div class="content">
+    Chọn mặt bằng để thanh toán dịch vụ của tháng <%= Date.today.strftime("%m/%Y") %>
+  </div>
+</h2>
+<div class="ui form">
+  <div class="field">
+
+    <div class="field">
+      <label>Tên mặt bằng (*)</label>
+      <%= text_field_tag :ground_name_search, '',
+      class: 'form-control', :id => "ground_name_search_add", placeholder:"Nhập tên mặt bằng"  %>
+      <%= hidden_field_tag :id,'', id: "ground_name_id_add", name: "ground_id" %>
+    </div>
+    <div class="field">
+      <div class="row">
+      <div class="col-md-3 col-md-offset-1">
+          <div class="ui checkbox">
+            <input type="checkbox" name="water_checkbox">
+            <label>Thanh toán nước</label>
+          </div>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+          <div class="ui checkbox">
+            <input type="checkbox" name="service_checkbox">
+            <label>Thanh toán dịch vụ</label>
+          </div>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+          <div class="ui checkbox">
+            <input type="checkbox" name="vehicle_checkbox">
+            <label>Thanh toán phí giữ xe</label>
+          </div>
+        </div>
+      </div>
+      <span class="help-block ui red message invisible" id="paymethodchoice">Hãy chọn một dịch vụ để thanh toán</span>
+    </div>
+
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 text-center">
+    <%= submit_tag('Thanh toán', class: 'ui green button center align') %>
+  </div>
+</div>
+<% end %>
+
+
+<script type="text/javascript">
+  $('#step1payform').form({
+      fields: {
+        ground_id : 'empty'
+      }
+  });
+  $('.checkbox').checkbox();
+
+  // autocomplete ground name
+  $("#ground_name_search_add").autocomplete({
+    source: '/grounds/autocomplete.json',
+    appendTo: "#addModal",
+    select: function( event, ui ) {
+      $( "#ground_name_search_add" ).val( ui.item.value );
+      $( "#ground_name_id_add" ).val( ui.item.key );
+      return false;
+    },
+    messages: {
+        noResults: '',
+        results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#ground_name_search_add").val("");
+        $("#ground_name_id_add").val("");
+        $("#ground_name_search_add").attr("disabled", false);
+      }
+    }
+  });
+</script>

@@ -1,0 +1,104 @@
+<% ground = @ground if @ground %>
+<%= form_for(ground, remote: true,
+        html: {role: :form, 'data-model' => 'ground'}) do |f| %>
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="panel panel-primary">
+        <div class="panel-heading text-center">Thông tin mặt bằng</div>
+        <div class="panel-body">
+          <div class="col-md-12">
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Mặt bằng (*)</label>
+                <div class="col-sm-9">
+                  <%= f.text_field :name, class: 'form-control' %>
+                  <span class="help-block"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Diện tích (m&sup2)</label>
+                <div class="col-sm-9">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <%= f.text_field :area_length, class: 'form-control', placeholder: "m" %>
+                    </div>
+                    <div class="col-sm-1">
+                     <span class="glyphicon glyphicon-remove" style="padding-top: 10px;"></span>
+                    </div>
+                    <div class="col-sm-3">
+                      <%= f.text_field :area_width, class: 'form-control', placeholder: "m"  %>
+                    </div>
+                  </div>
+                  <span class="help-block"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Loại</label>
+                <div class="col-sm-9">
+                  <%= f.text_field :kind, class: 'form-control' %>
+                  <span class="help-block"></span>
+                </div>
+              </div>
+
+              <% if ground.new_record? %>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Tình trạng</label>
+                  <div class="col-sm-9">
+                    <p class="form-control-static"><%= Ground::STATUS_EMPTY %></p>
+                    <span class="help-block"></span>
+                  </div>
+                </div>
+              <% end %>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Tầng (*)</label>
+                <div class="col-sm-9">
+                  <%= f.text_field :floor, class: 'form-control' %>
+                  <span class="help-block"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Tòa nhà (*)</label>
+                <div class="col-sm-9">
+                  <%= f.select :building_id,
+                        list_active_building.map{ |b| [b.name, "#{b.id}"] },
+                        { prompt: 'Chọn tòa nhà' },
+                        { class: 'form-control' } %>
+                  <span class="help-block"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Tổng số phòng</label>
+                <div class="col-sm-9">
+                  <%= f.text_field :num_rooms, class: 'form-control' %>
+                  <span class="help-block"></span>
+                </div>
+              </div>
+
+              <% if !ground.new_record? && ground.del_flg == 1 %>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Đang hoạt động</label>
+                  <div class="col-sm-9">
+                    <div class="checkbox">
+                      <label>
+                        <%= f.check_box :active %>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right floated four wide column actions">
+     <div class="ui negative button">Hủy</div>
+      <%= f.submit(ground.new_record? ? 'Tạo' : 'Lưu', class: 'btn btn-primary') %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,51 @@
+$("#importbuildingspace").html("<%= escape_javascript(render("step2input")) %>");
+$("#layout-overview").html("<%= escape_javascript(render("step2overview")) %>");
+$("#layout-messages").html("<%= escape_javascript(render("layouts/messages")) %>");
+$('#buildingchoicedropdown').dropdown();
+$('#statuschoicedropdown').dropdown();
+$( ".datepicker" ).datepicker({
+  format: 'dd/mm/yyyy'
+  });
+$("#owner_name_search_add").autocomplete({
+  source: '/citizens/autocomplete.json',
+  select: function( event, ui ) {
+    $( "#owner_name_search_add" ).val( ui.item.name );
+    $( "#ground_owner_id_add" ).val( ui.item.key );
+    return false;
+  },
+  messages: {
+      noResults: '',
+      results: function() {}
+  },
+  change: function (event, ui) {
+    if (ui.item == null || ui.item == undefined) {
+      $("#owner_name_search_add").val("");
+      $("#ground_owner_id_add").val("");
+      $("#owner_name_search_add").attr("disabled", false);
+    }
+  }
+});
+$('[id^="owner_name_search_edit_"]').each(function(i, el){
+  el = $(el);
+  var name_id = el.attr('id');
+  var id = name_id.substr(name_id.lastIndexOf("_")+1);
+  $(this).autocomplete({
+    source: '/citizens/autocomplete.json',
+    messages: {
+      noResults: '',
+      results: function() {}
+    },
+    select: function( event, ui ) {
+      $( "#owner_name_search_edit_" + id).val( ui.item.name );
+      $( "#ground_owner_id_edit_" + id).val( ui.item.key );
+      return false;
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#owner_name_search_edit_" + id).val("");
+        $("#ground_owner_id_edit_" + id).val("");
+        $("#owner_name_search_edit_" + id).attr("disabled", false);
+      }
+    }
+  });
+});

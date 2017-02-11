@@ -1,0 +1,89 @@
+<% srvice = @service if @service %>
+<%= form_for(srvice, remote: true,
+html: {role: :form, 'data-model' => 'service'}) do |f| %>
+<div class="ui grid">
+  <div class="sixteen wide column">
+    <div class="panel panel-primary">
+      <div class="panel-heading text-center">Thông tin phí dịch vụ</div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Mặt bằng (*)</label>
+            <div class="col-sm-9">
+              <% if srvice.new_record? %>
+                <%= text_field_tag :ground_name_search, '',
+                      class: 'form-control', :id => "ground_name_search_add" %>
+                <%= f.hidden_field :ground_id, id: "ground_name_id_add" %>
+              <% else %>
+                <%= text_field_tag :ground_name_search, srvice.ground_name,
+                      class: 'form-control', id: "ground_name_search_edit_#{srvice.id}" %>
+                <%= f.hidden_field :ground_id, id: "ground_name_id_edit_#{srvice.id}" %>
+              <% end %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Nợ</label>
+            <div class="col-sm-9">
+              <%= f.text_field :debt, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Đã trả</label>
+            <div class="col-sm-9">
+              <%= f.text_field :paid, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <% if srvice.new_record? %>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Tháng tính phí (*)</label>
+            <div class="col-sm-9">
+              <input type="text" class='form-control monthpicker' name="started_time"
+              value='<%= srvice.started_time.strftime("%m/%Y") if srvice.started_time %>' />
+              <%= f.hidden_field :started_time %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right floated four wide column actions">
+    <div class="ui negative button" >Hủy</div>
+    <%= f.submit(srvice.new_record? ? 'Tạo' : 'Lưu', class: 'ui green button') %>
+  </div>
+</div>
+<% end %>
+
+<script type="text/javascript">
+  // autocomplete ground name for edit modal
+  $('[id^="ground_name_search_edit_"]').each(function(i, el){
+    el = $(el);
+    var name_id = el.attr('id');
+    var id = name_id.substr(name_id.lastIndexOf("_")+1);
+    $(this).autocomplete({
+      source: '/grounds/autocomplete.json',
+      appendTo: "#editModal_" + id,
+      messages: {
+        noResults: '',
+        results: function() {}
+      },
+      select: function( event, ui ) {
+        $( "#ground_name_search_edit_" + id).val( ui.item.value );
+        $( "#ground_name_id_edit_" + id).val( ui.item.key );
+        return false;
+      },
+      change: function (event, ui) {
+        if (ui.item == null || ui.item == undefined) {
+          $("#ground_name_search_edit_" + id).val("");
+          $("#ground_name_id_edit_" + id).val("");
+          $("#ground_name_search_edit_" + id).attr("disabled", false);
+        }
+      }
+    });
+  });
+</script>

@@ -1,0 +1,52 @@
+<div class="ui small modal" id='<%= "viewModal_#{ground_history.id}" %>'>
+  <div class="header">
+    <h4 class="modal-title text-center h1">
+      <span class="glyphicon glyphicon-info-sign" aria-hidden="true" style="color:blue"></span>
+      <%= "#{ground_history.id}" %>
+    </h4>
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-primary">
+          <div class="panel-heading text-center">Lịch sử đổi chủ hộ</div>
+          <div class="panel-body">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Mặt bằng</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static"><%= ground_history.ground_name %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Chủ hộ</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static"><%= ground_history.citizen_name %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Ngày đi</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static"><%= ground_history.come_date_text %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Ngày rời</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static"><%= ground_history.end_date_text %></p>
+                </div>
+              </div>
+            </form>
+          </div><!-- end panel body -->
+        </div><!-- end panel -->
+      </div> <!-- end reporting -->
+    </div><!-- end row -->
+  </div> <!-- end modal body -->
+  <div class="actions">
+    <div class="ui negative right labeled icon button" >
+     Đóng<i class="remove icon"></i></div>
+  </div>
+</div>

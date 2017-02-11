@@ -1,0 +1,7 @@
+<label class="col-sm-4 control-label">Nhập tiền</label>
+<div class="col-sm-5">
+  <%= text_field_tag :given_money, @money, class: 'form-control text-right' %>
+  <span class="help-block">
+    <%= @money_error if @money_error.present? %>
+  </span>
+</div>

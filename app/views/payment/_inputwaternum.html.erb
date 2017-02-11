@@ -1,0 +1,104 @@
+<%= form_tag(input_water_payment_index_path,remote: true, role: :form, 'data-model' => 'water', id: 'inputwaterform') do %>
+<h2 class="ui header">
+  <i class="users icon"></i>
+  <div class="content">
+    Nhập số nước của một mặt bằng
+  </div>
+</h2>
+<div class="ui form">
+  <div class="field">
+    <div class="field">
+      <label>Tên mặt bằng (*)</label>
+      <%= text_field_tag :ground_name_search, '',
+      class: 'form-control', :id => "ground_water_search_add", placeholder:"Nhập tên mặt bằng"  %>
+      <%= hidden_field_tag :id, '',id: "ground_water_id_add", name: "ground_id" %>
+    </div>
+    <div class="field">
+      <label>Chỉ số nước hiện tại (*)</label>
+      <%= text_field_tag :water_no, '',placeholder: "Nhập số nước sử dụng của mặt bằng trong tháng" %>
+      <span class="help-block"></span>
+    </div>
+  </div>
+</div>
+<%= submit_tag('Đồng ý', class: 'ui green button') %>
+<% end %>
+
+<!-- Modal thong bao input thanh cong -->
+<div class="ui basic modal" id="inputwatersuccess">
+  <i class="close icon"></i>
+  <div class="header">
+    Thêm số nước thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      Thực hiện thành công
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao input thanh cong -->
+
+<!-- Modal thong bao input that bai -->
+<div class="ui basic modal" id="inputwaterfailed">
+  <i class="close icon"></i>
+  <div class="header">
+    Thêm số nước thất bại
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="remove icon"></i>
+    </div>
+    <div class="description" id="error_content">
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao input that bai -->
+
+<script type="text/javascript">
+  $('#inputwaterform').form({
+    fields: {
+      ground_id : 'empty',
+      water_no  : 'integer[0..1000]'
+    }
+  });
+
+  // autocomplete ground name for add modal
+  $("#ground_water_search_add").autocomplete({
+    source: '/grounds/autocomplete.json',
+    appendTo: "#addModal",
+    select: function( event, ui ) {
+      $( "#ground_water_search_add" ).val( ui.item.value );
+      $( "#ground_water_id_add" ).val( ui.item.key );
+      return false;
+    },
+    messages: {
+        noResults: '',
+        results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#ground_water_search_add").val("");
+        $("#ground_water_id_add").val("");
+        $("#ground_water_search_add").attr("disabled", false);
+      }
+    }
+  });
+</script>

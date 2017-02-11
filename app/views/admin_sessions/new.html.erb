@@ -1,0 +1,32 @@
+<!--content wrapper-->
+<div class="content-wrapper">
+
+  <!--logo-->
+
+  <div class="logo-sl-page text-center"> <a href="#"><%= image_tag("logo.png", alt:"logo") %></a> </div>
+
+  <section class="cta-form cta-light section-spacing">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-md-5 center-block">
+          <%= render 'layouts/messages' %>
+
+          <%= form_for(:session, url: admin_login_path) do |f| %>
+          <h2 class="text-center">Administrator</h2>
+          <div class="form-group">
+            <%= f.label :email %>
+            <%= f.email_field :email, class: 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :password %>
+            <%= f.password_field :password, class: 'form-control' %>
+          </div>
+          <div class="form-btn">
+            <%= f.submit "Log in", class: "btn-landpage" %>
+          </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </section>

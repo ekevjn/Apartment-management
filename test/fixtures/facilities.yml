@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  status: MyString
+  position: MyString
+  building_id: 
+  guarantee_time: 2016-04-14 16:22:17
+  guarantee_company: 2016-04-14 16:22:17
+  buy_time: 2016-04-14 16:22:17
+
+two:
+  name: MyString
+  status: MyString
+  position: MyString
+  building_id: 
+  guarantee_time: 2016-04-14 16:22:17
+  guarantee_company: 2016-04-14 16:22:17
+  buy_time: 2016-04-14 16:22:17

@@ -1,0 +1,236 @@
+ <span class="help-block ui red message text-center">
+  Vui lòng thanh toán các dịch vụ bên dưới trước khi đóng dịch vụ
+</span>
+<%= form_tag(payout_setground_index_path, remote: true)  do %>
+<div class="container" id="payment">
+  <div  class="ui grid">
+    <%= hidden_field_tag :ground_id,  @ground_id %>
+    <% if @service.present? %>
+      <div class="fourteen wide column">
+        <h3 class="ui block header ">
+          Chi phí dịch vụ mặt bằng <%= @service.ground_name %> tháng <%= @service.started_time.strftime("%m/%Y") %>
+        </h3>
+        <%= hidden_field_tag :service_id,  @service.id %>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-danger btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+               Nợ phải trả
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right"><%= number_to_vnd(@service.debt) %></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-success btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              Đã trả
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right"><%= number_to_vnd(@service.paid) %></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-primary btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              Chi phí trong tháng
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right"><%= number_to_vnd(@service.fee) %></p>
+          </div>
+        </div>
+        <div class="ui horizontal divider">
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-default btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              Tổng tiền phải trả
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right" id= "service_pay"><%= number_to_vnd(@service.remain) %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <% if @water.present?  %>
+      <div class="fourteen wide column">
+        <h3 class="ui block header ">
+          Chi phí nước trong tháng <%= @water.started_time.strftime("%m/%Y") %>
+        </h3>
+        <%= hidden_field_tag :water_id,  @water.id %>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-danger btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              Nợ phải trả
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right"><%= number_to_vnd(@water.debt) %></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-success btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              Đã trả
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right"><%= number_to_vnd(@water.paid) %></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-primary btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              Chi phí trong tháng
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right"><%= number_to_vnd(@water.fee) %></p>
+          </div>
+        </div>
+        <div class="ui horizontal divider">
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="btn btn-default btn-block" style="text-align:left">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              Tổng tiền phải trả
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static text-right" id= "water_pay"><%= number_to_vnd(@water.remain) %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <% if @vehicle_finances.present? %>
+      <% @vehicle_finances.each do |vehicle_finance| %>
+        <div class="fourteen wide column">
+          <h3 class="ui block header ">
+            Chi phí vé xe của <%= vehicle_finance.vehicle_card.license_no %>
+            trong tháng <%= vehicle_finance.started_time.strftime("%m/%Y") %>
+          </h3>
+          <%= hidden_field_tag :vehicle_finance_id,  vehicle_finance.id %>
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="btn btn-warning btn-block" style="text-align:left">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                Loại xe
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <p class="form-control-static text-right">
+                <%= vehicle_finance.vehicle_card.vehicle_type %>
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="btn btn-danger btn-block" style="text-align:left">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                  Nợ phải trả
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <p class="form-control-static text-right"><%= number_to_vnd(vehicle_finance.debt) %></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="btn btn-success btn-block" style="text-align:left">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                Đã trả
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <p class="form-control-static text-right"><%= number_to_vnd(vehicle_finance.paid) %></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="btn btn-primary btn-block" style="text-align:left">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                Chi phí trong tháng
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <p class="form-control-static text-right"><%= number_to_vnd(vehicle_finance.fee) %></p>
+            </div>
+          </div>
+          <div class="ui horizontal divider">
+          </div>
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="btn btn-default btn-block" style="text-align:left">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                Tổng tiền phải trả
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <p class="form-control-static text-right" id= "water_pay"><%= number_to_vnd(vehicle_finance.remain) %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <br/><br/>
+  <% if @pay_fee != 0 %>
+    <div class="row">
+      <div class="col-sm-3">
+        <label>Tổng tiền thanh toán</label>
+      </div>
+      <div class="col-sm-3">
+        <%= text_field_tag :given_money, number_to_vnd(@pay_fee, false), disabled: true, class: 'form-control text-right', placeholder: "Nhập tiền thanh toán" %>
+      </div>
+    </div>
+    <div class="row">
+      <br/>
+      <div class="col-sm-4 col-sm-offset-2">
+        <input type='submit' value="Thanh toán và đóng dịch vụ" class="ui green button form-control" >
+      </div>
+    </div>
+  <% else %>
+    <div class="row">
+      <div class="col-sm-12 text-center">
+          <p class="form-control-static">Căn hộ này đã thanh toán xong dịch vụ đã chọn trong tháng <%= Date.today.strftime("%m/%Y") %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
+<% end %>
+
+<!-- Modal thong bao input thất bại -->
+<div class="ui basic modal" id="pay_failed">
+  <i class="close icon"></i>
+  <div class="header">
+      Thanh toán thất bại
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p><div id="exception_messages"></div></p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao input thất bại -->

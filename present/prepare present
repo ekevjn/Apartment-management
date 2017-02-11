@@ -1,0 +1,261 @@
+Huy: 16,17, 18 + workflow mới, 35, 36
+
+để giao tiếp và truyền đạt requirements cho nhau hiệu quả, nhóm chúng em thực hiện các buổi gặp mặt như sau:
+ daily meeting: 5 ngày trong tuần, cùng bàn bạc và làm việc chung với nhau
+ địa điểm họp mặt là ở ngay phòng của chúng em D401 kí túc xá
+ team building: 1 lần trong 1 tháng
+ gặp mặt thầy hướng dẫn 1 lần 1 tuần
+ các loại giao tiếp như là mặt đối mặt, thông qua slack, gmail và chat nhóm trên facebook
+
+Để hỗ trợ tốt cho việc phát triển sản phẩm, nhóm em có sử dụng các tool như hình trên
+ như là dùng github với source tree để quản lí code, dùng sublime text và vim để viết code, dùng trello để quản lí công việc, dùng office, adobe creative clound , astah cho việc viết requirements
+
+Về công nghệ,
+ ngôn ngữ server bọn em chọn là ruby với việc sủ dụng framework rails
+ Dùng postgresql để lưu data
+ Dùng azure cho việc deploy sản phẩm
+ Cộng với sủ hỗ trợ của jquery, bootstrap cho việc xủ lí front-end
+
+
+------------------------- Prepare speaking ---------------------------------------------------------
+Về việc nghĩ ra các requirement, chúng em tìm hiểu nghiệp vụ và hình thành cho mình những  workflow trước và sau đó tiến hành code theo
+3 workflow điển hình của project nhóm em đó là
+  Thay đổi chủ hộ
+  Về việc liên đến cư dân khi rời khỏi mặt bằng
+  Thanh toán
+
+Về việc thay đổi chủ hộ, thì người quản lí cần 2 thông tin đó là cư dân và mặt bằng
+  Theo đó nếu cư dân này đang là chủ hộ của mặt bằng khác thì không cho đổi và return lại message là buộc phải rời đi
+  Nếu cư dân này không phải là chủ hộ thì check tiếp mặt bằng đưọc chọn đã có chủ hộ hay chưa
+    Nếu chưa thì thực hiện việc đổi chủ hộ
+    Nếu có thì check tiếp mặt bằng này đã thanh toán các dịch vụ hay chưa ?
+      Nếu đã thanh toán rồi thì thực hiện việc đổi chủ hộ
+      Nếu chưa thì buộc phải thanh toán trước khi đổi
+
+Về việc cư dân khi rời đi
+  Nếu cư dân này không ở mặt bằng nào thì tất nhiên là ko thể rời đi và return lại message thông báo
+  Ngược lại thì check tiếp việc cư dân này có đang là chủ hộ hay không ?
+    Nếu không phải chủ hộ thì cho phép cư dân rời đi
+    Nếu là chủ hộ thì check tiếp cư dân này có phải là người duy nhất trong phòng hay không?
+      Nếu tồn tại một người khác nữa ( tức là có 2 hay nhiều hơn cư dân) thì không cho rời đi, cần phải đổi chủ hộ của mặt bằng này trước khi rời đi
+      Nếu chủ hộ này là người duy nhất trong phòng thì check tiếp đã thanh toán hay chưa
+        Thanh toán rồi thì cho phép rời đi
+        Chưa thanh toán thì buộc phải thanh toán
+
+về việc thanh toán
+  Thực hiện việc chọn mặt bằng và dịch vụ cần thanh toán
+  Sau đó hệ thống sẽ lấy thông tin và tính tiền cần phải thanh toán
+  Sau khi thanh toán xong thì hệ thống tự động gửi mail đến cho chủ hộ sau 30s
+  Cuối cùng thì người quản lí có thể xuất hóa đơn dưới dạng pdf
+
+.....
+Về việc thiết kế design của các usecase, thì tiêu biểu như là đổi chủ hộ
+từ workflow khi nãy và theo thiết kế database như bọn em đã trình bày thì sẽ được thể hiện như sau theo mô hình MVC:
+
+  controller là SetGroundController kế thừa ApplicationController của Rails
+  view là setground đưọc kế thừa từ actionView mặc định của Rails
+  model bao gồm ground và thông tin liên quan đến tài chính để thanh toán water, vehicle finance, service, tất cả đưọc kế thừa ActiveRecord, ActiveRecord này có chức năng như orm framework
+
+Sau đó
+
+demo
+  bat tab royal, dormitory/accounts/login
+
+  1. register golden subdomain
+    set finances
+      price_water_lv1: 6000,
+      price_water_lv2: 10000,
+      price_water_lv3: 12000,
+      price_service: 8000,
+      price_hygiene: 7000,
+      price_bicycle: 30000,
+      price_electric_bicycle: 40000,
+      price_motorbike: 60000,
+      price_car_4_seat: 100000,
+      price_car_7_seat: 150000,
+
+    import for the first time: present/import_first_time
+      toa nha => mat bang => cu dan
+
+  2. go to royal
+    2.0
+      hệ thống bọn em sẽ chia làm 2 task lớn thứ nhất là bàn làm việc để thực hiện các nghiệp vụ mang tính thực tế đối với căn hộ. Thứ 2 là quản lí chung để xem, tra cứu thông tin và thực hiện các nghiệp vụ cơ bản
+      Như là khi click vào quản lí chung sẽ bao gồm các menu như là mặt bằng, ....
+
+    2.1
+      hien thi so do mat bang
+        show r1 xong show r3
+      hien thi bao cao thong ke
+        click vao 1 loai mat bang => che di 1 loai so do
+      xuat bao cao
+        only show first page
+      ve bieu do
+
+    2.2 demo thanh toan
+      lan 1 thanh toan cho R1-100 cho ca 3 dich vu
+      lan 2 thanh toan 2 buoc
+        buoc 1 thanh toan phi chung cho R1-101
+        buoc 2 thanh toan phi con lai cho R1-101
+
+    2.3 demo mat bang
+
+      (--
+        vu thi bach xuyen - roi cu dan
+        doi chu ho
+          show ground map R3 (101)
+            R3 101
+            bui van nam
+          show ground map R3 (101)
+
+        R1-104 - dong dich vu ( da dong roi)
+        R3-300 - mo dich vu
+
+        deactive 2 cai
+          R1-100
+          R3-509
+        deactive cu dan Đặng Hòa Hảo
+      --)
+
+      tao mat bang
+      upload hinh anh mat bang: present/upload_ground_images
+
+      (*)cu dan roi mat bang
+          cu dan ko co mat bang (Bùi Văn Nam) ( result: ko the roi di)
+          cu dan ko phai la chu ho (vũ thị bạch xuyến R1-100) (result cho phep roi di)
+          cu dan la chu ho phai thanh toan (Nguyễn Công Sơn R1-102)
+
+      (*)doi chu ho
+          chon cu dan la chu ho cua phong khac (Trần Lê Ngọc Huy) ( result: ko cho doi)
+
+          bat 2 tab ground map vs setground
+          show ground map R3 (101)
+            chon cu dan ko la chu ho cua phong khac (Bùi Văn Nam)
+              chon mat bang chua co chu ho ( R3-101 )
+          show lai ground map
+
+          show ground map R1 (103)
+              chon mat bang da co chu ho bat phai thanh toan truoc khi doi chu ho (R1-103) (Đặng Hoàng Hiệp)
+          show lai ground map R1
+
+      xem lich su doi chu
+
+      (*) mo - dong dich vu
+        R1-104 - mo dich vu ( da mo roi)
+        R1-104 - dong dich vu (thanh toan)
+        R1-104 - dong dich vu ( da dong roi)
+        R3-300 - mo dich vu
+
+    2.4 demo cu dan
+      tao cu dan
+      tao the cu dan
+      * khoa - bao mat the ( R1-100 )
+
+    2.5 demo the xe
+      tao the xe
+      mo dich vu the xe
+      khoa - mat the xe
+
+    2.6 thong bao
+      tao thong bao toan bo
+      gui thong bao cho 1 cu dan (Trần Lê Ngọc Huy)
+
+    2.7 nhap so nuoc
+      present/import_more/nhap-so-nuoc
+
+  3.0
+    tao tai san
+    tao bao tri
+
+  3.1 thiet lap
+    thiet lap tai chinh
+    thiet lap bao cao
+    tao tai khoan
+    thay doi mat khau
+
+  4.0
+    grounds
+      tim kiem -> loc
+      them + sua
+      deactive 2 cai
+        R1-100
+        R3-509
+      import export template
+
+    deactive cu dan
+      Đặng Hòa Hảo
+
+  present/import_more
+    toa nha => mat bang => cu dan => the cu dan => the xe => tai san => bao tri
+
+transaction
+  change owner, close finances, payment
+
+--( ORM là viết tắt của cụm từ Object Relational Mapping là một kĩ năng trong lập trình giúp chuyển đổi dữ
+  --  liệu giữa các hệ thống không tương thích trong lập trình hướng đối tượng. Nó tạo ra một Cơ sở dữ liệu
+  --  object ảo, có thể sử dụng được bên trong ngôn ngữ lập trình. )
+  -- lợi ích
+  -- Độc lập với Database: Bạn không cần viết các câu lệnh của database. Bạn đang sử dụng SQLite, bạn không thích và đổi sang MySQL hay PostgreSQL, lúc này bạn cũng k cần phải sửa các câu lệnh bởi ORM đã làm hết cho bạn. Kể cả khi thay đổi database, bạn cũng chỉ cần chỉnh sửa một vài dòng trong Database configuration adapter.
+  -- Giảm số lượng dòng code và tăng hiệu quả lập trình ORM cho phép lập trình viên có thể tập trung vào các business logic hơn -> thu gọn code, tăng hiệu quả làm việc
+  -- Caching Object được cache lại, giảm thiểu thời gian load trên db
+
+========================= DEMO ======================================
+sau đây em xin trình bày phần demo của nhóm em
+  Em xin phân chia phần demo thành các phần chính như sau:
+    * cách sử dụng đối với người đăng kí chung cư
+    * tổng quan các tính năng chung cư đang hoạt động
+    * tổng quan các tính năng của trang admin
+
+    Cách sử dụng đối với 1 chung cư mới đăng kí ( golden )
+      + Cách đăng kí chung cư + import dữ liệu mới
+    Toàn bộ tính năng đối 1 chung cư đang hoạt động ( royal )
+      + Xem bài post của cư dân
+      + Bàn làm việc
+        - tổng quan: sơ đồ mặt bằng, báo cáo thông kê, xuất báo cáo, vẽ sơ đò
+        - thanh toán:
+        - thông báo:
+        - mặt bằng
+          . tạo mặt bằng A100
+          . thêm hình ảnh mặt bằng
+          . cư dân rời mặt bằng ( vũ thị bạch xuyến )
+          show ground map R3 (101)
+          . đổi chủ hộ ( Bùi Văn Nam - R3-101 ) => lịch sử đổi chủ
+          show lai ground map
+          . mở - đóng dịch vụ
+            R3-101 - mo dich vu (backup R3-100)
+            --R1-104 - mo dich vu ( da mo roi)
+            R1-104 - dong dich vu (thanh toan)
+            -- R1-104 - dong dich vu ( da dong roi)
+          . xem công nợ
+        - lướt qua tạo cư dân, tạo thẻ cư dân, khóa báo - mất thẻ ( r1-100 )
+        - lướt qua tạo thẻ xe, mở dịch vụ thẻ xe, khóa, mất thẻ
+        - lướt qua tạo tài sản, bảo trì
+        - nói về các thiết lập của thiết lập hệ thống, thiết lập báo cáo, logo
+        - thiết lập tài khoản
+        - nhập chỉ số nước
+        - validate
+          toa nha
+          mat bang: tang
+          cu dan: ngay sinh, chung minh thu, email
+          the xe: check cu dan ko thuoc mat bang
+
+      + Quản lí chung
+        grounds
+          tim kiem -> loc, search ajax
+          them + sua
+          deactive 2 cai
+            R1-102 - A100 cai vua them  (backup: R3-509)
+          import export template
+        deactive cu dan
+          Đặng Hòa Hảo
+        lọc theo tháng đối với các dịch vụ
+
+      Tinh năng chốt sổ ( dorminatory )
+
+      present/import_more
+        toa nha => mat bang => cu dan => the cu dan => the xe => tai san => bao tri
+
+    Trang quản lí của admin
+========================= DEMO ======================================
+
+
+

@@ -1,0 +1,104 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="3%"><%= sortable "id" %></th>
+        <th width="10%"><%= sortable "ground_id", "Mặt bằng" %></th>
+        <th width="10%"><%= sortable "area", "Diện tích" %></th>
+        <th width="10%"><%= sortable "debt", "Nợ" %></th>
+        <th width="10%"><%= sortable "paid", "Đã trả" %></th>
+        <th width="12%"><%= sortable "fee", "Phí trong tháng" %></th>
+        <th width="10%"><%= sortable "started_time", "Tháng tính phí" %></th>
+        <th width="5%"><%= sortable "is_current", "Hiện tại" %></th>
+        <th width="5%"><%= sortable "num_debt", "Số tháng nợ" %></th>
+        <th width="25%"><%= link_to "Hành động" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @services.each do |srvice| %>
+      <tr>
+        <td><%= srvice.id %></td>
+        <td><%= srvice.ground_name %></td>
+        <td><%= srvice.area %> m&sup2</td>
+        <td><%= number_to_vnd(srvice.debt, false) %></td>
+        <td><%= number_to_vnd(srvice.paid, false) %></td>
+        <td><%= number_to_vnd(srvice.fee, false) %></td>
+        <td><%= srvice.started_time.strftime("%m/%Y") if srvice.started_time.present? %></td>
+        <td><%= check_box_tag 'is_current', srvice.is_current,
+          srvice.is_current?, { disabled: true } %></td>
+        <td><%= srvice.num_debt %></td>
+        <td>
+          <a class="btn btn-sm glyphicon glyphicon-info-sign" aria-label="Left Align"
+            data-toggle="modal" id='<%= "btnViewModal_#{srvice.id}" %>'
+            title="Chi tiết" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-usd"
+            data-toggle="modal" id='<%= "btnPayModal_#{srvice.id}" %>'
+            title="Thanh toán" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-edit"
+            data-toggle="modal" id='<%= "btnEditModal_#{srvice.id}" %>'
+            title="Sửa" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-remove-sign"
+            data-toggle="modal" id='<%= "btnDeleteModal_#{srvice.id}" %>'
+            title="Hủy" ></a>
+
+          <!-- Show modal -->
+          <%= render partial: 'showModal', locals: { srvice: srvice } %>
+
+          <!-- Pay modal -->
+          <%= render partial: 'payModal', locals: { srvice: srvice } %>
+
+          <!-- Edit modal -->
+          <% if srvice.is_current %>
+            <div class="ui modal scrolling" id='<%= "editModal_#{srvice.id}" %>'>
+              <div class="header">
+                <h4 class="text-center h1">
+                  <span class="glyphicon glyphicon-edit" aria-hidden="true" style="color:blue"></span>
+                  <%= srvice.id %> - <%= srvice.ground_name %>
+                </h4>
+              </div>
+              <div class="content">
+                <% @service = srvice %>
+                <%= render partial: 'form', locals: { srvice: @service} %>
+              </div>
+            </div>
+          <% else %>
+            <div class="ui basic modal" id='<%= "editModal_#{srvice.id}" %>'>
+              <div class="ui icon header">
+                <i class="huge inverted remove icon"></i>
+                Thất bại
+              </div>
+              <div class="content text-center header">
+                Bạn không thể thay đổi thông tin lịch sử cũ
+              </div>
+              <div class="actions">
+                <button class="ui cancel inverted red basic button">Hủy</button>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Delete modal -->
+          <div class="ui basic modal" id='<%= "deleteModal_#{srvice.id}" %>'>
+            <div class="ui icon header">
+              <i class="huge inverted remove icon"></i>
+              Hủy phí dịch vụ
+            </div>
+            <div class="content text-center header">
+              Bạn có chắc chắn muốn ngưng hoạt động phí dịch vụ của mặt bằng <%= srvice.ground_name %> này không ?
+            </div>
+            <div class="actions">
+              <button class="ui cancel inverted red basic button">Không</button>
+              <%= link_to "Đồng ý", service_path(srvice.id), method: :delete, class: "ui inverted green basic button"  %>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= will_paginate @srvices %>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag "common/management" %>

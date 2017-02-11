@@ -1,0 +1,53 @@
+<div class="ui segment">
+  <%= form_tag(citizen_card_close_setcitizen_index_path, remote: true,
+  role: :form, 'data-model' => 'citizen_card', id: "citizencardform") do  %>
+  <h2 class="ui header">
+    <i class="block layout icon"></i>
+    <div class="content">
+      Khóa - Báo mất thẻ
+    </div>
+  </h2>
+  <div class="row">
+    <div class="col-md-6">
+      <label>Tên mặt bằng (*)</label>
+        <%= text_field_tag :ground_name_search, '', class: 'form-control',
+          :id => "ground_cardclose_search_add", placeholder:"Nhập tên mặt bằng"  %>
+        <%= hidden_field_tag "ground_id", '', id: "ground_cardclose_id_add" %>
+      <br/>
+      <%= submit_tag('Thực hiện' , class: 'ui green button') %>
+    </div>
+  </div>
+  <% end %>
+  <br>
+  <div class="row" >
+    <div class=" col-md-12" id="spacecardground">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).bind('ajaxError', 'form#citizencardform', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+
+  // autocomplete ground name
+  $("#ground_cardclose_search_add").autocomplete({
+    source: '/grounds/autocomplete.json',
+    select: function( event, ui ) {
+      $( "#ground_cardclose_search_add" ).val( ui.item.value );
+      $( "#ground_cardclose_id_add" ).val( ui.item.key );
+      return false;
+    },
+    messages: {
+      noResults: '',
+      results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#ground_cardclose_search_add").val("");
+        $("#ground_cardclose_id_add").val("");
+        $("#ground_cardclose_search_add").attr("disabled", false);
+      }
+    }
+  });
+</script>

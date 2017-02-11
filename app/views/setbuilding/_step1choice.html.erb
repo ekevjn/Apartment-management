@@ -1,0 +1,16 @@
+<%= form_for(@building, url: buildingchoice_setbuilding_index_path, remote: true) do |f| %>
+  <i class="building icon"></i>
+  Chọn tòa nhà
+  <div class="ui selection dropdown">
+    <input type="hidden" name="buildingchoice">
+    <i class="dropdown icon"></i>
+    <div class="text">Chọn tòa nhà</div>
+    <div class="menu">
+      <% list_active_building.each do | building | %>
+      <div class="item" data-value="<%= building.id %>"><%= building.name %></div>
+      <% end %>
+    </div>
+  </div>
+  <%= f.submit('Chọn', class: 'ui green button') %>
+  <div class="ui red message invisible error-choice">Hãy chọn tòa nhà</div>
+<% end %>

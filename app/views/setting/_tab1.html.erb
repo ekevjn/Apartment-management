@@ -1,0 +1,96 @@
+<div class="ui segment">
+  <%= form_for(@tower, remote: true, url: setting_path(@tower),
+        html: {role: :form, 'data-model' => 'tower', id: "setting_form"}) do |f| %>
+    <h2 class="ui header">
+      <i class="options icon"></i>
+      <div class="content">
+        Thiết lập hệ thống
+      </div>
+    </h2>
+    <div class="ui form">
+      <div class="field">
+        <div class="field">
+          <label>Ngày chốt sổ hàng tháng (*)</label>
+          <%= f.text_field :payment_date, placeholder: "Nhập ngày chốt sổ hàng tháng" %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <label>Giá dịch vụ (theo diện tích m2) (Đơn vị: VND) (*)</label>
+          <%= f.text_field :price_service, placeholder: "Nhập giá dịch vụ theo diện tích" %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <label>Giá vệ sinh (*)</label>
+          <%= f.text_field :price_hygiene, placeholder: "Nhập giá vệ sinh trên mặt bằng" %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <label>Mức giá nước ưu đãi 1 (4 mét khối đầu) (*)</label>
+          <%= f.text_field :price_water_lv1, placeholder: "Nhập mức ưu đãi nước 1" %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <label>Mức giá nước ưu đãi 2 (từ 4-6 mét khối) (*)</label>
+          <%= f.text_field :price_water_lv2, placeholder: "Nhập mức ưu đãi nước 2" %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <label>Mức giá nước (*)</label>
+          <%= f.text_field :price_water_lv3, placeholder: "Nhập mức giá nước " %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <label>Giá giữ xe đạp (*)</label>
+          <%= f.text_field :price_bicycle, placeholder: "Nhập mức giá giữ xe đạp " %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <label>Giá giữ xe đạp điện (*)</label>
+          <%= f.text_field :price_electric_bicycle, placeholder: "Nhập mức giá giữ xe đạp điện " %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <label>Giá giữ xe máy (*)</label>
+          <%= f.text_field :price_motorbike, placeholder: "Nhập mức giá giữ xe máy " %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+        <label>Giá giữ ô tô (4 chỗ) (*)</label>
+          <%= f.text_field :price_car_4_seat, placeholder: "Nhập mức giá giữ xe ô tô (4 chỗ) " %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <label>Giá giữ ô tô (7 chỗ) (*)</label>
+          <%= f.text_field :price_car_7_seat, placeholder: "Nhập mức giá giữ xe ô tô (7 chỗ) " %>
+          <span class="help-block"></span>
+        </div>
+      </div>
+    </div>
+    <%= f.submit('Lưu', class: 'ui green button') %>
+  <% end %>
+</div>
+<script type="text/javascript">
+  // validate form
+  $(document).bind('ajaxError', 'form#setting_form', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + model + '[' + field + ']"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+    };
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+</script>

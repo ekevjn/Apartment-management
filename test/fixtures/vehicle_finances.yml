@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  vehicle_card_id: 
+  debt: 9.99
+  apartment_id: 
+  citizen_id: 
+  paid: 9.99
+  fee: 9.99
+  started_time: 2016-04-14 16:22:57
+  is_current: false
+
+two:
+  vehicle_card_id: 
+  debt: 9.99
+  apartment_id: 
+  citizen_id: 
+  paid: 9.99
+  fee: 9.99
+  started_time: 2016-04-14 16:22:57
+  is_current: false

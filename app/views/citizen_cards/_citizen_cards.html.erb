@@ -1,0 +1,77 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="6%"><%= sortable "id" %></th>
+        <th width="17%"><%= sortable "card_no", "Số thẻ" %></th>
+        <th width="17%"><%= sortable "ground_id", "Mặt bằng" %></th>
+        <th width="25%"><%= sortable "status", "Tình trạng" %></th>
+        <th width="15%"><%= sortable "created_at", "Ngày tạo" %></th>
+        <th width="20%" class="text-center"><%= link_to "Hành động" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @citizen_cards.each do |citizen_card| %>
+      <tr>
+        <td><%= citizen_card.id %></td>
+        <td><%= citizen_card.card_no %></td>
+        <td><%= citizen_card.ground_name %></td>
+        <td><%= citizen_card.status %></td>
+        <td><%= citizen_card.created_at.strftime("%d/%m/%Y") %></td>
+        <td class="text-center">
+          <a class="btn btn-sm glyphicon glyphicon-info-sign" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnViewModal_#{citizen_card.id}" %>'
+          title="Chi tiết" >
+          </a>
+          <a class="btn btn-sm glyphicon glyphicon-edit" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnEditModal_#{citizen_card.id}" %>'
+          title="Sửa" >
+          </a>
+          <a class="btn btn-sm glyphicon glyphicon-remove-sign" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnDeleteModal_#{citizen_card.id}" %>'
+          title="Hủy" >
+          </a>
+
+          <!-- Show modal -->
+          <%= render partial: 'showModal', locals: { citizen_card: citizen_card } %>
+
+          <!-- Edit modal -->
+          <div class="ui modal" id='<%= "editModal_#{citizen_card.id}" %>'>
+            <div class="header">
+              <h4 class="text-center h1">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" style="color:blue"></span>
+                <%= citizen_card.id %> - <%= citizen_card.ground_id %>
+              </h4>
+            </div>
+            <div class="content">
+              <% @citizen_card = citizen_card %>
+              <%= render partial: 'form', locals: { citizen_card: @citizen_card} %>
+            </div>
+          </div>
+
+          <!-- Delete modal -->
+          <div class="ui basic modal" id='<%= "deleteModal_#{citizen_card.id}" %>'>
+            <div class="ui icon header">
+              <i class="huge inverted remove icon"></i>
+              Hủy thẻ cư dân
+            </div>
+            <div class="content text-center header">
+              Bạn có chắc rằng muốn hủy hoạt động của thẻ cư dân "<%= citizen_card.card_no %>" này không ?
+            </div>
+            <div class="actions">
+              <button class="ui cancel inverted red basic button">Không</button>
+              <%= link_to "Có", citizen_card_path(citizen_card.id), method: :delete, class: "ui inverted green basic button"  %>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= will_paginate @citizen_cards %>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag "common/management" %>

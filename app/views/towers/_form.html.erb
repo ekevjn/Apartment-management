@@ -1,0 +1,215 @@
+<% tower = @tower if @tower %>
+<%= form_for(tower, html: {role: :form, 'data-model' => 'tower'}) do |f| %>
+  <div class="ui grid">
+    <div class="sixteen wide column">
+      <div class="row">
+        <div class="form-horizontal"></div>
+        <div class="col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading text-center">Thông tin về subdomain</div>
+            <div class="panel-body">
+              <div class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Chung cư</label>
+                  <div class="col-sm-9">
+                    <%= f.text_field :name, class: 'form-control' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Subdomain</label>
+                  <div class="col-sm-9">
+                    <p class="form-control-static"><%= tower.subdomain %></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Tình trạng</label>
+                  <div class="col-sm-9">
+                    <%= f.text_field :status, class: 'form-control' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Điện thoại</label>
+                  <div class="col-sm-9">
+                    <%= f.text_field :phone, class: 'form-control' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Email</label>
+                  <% if tower.new_record? %>
+                    <div class="col-sm-9">
+                      <%= f.email_field :email, class: 'form-control' %>
+                    </div>
+                  <% else %>
+                    <div class="col-sm-8">
+                      <%= f.email_field :email, class: 'form-control' %>
+                    </div>
+                    <div class="col-sm-1">
+                      <%= link_to "", reset_password_towers_path(tower.id), class: "glyphicon glyphicon-erase",
+                            title: 'Reset mật khẩu', style: 'padding-top: 5px;' %>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Ngày tạo</label>
+                  <div class="col-sm-9">
+                    <p class="form-control-static"><%= tower.created_at.strftime("%d/%m/%y") if tower.created_at.present? %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="panel panel-success">
+            <div class="panel-heading text-center">Thông tin về chung cư</div>
+            <div class="panel-body">
+              <div class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Chủ sở hữu</label>
+                  <div class="col-sm-9">
+                      <%= f.text_field :manager_name, class: 'form-control' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Kí hiệu</label>
+                  <div class="col-sm-9">
+                      <%= f.text_field :symbol, class: 'form-control' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Địa chỉ</label>
+                  <div class="col-sm-9">
+                      <%= f.text_field :address, class: 'form-control' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Diện tích</label>
+                  <div class="col-sm-9">
+                      <%= f.text_field :area, class: 'form-control' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Fax</label>
+                  <div class="col-sm-9">
+                      <%= f.text_field :fax, class: 'form-control' %>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Taxcode</label>
+                  <div class="col-sm-9">
+                      <%= f.text_field :taxcode, class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading text-center">Thông tin cho báo cáo</div>
+            <div class="panel-body">
+              <div class="col-md-6">
+                <div class="form-horizontal">
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Người quản lí</label>
+                    <div class="col-sm-7">
+                        <p class="form-control-static"><%= tower.manager_name %></p>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Ban quản trị</label>
+                    <div class="col-sm-7">
+                        <%= f.text_field :management_board, class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Số tài khoản</label>
+                    <div class="col-sm-7">
+                        <%= f.text_field :bank_no, class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Người nhận</label>
+                    <div class="col-sm-7">
+                        <%= f.text_field :receiver_name, class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Ngân hàng</label>
+                    <div class="col-sm-7">
+                        <%= f.text_field :bank_name, class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-5 control-label">Ngân hàng (tiếng anh)</label>
+                    <div class="col-sm-7">
+                        <%= f.text_field :bank_eng, class: 'form-control' %>
+                    </div>
+                  </div>
+
+                  <% if !tower.new_record? && tower.del_flg == 1 %>
+                    <div class="form-group">
+                      <label class="col-sm-5 control-label">Đang hoạt động</label>
+                      <div class="col-sm-7">
+                        <div class="checkbox">
+                          <label>
+                            <%= f.check_box :active %>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div><!-- end form reporting -->
+              <div class="col-md-4 col-md-offset-1">
+                <% if tower.picture? %>
+                  <%= image_tag tower.picture.url,
+                        :size => "304x236",
+                        :class => "img-thumbnail" %>
+                <% else %>
+                  <%= image_tag "no-image-available.jpg",
+                        :size => "304x236",
+                        :class => "img-thumbnail" %>
+                <% end %>
+                <div class="picture">
+                  <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png',
+                      :id => "tower_picture" %>
+                </div>
+                <h1 class="h2 text-center">Logo</h1>
+              </div>
+            </div><!-- end panel body -->
+          </div><!-- end panel -->
+        </div> <!-- end reporting -->
+      </div><!-- end row -->
+    </div>
+    <div class="right floated four wide column actions">
+     <div class="ui negative button">Hủy</div>
+      <%= f.submit(tower.new_record? ? 'Tạo' : 'Lưu', class: 'btn btn-primary') %>
+    </div>
+  </div>
+<% end %>
+<script type="text/javascript">
+  $('#tower_picture').bind('change', function() {
+    var size_in_megabytes = this.files[0].size/1024/1024;
+    if (size_in_megabytes > 5) {
+      alert('Maximum file size is 5MB. Please choose a smaller file.');
+    }
+  });
+</script>

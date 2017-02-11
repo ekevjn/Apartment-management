@@ -1,0 +1,18 @@
+<%= form_tag url: , :method => 'get',
+:id => "#{type}s_search", class: "form-group" do %>
+<div class="ui grid">
+  <!-- Search box -->
+  <div class="fourteen wide column">
+    <div class="ui search ">
+      <div class="ui icon input">
+        <%= text_field_tag :search, params[:search],
+        class: "prompt",
+          :placeholder => "Tìm kiếm...",
+          :id => "search_input",
+          size: 140 %>
+          <i class="search icon"></i>
+        </div>
+      </div>
+    </div>
+    <!-- Search box -->
+  </div>

@@ -1,0 +1,78 @@
+              *******************************************************************
+              *******************************************************************
+              ********************                        ***********************
+              ********************    CITIZEN vs GROUND   ***********************
+              ********************                        ***********************
+              *******************************************************************
+              *******************************************************************
+
+khi tao ground:                 status = empty          ground.rb/status_empty_before_create
+khi mo dich vu cho ground:      status = used           setground_controller.rb/ground_service
+khi dong dich vu cho ground:    status = bought         setground_controller.rb/ground_service
+
+
+khi tao cu dan co mat bang:                             citizen.rb/check_ground_after_create
+  neu ground co num citizens = 0 ( nguoi dau tien se la chu ho )
+    citizen: update ground_id
+    ground:
+      owner_id = citizen.id
+      status = bought                                   ground.rb/update_status_with_owner_before_update
+      num citizens, num water deal
+  neu ground co num citizens != 0 ( > 0 )
+    ground: update num citizens, num water deal
+
+
+khi deactive cu dan:                                    citizens_controller.rb/destroy
+  neu ground id is null
+    del_flg = 1
+  neu ground id is not null
+    hien thi message bao loi 'cư dân này đang là thành viên của mặt bằng ... không thể hủy'
+
+// FROM HERE
+khi cu dan roi di:                                      setground_controller.rb/leave_ground
+  khi chua co mat bang: khong the roi di
+  khi khong phai chu ho:
+    citizen: ground_id = null
+    ground: num citizen, num water deal update
+  khi chu ho roi di:
+    neu num citizen > 1
+      hien thi message 'truoc khi roi di ban phai thay chu ho bang nguoi khac'
+    neu num citizen == 1
+      check thanh toan mat bang
+        chua thanh toan
+          buoc phai thanh toan, status = bought => thanh toan roi
+        thanh toan roi
+          citizen: ground_id = null
+          ground:
+            owner_id = nil
+            num citizen,  num water deal update
+            status = empty                              ground.rb/update_status_with_owner_before_update
+
+khi doi chu ho ( chon ground, chon citizen )             setground_controller.rb/ground_owner
+  neu citizen la chu ho cua phong khac ?
+    ko cho doi va show message phai roi chu ho
+
+  neu citizen khong phai la chu ho cua phong khac?
+    neu ground da co chu ho
+      check thanh toan
+        chua thanh toan
+          bat buoc phai thanh toan, status = bought
+        thanh toan roi ( owner_id_was, owner_id )
+          ground: owner_id = id chu ho moi
+          chu ho cu: ( roi di )
+            citizen: ground_id = nil
+          chu ho moi:
+            citizen: ground_id = ground.id (auto)         ground.rb/update_citizen_after_update
+
+
+    neu ground chua co chu ho ( status = empty )
+      citizen: ground_id = ground.id
+      ground:
+        owner_id = citizen.id
+        status = bought                                   ground.rb/update_status_with_owner_before_update
+        update num citizens, num water deal
+
+
+thanh toan => lay du lieu thanh toan => send email toi chu ho va xuat hoa don
+
+3.4 entity relationship diagram

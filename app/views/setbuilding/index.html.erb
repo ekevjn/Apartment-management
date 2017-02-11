@@ -1,0 +1,42 @@
+<%= render 'layouts/sidebarnew' %>
+<%= render 'layouts/topnav' %>
+<div class="right_col" role="main" style="min-height: 1575px;">
+  <div id="layout-messages">
+    <%= render 'layouts/messages' %>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active" id="building_input"><a>Nhập thủ công</a></li>
+        <li role="presentation" id="building_import"><a>Nhập từ excel</a></li>
+        <li role="presentation" id="liabilities"><a>Công nợ tòa nhà</a></li>
+      </ul>
+      <br>
+      <div id="tab_content">
+        <%= render "tab1" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#setbuilding_tab').addClass('active');
+  $('#building_input').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab1")) %>");
+    $('#building_input').addClass('active');
+    $('#building_import').removeClass('active');
+    $('#liabilities').removeClass('active');
+  });
+  $('#building_import').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab2")) %>");
+    $('#building_import').addClass('active');
+    $('#building_input').removeClass('active');
+    $('#liabilities').removeClass('active');
+  });
+  $('#liabilities').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab3")) %>");
+    $('#building_import').removeClass('active');
+    $('#building_input').removeClass('active');
+    $('#liabilities').addClass('active');
+  });
+</script>

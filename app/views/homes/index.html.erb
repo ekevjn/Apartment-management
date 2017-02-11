@@ -1,0 +1,194 @@
+<% if isSubDomain? %>
+  <%= render 'layouts/topnavhome' %>
+  <div id="layout-messages">
+    <%= render 'layouts/messages' %>
+  </div>
+  <div class="container">
+    <% @posts.each do |post| %>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title"><%= post.title %></h3>
+        </div>
+        <div class="panel-body">
+          <% if post.content.length > 300 %>
+            <%= truncate(post.content, length: 200, omission: "" , escape: false) %>...
+            <br/>
+            <p>
+              <strong><a data-toggle="modal" data-target="#myModal_<%= post.id %>">Xem thêm...</a></strong>
+
+              <span class="glyphicon glyphicon-dashboard pull-right">
+                <%= post.updated_at.strftime("%H:%M %d/%m/%Y") %>
+              </span>
+            <p>
+
+            <!-- Show modal -->
+            <div class="modal fade" id="myModal_<%= post.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header" style="background: #e74c3c;">
+                    <h3 class="modal-title h3 text-center" style="color: #ecf0f1;">
+                      <span class="glyphicon glyphicon-list-alt"></span>
+                       <%= post.title %>
+                    </h3>
+                  </div>
+                  <div class="modal-body">
+                    <%= post.content.html_safe %>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Show modal -->
+          <% else %>
+            <%= post.content.html_safe %>
+          <% end %>
+        </div>
+        <% if account_signed_in? %>
+          <div class="panel-footer">
+            <div class="ui buttons">
+              <button class="ui button" id='<%= "btnDelPost_#{post.id}" %>' >Xóa</button>
+              <div class="or"></div>
+              <button class="ui positive button" id='<%= "btnEditPost_#{post.id}" %>' >Sửa</button>
+            </div>
+          </div>
+
+          <!-- Edit modal -->
+          <div class="ui modal scrolling" id='<%= "editPostModal_#{post.id}" %>'>
+            <div class="header">
+              <h2 class="ui header">
+                <i class="users icon"></i>
+                <div class="content">
+                  Sửa bài thông báo cho chung cư
+                </div>
+              </h2>
+            </div>
+
+            <div class="content">
+              <% @post = post %>
+              <%= form_for(post, remote: true,
+                    html: {role: :form, 'data-model' => 'post', :class => "edit_post_form" }) do |f| %>
+              <div class="ui form">
+                <div class="field">
+                  <label>Tiêu đề</label>
+                  <%= f.text_field :title %>
+                  <span class="help-block"></span>
+                </div>
+                <div class="field">
+                  <label>Nội dung</label>
+                  <%= f.text_area :content, class: "ckeditor" %>
+                  <span class="help-block"></span>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-6">
+                    <p class="form-control-static"></p>
+                    <p class="form-control-static"></p>
+                    <p class="form-control-static"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="pull-right">
+                <%= submit_tag('Lưu thay đổi', class: 'ui green button') %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+          <!-- Edit modal -->
+
+          <!-- Delete modal -->
+          <div class="ui basic modal" id='<%= "delPostModal_#{post.id}" %>'>
+            <div class="ui icon header">
+              <i class="huge inverted remove icon"></i>
+              Hủy thông báo
+            </div>
+            <div class="content text-center header">
+              Bạn có chắc chắn muốn xóa thông tin này không?
+            </div>
+            <div class="actions">
+              <button class="ui cancel inverted red basic button">Không</button>
+              <%= link_to "Đồng ý", post_path(post.id), method: :delete, class: "ui inverted green basic button"  %>
+            </div>
+          </div>
+          <!-- Delete modal -->
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= will_paginate @posts %>
+    </div>
+  </div>
+<% else %>
+  <%= render "home" %>
+<% end %>
+
+<!-- Modal thong bao input thanh cong -->
+<div class="ui basic modal" id="editpostsuccess">
+  <i class="close icon"></i>
+  <div class="header">
+    Sửa thông tin thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description" id="error_content">
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao input thanh cong -->
+
+<script type="text/javascript">
+  $('[id^="btnEditPost_"]').each(function(i, el){
+    el = $(el);
+    var name_id = el.attr('id');
+    var id = name_id.substr(name_id.lastIndexOf("_")+1);
+    $(this).click(function(){
+      $('#editPostModal_' + id)
+      .modal('show');
+    });
+  });
+
+  $('[id^="btnDelPost_"]').each(function(i, el){
+    el = $(el);
+    var name_id = el.attr('id');
+    var id = name_id.substr(name_id.lastIndexOf("_")+1);
+    $(this).click(function(){
+      $('#delPostModal_' + id)
+      .modal('show');
+    });
+  });
+
+  $(document).bind('ajaxError', 'form.edit_post_form', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + model + '[' + field + ']"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+    };
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+</script>

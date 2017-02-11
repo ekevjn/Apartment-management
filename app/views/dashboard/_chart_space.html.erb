@@ -1,0 +1,9 @@
+<div class="ui sixteen wide column">
+  <% if @chart_type == 'line_chart' %>
+    <%= line_chart @objects %>
+  <% elsif @chart_type == 'column_chart' %>
+    <%= column_chart @objects %>
+  <% elsif @chart_type == 'bar_chart' %>
+    <%= bar_chart @objects %>
+  <% end %>
+</div>

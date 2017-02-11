@@ -1,0 +1,7 @@
+$("#importbuildingspace").html("<%= escape_javascript(render("step3input")) %>");
+$("#layout-overview").html("<%= escape_javascript(render("step3overview")) %>");
+$("html, body").animate({ scrollTop: 0 }, "slow");
+$('#genderdropdown').dropdown();
+$( ".datepicker" ).datepicker({
+  format: 'dd/mm/yyyy'
+});

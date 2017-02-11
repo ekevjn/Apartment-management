@@ -1,0 +1,169 @@
+<%= form_for(tower) do |f| %>
+  <div class="row">
+    <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1">
+      <%= render 'shared/error_messages', object: tower %>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading text-center">Subdomain information</div>
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <div class="form-group">
+              <%= f.label :name, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                <%= f.text_field :name, class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :subdomain, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                <p class="form-control-static"><%= tower.subdomain %></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :status, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                <%= f.text_field :status, class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :phone, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                <%= f.text_field :phone, class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :email, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                <%= f.email_field :email, class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :created_at, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                <p class="form-control-static"><%= tower.created_at.strftime("%A, %d %b %Y %l:%M %p") %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="panel panel-success">
+        <div class="panel-heading text-center">Apartment information</div>
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <div class="form-group">
+              <%= f.label :manager_name, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                  <%= f.text_field :manager_name, class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :symbol, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                  <%= f.text_field :symbol, class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :address, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                  <%= f.text_field :address, class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :area, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                  <%= f.text_field :area, class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :fax, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                  <%= f.text_field :fax, class: 'form-control' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :taxcode, class: "col-sm-3 control-label" %>
+              <div class="col-sm-9">
+                  <%= f.text_field :taxcode, class: 'form-control' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading text-center">Information for Reporting</div>
+        <div class="panel-body">
+          <div class="col-md-6">
+            <div class="form-horizontal">
+              <div class="form-group">
+                <%= f.label :manager_name, class: "col-sm-3 control-label" %>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= tower.manager_name %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :management_board, class: "col-sm-3 control-label" %>
+                <div class="col-sm-9">
+                    <%= f.text_field :management_board, class: 'form-control' %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :bank_no, class: "col-sm-3 control-label" %>
+                <div class="col-sm-9">
+                    <%= f.text_field :bank_no, class: 'form-control' %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :receiver_name, class: "col-sm-3 control-label" %>
+                <div class="col-sm-9">
+                    <%= f.text_field :receiver_name, class: 'form-control' %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :bank_name, class: "col-sm-3 control-label" %>
+                <div class="col-sm-9">
+                    <%= f.text_field :bank_name, class: 'form-control' %>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :bank_eng, class: "col-sm-3 control-label" %>
+                <div class="col-sm-9">
+                    <%= f.text_field :bank_eng, class: 'form-control' %>
+                </div>
+              </div>
+            </div>
+          </div><!-- end form reporting -->
+          <div class="col-md-4 col-md-offset-1">
+            <img src="http://cdn.rentcafe.com/dmslivecafe/3/358998/3_358998_1832535.png?crop=(0,0,300,205)&cropxunits=300&cropyunits=205" alt="No Image" class="img-thumbnail" width="304" height="236">
+            <h1 class="h2 text-center">Logo</h1>
+          </div>
+        </div><!-- end panel body -->
+        <div class="pull-right">
+          <%= link_to "Back", towers_path, class: "btn btn-default" %>
+          <%= f.submit "Save changes", class: 'btn btn-primary' %>
+        </div>
+      </div><!-- end panel -->
+    </div> <!-- end reporting -->
+  </div><!-- end row -->
+<% end %>

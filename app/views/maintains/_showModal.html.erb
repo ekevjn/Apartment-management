@@ -1,0 +1,73 @@
+<div class="ui modal scrolling" id='<%= "viewModal_#{maintain.id}" %>'>
+  <div class="header">
+    <h4 class="modal-title text-center h1">
+      <span class="glyphicon glyphicon-info-sign" aria-hidden="true" style="color:blue"></span>
+      <%= "#{maintain.id} - #{maintain.facility_name}" %>
+    </h4>
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-primary">
+          <div class="panel-heading text-center">Thông tin bảo trì</div>
+          <div class="panel-body">
+            <form class="form-horizontal">
+              <!-- fix css -->
+              <div class="form-group">
+                <div class="col-sm-6">
+                  <p class="form-control-static"></p>
+                </div>
+              </div>
+              <!-- fix css -->
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Tài sản</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static"><%= maintain.facility_name if maintain.facility_id %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Ngày bảo trì</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static"><%= maintain.fixed_time.strftime("%d/%m/%Y") %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Chi phí </label>
+                <div class="col-sm-8">
+                  <p class="form-control-static"><%= number_to_vnd(maintain.price) %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Mô tả</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static"><%= maintain.description %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Ngày tạo</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static"><%= maintain.created_at.strftime("%d/%m/%Y") %></p>
+                </div>
+              </div>
+              <!-- fix css -->
+              <div class="form-group">
+                <div class="col-sm-6">
+                  <p class="form-control-static"></p>
+                </div>
+              </div>
+              <!-- fix css -->
+            </form>
+          </div><!-- end panel body -->
+        </div><!-- end panel -->
+      </div> <!-- end reporting -->
+    </div><!-- end row -->
+  </div> <!-- end modal body -->
+  <div class="actions">
+    <div class="ui negative right labeled icon button" >
+     Đóng<i class="remove icon"></i></div>
+  </div>
+</div>

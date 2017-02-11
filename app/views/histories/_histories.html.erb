@@ -1,0 +1,36 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="5%"><%= sortable "id" %></th>
+        <th width="15%"><%= sortable "account_id",'Email tài khoản' %></th>
+        <th width="65%"><%= sortable "content", 'Nội dung' %></th>
+        <th width="10%"><%= sortable "created_at", "Ngày log" %></th>
+        <th width="5%"><%= link_to "Hành động", "#" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @histories.each do |history| %>
+      <tr>
+          <td><%= history.id %></td>
+          <td><%= history.account_email %></td>
+          <td><%= history.content %></td>
+          <td><%= history.created_at.strftime("%d/%m/%Y") %></td>
+          <td>
+            <a class="btn btn-sm glyphicon glyphicon-info-sign" aria-label="Left Align"
+                id='<%= "btnViewModal_#{history.id}" %>' title="Chi tiết" >
+            </a>
+            <!-- Show modal -->
+            <%= render partial: 'showModal', locals: { history: history } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= will_paginate @histories %>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag "common/management" %>

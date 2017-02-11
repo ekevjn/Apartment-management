@@ -1,0 +1,5 @@
+$('#step1_overview').removeClass('active').addClass('completed');
+$('#step2_overview').removeClass('disabled').addClass('active');
+$('#setting_tower_success').modal("show");
+$("#back_div").html("<%= escape_javascript(render("back_div")) %>");
+$("#first_time_content").html("<%= escape_javascript(render("step2_import_building")) %>");

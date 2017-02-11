@@ -1,0 +1,76 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="5%"><%= sortable "id" %></th>
+        <th width="20%"><%= sortable "name", "Tòa nhà" %></th>
+        <th width="15%"><%= sortable "num_floors", "Số tầng" %></th>
+        <th width="20%"><%= sortable "del_flg", "Đang hoạt động" %></th>
+        <th width="15%"><%= sortable "created_at", "Ngày tạo" %></th>
+        <th width="25%"><%= link_to "Hành động", "#" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @buildings.each do |building| %>
+      <tr>
+        <td><%= building.id %></td>
+        <td><%= building.name %></td>
+        <td><%= building.num_floors %></td>
+        <td><%= check_box_tag 'active', 'yes',
+                      (building.active), { disabled: true } %></td>
+        <td><%= building.created_at.strftime("%d/%m/%Y") %></td>
+        <td>
+          <a class="btn btn-sm glyphicon glyphicon-info-sign" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnViewModal_#{building.id}" %>'
+          title="Chi tiết" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-edit" aria-label="Left Align"
+            data-toggle="modal" id='<%= "btnEditModal_#{building.id}" %>'
+            title="Sửa" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-remove-sign" aria-label="Left Align"
+            data-toggle="modal" id='<%= "btnDeleteModal_#{building.id}" %>'
+            title="Hủy" ></a>
+
+          <!-- Show modal -->
+          <%= render partial: 'showModal', locals: { building: building } %>
+
+          <!-- Edit modal -->
+          <div class="ui modal" id='<%= "editModal_#{building.id}" %>'>
+            <div class="header">
+              <h4 class="text-center h1">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true" style="color:blue"></span>
+                <%= building.id %> - <%= building.name %>
+              </h4>
+            </div>
+            <div class="content">
+              <% @building = building %>
+              <%= render partial: 'form', locals: { building: @building} %>
+            </div>
+          </div>
+
+          <!-- Delete modal -->
+          <div class="ui basic modal" id='<%= "deleteModal_#{building.id}" %>'>
+            <div class="ui icon header">
+              <i class="huge inverted remove icon"></i>
+              Hủy tòa nhà
+            </div>
+            <div class="content text-center header">
+              Bạn có chắc chắn muốn ngừng hoạt động tòa nhà "<%= building.name %>" ?
+            </div>
+            <div class="actions">
+              <button class="ui cancel inverted red basic button">Không</button>
+              <%= link_to "Đồng ý", building_path(building.id), method: :delete, class: "ui inverted green basic button"  %>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+    </table>
+    <div class="col-md-12">
+      <div class="pull-right">
+        <%= will_paginate @buildings %>
+      </div>
+    </div>
+</div>
+<%= javascript_include_tag "common/management" %>
+

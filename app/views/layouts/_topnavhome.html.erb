@@ -1,0 +1,25 @@
+<div class="top_nav" style="margin: 0px !important;">
+  <div class="nav_menu">
+    <nav class="" role="navigation">
+      <div class="pull-left">
+        <% tower = Tower.find_by_subdomain(Apartment::Tenant.current) %>
+        <% if tower.picture.present? %>
+          <%= image_tag(tower.picture.url, class: "img-circle", style: "padding: 5px;") %>
+        <% else %>
+          <%= image_tag("no-image-available.jpg", class: "img-circle", style: "padding: 5px;") %>
+        <% end %>
+        <%= Tower.find_by_subdomain(Apartment::Tenant.current).name.titleize %>
+      </div>
+
+      <ul class="nav navbar-nav navbar-right">
+        <% if account_signed_in? %>
+          <li><%= link_to " Đăng xuất", destroy_account_session_path, method: :delete %></li>
+          <li><a href="<%= grounds_path %>">Quản Lý Chung</a></li>
+          <li><a href="<%= dashboard_index_path %>">Bàn Làm Việc</a></li>
+        <% else %>
+          <li><a href="<%= new_account_session_path %>">Đăng nhập</a></li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+</div>

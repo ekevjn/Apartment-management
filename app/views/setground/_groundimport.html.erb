@@ -1,0 +1,28 @@
+<div class="ui two column middle aligned very relaxed stackable grid">
+  <div class="center aligned column">
+    <div class="ui form">
+      <%= form_tag import_setground_index_path, multipart: true,
+          remote: true, id: "import_setground" do %>
+        <span class="ui big blue labeled icon button fileinput-button">
+          <i class="upload icon"></i>
+          <span>Nhập mặt bằng từ file</span>
+          <%= file_field_tag :file, class: "input-group btn btn-default" %>
+        </span>
+      <% end %>
+    </div>
+  </div>
+  <!-- <div class="ui vertical divider">
+    Or
+  </div> -->
+  <div class="center aligned column">
+    <%= link_to export_setground_index_path( {format: 'xls'} ),
+          class: "ui big green labeled icon button", style: "color: white" do %>
+      <i class="cloud download icon"></i>Tải file mẫu danh sách mặt bằng
+    <% end %>
+  </div>
+</div>
+<script type="text/javascript">
+  $("#import_setground").fileupload({
+    dataType: "script"
+  });
+</script>

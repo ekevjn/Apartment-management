@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  vehicle_type: MyString
+  apartment_id: 
+  citizen_id: 
+  charge_time: 2016-04-14 16:22:40
+  created_fee: MyString
+  outdate_time: 2016-04-14 16:22:40
+  registered_time: 2016-04-14 16:22:40
+  status: MyString
+  license_no: MyString
+  description: MyString
+
+two:
+  vehicle_type: MyString
+  apartment_id: 
+  citizen_id: 
+  charge_time: 2016-04-14 16:22:40
+  created_fee: MyString
+  outdate_time: 2016-04-14 16:22:40
+  registered_time: 2016-04-14 16:22:40
+  status: MyString
+  license_no: MyString
+  description: MyString

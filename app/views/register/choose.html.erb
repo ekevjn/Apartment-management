@@ -1,0 +1,99 @@
+<h1 class="text-center">Please choose a your plan</h1>
+<br/>
+
+
+<!--Pricing-->
+
+<section class="pricing section-spacing text-center" id="pricing">
+  <div class="container">
+    <header class="section-header">
+      <h2>Plans &amp; Pricing</h2>
+      <h3>30 day money back guarantee. No credit card required!</h3>
+    </header>
+    <div class="row">
+
+      <!--pricing tabel 1-->
+      <div class="col-sm-4">
+        <div class="pricing-table-container">
+          <div class="plan-type">
+            <h4>Basic</h4>
+          </div>
+          <div class="plan-price">
+            <h5>Free</h5>
+          </div>
+          <div class="plan-cta"> <span>Try first, upgrade later</span>
+          <%= link_to 'TRY FOR FREE', register_path(plan: 1), class: "btn btn-lg btn-success" %>
+          </div>
+          <div class="plan-details">
+            <ul>
+              <li><strong>1</strong> user</li>
+              <li><strong>5000</strong> Views per/m</li>
+              <li><strong>12</strong> Projects</li>
+              <li><strong>5</strong> agent per account<i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Some tooltip text"></i></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--pricing tabel 1 end-->
+
+      <!--pricing tabel 2-->
+      <div class="col-sm-4">
+        <div class="pricing-table-container plan-popular">
+          <div class="plan-type">
+            <h4>Premium</h4>
+          </div>
+          <div class="plan-price">
+            <h5><span class="plan-currency">$</span>30<span class="plan-duration">P/M</span></h5>
+          </div>
+          <div class="plan-cta"> <span>Limited time 10% off</span>
+          <%= link_to 'GET STARTED', register_path(plan: 2), class: "btn btn-lg btn-success" %>
+          </div>
+          <div class="plan-details">
+            <ul>
+              <li><strong>5</strong> user</li>
+              <li><strong>10000</strong> Views per/m</li>
+              <li><strong>30</strong> Projects</li>
+              <li><strong>15</strong> agent per account</li>
+              <li>API access</li>
+              <li>Free Storage<i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Some tooltip text"></i></li>
+              <li>Analytics</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--pricing tabel 2 end-->
+
+      <!--pricing tabel 3-->
+      <div class="col-sm-4">
+        <div class="pricing-table-container">
+          <div class="plan-type">
+            <h4>GOLD</h4>
+          </div>
+          <div class="plan-price">
+            <h5><span class="plan-currency">$</span>60<span class="plan-duration">P/M</span></h5>
+          </div>
+          <div class="plan-cta"> <span>Limited time 10% off</span>
+          <%= link_to 'GET STARTED', register_path(plan: 3), class: "btn btn-lg btn-success" %></div>
+          <div class="plan-details">
+            <ul>
+              <li><strong>Unlimited</strong> user</li>
+              <li><strong>Unlimited</strong> Views per/m</li>
+              <li><strong>Unlimited</strong> Projects</li>
+              <li><strong>50</strong> agent per account</li>
+              <li>API access</li>
+              <li>Free Storage</li>
+              <li>Analytics<i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Some tooltip text"></i></li>
+              <li>Addon security</li>
+              <li>Activity logs<i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Some tooltip text"></i></li>
+              <li>Priority support</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--pricing tabel 3 end-->
+
+    </div>
+  </div>
+</section>
+
+<!--Pricing end-->

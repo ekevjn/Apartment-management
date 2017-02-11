@@ -1,0 +1,33 @@
+= render 'layouts/sidebarnew'
+= render 'layouts/topnav'
+.right_col{:role => "main", :style => "min-height: 1575px;"}
+  #layout-messages
+    = render 'layouts/messages'
+  .row
+    .col-md-12.col-sm-12.col-xs-12
+      %ul.nav.nav-tabs
+        %li#facilityinput_tab.active{:role => "presentation"}
+          %a Nhập thủ công
+        %li#facilityimport_tab{:role => "presentation"}
+          %a Nhập tài sản từ excel
+      %br/
+      #tab_content
+        = render "tab1"
+:javascript
+  $('#setfacility_tab').addClass('active');
+  $('#facilityinput_tab').click(function(){
+    $("#tab_content").html("#{escape_javascript(render("tab1"))}");
+    $('#facilityinput_tab').addClass('active');
+    $('#facilityimport_tab').removeClass('active');
+    $('#facilityopen_tab').removeClass('active');
+    $('#facilityowner_tab').removeClass('active');
+  });
+  $('#facilityimport_tab').click(function(){
+    $("#tab_content").html("#{escape_javascript(render("tab2"))}");
+    $('#facilityinput_tab').removeClass('active');
+    $('#facilityimport_tab').addClass('active');
+    $('#facilityopen_tab').removeClass('active');
+    $('#facilityowner_tab').removeClass('active');
+    $('#facilityliabilities_tab').removeClass('active');
+    $('#facilityhistory_tab').removeClass('active');
+  });

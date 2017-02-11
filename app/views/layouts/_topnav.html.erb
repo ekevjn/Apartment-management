@@ -1,0 +1,34 @@
+<div class="top_nav">
+  <div class="nav_menu">
+    <nav class="" role="navigation">
+      <div class="nav toggle">
+        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+      </div>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="">
+          <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <% tower = Tower.find_by_subdomain(Apartment::Tenant.current) %>
+            <% if tower.picture.present? %>
+              <%= image_tag tower.picture.url %>
+            <% else %>
+              <%= image_tag "no-image-available.jpg" %>
+            <% end %>
+            <%= Tower.find_by_subdomain(Apartment::Tenant.current).name.titleize %>
+            <span class=" fa fa-angle-down"></span>
+          </a>
+          <ul class="dropdown-menu dropdown-usermenu pull-right">
+            <li><a href="<%= setting_index_path %>">Cài đặt chung</a></li>
+            <% if !account_signed_in? %>
+            <li><%= link_to " Đăng nhập", new_account_session_path %></li>
+            <% else %>
+            <li><%= link_to " Đăng xuất", destroy_account_session_path, method: :delete %></li>
+            <% end %>
+          </ul>
+        </li>
+        <li><a href="<%= grounds_path %>">Quản Lý Chung</a></li>
+        <li><a href="<%= dashboard_index_path %>">Bàn Làm Việc</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>

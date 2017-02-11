@@ -1,0 +1,105 @@
+<div class="table-responsive">
+  <table class="table table-bordered table-hover pretty">
+    <thead>
+      <tr>
+        <th width="3%"><%= sortable "id" %></th>
+        <th width="10%"><%= sortable "ground_id", "Mặt bằng" %></th>
+        <th width="7%"><%= sortable "water_num", "Khối nước" %></th>
+        <th width="10%"><%= sortable "debt", "Nợ" %></th>
+        <th width="10%"><%= sortable "paid", "Đã trả" %></th>
+        <th width="12%"><%= sortable "fee", "Phí trong tháng" %></th>
+        <th width="10%"><%= sortable "started_time", "Tháng tính phí"%></th>
+        <th width="5%"><%= sortable "is_current", "Hiện tại" %></th>
+        <th width="3%"><%= sortable "num_debt", "Số tháng nợ" %></th>
+        <th width="30%"><%= link_to "Hành động" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @waters.each do |water| %>
+      <tr>
+        <td><%= water.id %></td>
+        <td><%= water.ground_name %></td>
+        <td><%= water.water_num %> m&sup3</td>
+        <td><%= number_to_vnd(water.debt, false) %></td>
+        <td><%= number_to_vnd(water.paid, false) %></td>
+        <td><%= number_to_vnd(water.fee, false) %></td>
+        <td><%= water.started_time.strftime("%m/%Y") %></td>
+        <td><%= check_box_tag 'is_current', water.is_current,
+          water.is_current?, { disabled: true } %></td>
+        <td><%= water.num_debt %></td>
+        <td>
+          <a class="btn btn-sm glyphicon glyphicon-info-sign" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnViewModal_#{water.id}" %>'
+          title="Chi tiết" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-usd"
+          data-toggle="modal" id='<%= "btnPayModal_#{water.id}" %>'
+          title="Thanh toán" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-edit" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnEditModal_#{water.id}" %>'
+          title="Sửa" ></a>
+          <a class="btn btn-sm glyphicon glyphicon-remove-sign" aria-label="Left Align"
+          data-toggle="modal" id='<%= "btnDeleteModal_#{water.id}" %>'
+          title="Hủy" ></a>
+
+          <!-- Show modal -->
+          <%= render partial: 'showModal', locals: { water: water } %>
+
+          <!-- Pay modal -->
+          <%= render partial: 'payModal', locals: { water: water } %>
+
+          <!-- Edit modal -->
+          <% if water.is_current %>
+            <div class="ui modal scrolling" id='<%= "editModal_#{water.id}" %>'>
+              <div class="header">
+                <h4 class="text-center h1">
+                  <span class="glyphicon glyphicon-edit" aria-hidden="true" style="color:blue"></span>
+                  <%= water.id %> - <%= water.ground_id %>
+                </h4>
+              </div>
+              <div class="content">
+                <% @water = water %>
+                <%= render partial: 'form', locals: { water: @water} %>
+              </div>
+            </div>
+          <% else %>
+            <div class="ui basic modal" id='<%= "editModal_#{water.id}" %>'>
+              <div class="ui icon header">
+                <i class="huge inverted remove icon"></i>
+                Thất bại
+              </div>
+              <div class="content text-center header">
+                Bạn không thể thay đổi thông tin lịch sử cũ
+              </div>
+              <div class="actions">
+                <button class="ui cancel inverted red basic button">Hủy</button>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Delete modal -->
+          <div class="ui basic modal" id='<%= "deleteModal_#{water.id}" %>'>
+            <div class="ui icon header">
+              <i class="huge inverted remove icon"></i>
+              Hủy dịch vụ nước
+            </div>
+            <div class="content text-center header">
+              Bạn có chắc chắn muốn ngừng hoạt động dịch vụ nước của mặt bằng <%= water.ground_name %> này không ?
+            </div>
+            <div class="actions">
+              <button class="ui cancel inverted red basic button">Không</button>
+              <%= link_to "Đồng ý", water_path(water.id), method: :delete, class: "ui inverted green basic button"  %>
+            </div>
+          </div>
+
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= will_paginate @waters %>
+    </div>
+  </div>
+</div>
+<%= javascript_include_tag "common/management" %>

@@ -1,0 +1,71 @@
+<div class="ui segment">
+  <%= form_tag(close_vehicle_card_setcard_index_path, remote: true) do  %>
+    <h2 class="ui header">
+      <i class="block layout icon"></i>
+      <div class="content"> Khóa - Báo mất thẻ xe</div>
+    </h2>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Tên mặt bằng (*)</label>
+          <%= text_field_tag :ground_name_search, '', class: 'form-control',
+            :id => "vehicle_card_search_add", placeholder:"Nhập tên mặt bằng"  %>
+          <%= hidden_field_tag "ground_id", '', id: "vehicle_card_id_add" %>
+        <br/>
+        <%= submit_tag('Thực hiện' , class: 'ui green button') %>
+      </div>
+    </div>
+  <% end %>
+  <br>
+  <div class="row" >
+    <div class=" col-md-12" id="close_vehicle_card">
+    </div>
+  </div>
+</div>
+
+<!-- Modal thong bao thanh cong -->
+<div class="ui basic modal" id="close_service_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p><div>Thực hiện thành công</div></p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao thanh cong -->
+
+<script type="text/javascript">
+  // autocomplete ground name
+  $("#vehicle_card_search_add").autocomplete({
+    source: '/grounds/autocomplete.json',
+    select: function( event, ui ) {
+      $( "#vehicle_card_search_add" ).val( ui.item.value );
+      $( "#vehicle_card_id_add" ).val( ui.item.key );
+      return false;
+    },
+    messages: {
+      noResults: '',
+      results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#vehicle_card_search_add").val("");
+        $("#vehicle_card_id_add").val("");
+        $("#vehicle_card_search_add").attr("disabled", false);
+      }
+    }
+  });
+</script>

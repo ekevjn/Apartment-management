@@ -1,0 +1,82 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  errors:
+    messages:
+      confirmation: "%{attribute} không khớp"
+  activerecord:
+    attributes:
+      tower:
+        password: "mật khẩu"
+      building:
+        name: 'Tên tòa nhà'
+        num_floors: "Số tầng"
+      ground:
+        name: "Tên mặt bằng"
+        area_width: "Chiều rộng"
+        area_length: "Chiều dài"
+        kind: "Loại mặt bằng"
+        floor: "Tầng"
+        num_rooms: "Số phòng"
+      citizen:
+        name: "Tên cư dân"
+        government_id: "Chứng minh thư"
+        hometown: "Quê quán"
+        phone: "Số điện thoại"
+        email: "Email"
+        gender: "Giới tính"
+        dob: "Ngày sinh"
+        nationality: "Quốc tịch"
+        is_water_deal: "Hưởng ưu đãi"
+      vehicle_card:
+        card_no: "Số thẻ xe"
+        license_no: "Số xe"
+        vehicle_type: "Loại xe"
+        status: "Tình trạng"
+        started_time: "Tháng tính phí"
+        created_fee: "Phí tạo thẻ"
+        outdate_time: "Tháng hết hạn"
+        registered_time: "Ngày đăng kí"
+        description: "Mô tả"
+      water:
+        water_no: "Chỉ số nước"
+      facility:
+        name: "Tên tài sản"
+        status: "Tình trạng"
+        position: "Vị trí"
+        building_id: "Tòa nhà"
+        buy_time: "Ngày mua"
+        guarantee_time: "Ngày hết bảo hành"
+        guarantee_company: "Đơn vị bảo hành"
+      maintain:
+        facility_id: 'Tên tài sản'
+        fixed_time: "Ngày sửa chữa"
+        price: "Giá sửa chữa"
+        description: "Mô tả"
+
+    errors:
+      models:
+        tower:
+          attributes:
+            password:
+              blank: "không đưọc để trống"
+

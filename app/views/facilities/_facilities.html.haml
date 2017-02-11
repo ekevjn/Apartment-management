@@ -1,0 +1,46 @@
+.table-responsive
+  %table.table.table-bordered.table-hover.pretty
+    %thead
+      %tr
+        %th{:width => "4%"}= sortable "id"
+        %th{:width => "15%"}= sortable "name",'Tài sản'
+        %th{:width => "17%"}= sortable "status", "Tình Trạng"
+        %th{:width => "15%"}= sortable "building_id", "Tòa nhà"
+        %th{:width => "19%"}= link_to "Hành động", "#"
+    %tbody
+      - @facilities.each do |facility|
+        %tr
+          %td= facility.id
+          %td= facility.name
+          %td= facility.status
+          %td= facility.building.name
+          %td
+            %a.btn.btn-sm.glyphicon.glyphicon-info-sign{"aria-label" => "Left Align", :id => "btnViewModal_#{facility.id}", :title => "Chi tiết"}
+            %a.btn.btn-sm.glyphicon.glyphicon-edit{"aria-label" => "Left Align", :id => "btnEditModal_#{facility.id}", :title => "Sửa"}
+            %a.btn.btn-sm.glyphicon.glyphicon-remove-sign{"aria-label" => "Left Align", :id => "btnDeleteModal_#{facility.id}", :title => "Hủy"}
+            / Show modal
+            = render partial: 'showModal', locals: { facility: facility }
+            / Edit modal
+            .ui.modal.scrolling{:id => "editModal_#{facility.id}"}
+              .header
+                %h4.text-center.h1
+                  %span.glyphicon.glyphicon-edit{"aria-hidden" => "true", :style => "color:blue"}
+                  = facility.id
+                  \- #{facility.name}
+              .content
+                - @facility = facility
+                = render partial: 'form', locals: { facility: @facility }
+            / Delete modal
+            .ui.basic.modal{:id => "deleteModal_#{facility.id}"}
+              .ui.icon.header
+                %i.huge.inverted.remove.icon
+                Xóa tài sản
+              .content.text-center.header
+                Bạn có chắc chắn muốn xóa tài sản "#{facility.name}" này không?
+              .actions
+                %button.ui.cancel.inverted.red.basic.button Không
+                = link_to "Đồng ý", facility_path(facility.id), method: :delete, class: "ui inverted green basic button"
+  .col-md-12
+    .pull-right
+      = will_paginate @facilities
+= javascript_include_tag "common/management"

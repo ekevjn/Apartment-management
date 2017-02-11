@@ -1,0 +1,17 @@
+<%= render 'layouts/sidebarmanager' %>
+<%= render 'layouts/topnav' %>
+<div class="right_col" role="main" style="min-height: 1575px;">
+  <div id="layout-messages">
+    <%= render 'layouts/messages' %>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <%= render partial: 'layouts/subdomain_navigation', locals: { type: "water", path: "waters_path", new_path: "new_water_path", export_path: "",import_path: "import_waters_path"} %>
+      <hr/>
+      <div id="waters">
+        <%= render 'waters' %>
+      </div>
+    </div>
+  </div>
+</div>
+

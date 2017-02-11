@@ -1,0 +1,18 @@
+<%= form_tag(map_ground_dashboard_index_path, remote: true, method: :post) do |f| %>
+<i class="building icon"></i>
+Chọn tòa nhà
+<div class="ui selection dropdown">
+  <input type="hidden" name="building_id">
+  <i class="dropdown icon"></i>
+  <div class="text">Chọn tòa nhà</div>
+  <div class="menu">
+    <% list_active_building.each do | building | %>
+    <div class="item" data-value="<%= building.id %>"><%= building.name %></div>
+    <% end %>
+  </div>
+</div>
+<%= submit_tag('Submit', class: 'ui green button') %>
+<div class="ui red message invisible error-choice">Hãy chọn tòa nhà</div>
+<% end %>
+<div id="mapgroundspace">
+</div>

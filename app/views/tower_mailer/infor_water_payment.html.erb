@@ -1,0 +1,7 @@
+Bạn đã thanh toán thành công phí nước trong tháng <%= @water.started_time.strftime("%m/%Y") %>  của chung cư <%= Tower.find_by_subdomain(Apartment::Tenant.current).name %>
+  <br/>Nợ: <%= @water.debt %> VND
+  <br/>Đã trả: <%= @water.paid %> VND
+  <br/>Chi phí trong tháng: <%= @water.fee %> VND
+
+<br/>Bạn có thể tiếp tục sử dụng dịch vụ của chung cư chúng tôi!
+<br/>Chúc bạn một ngày vui vẻ!

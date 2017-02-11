@@ -1,0 +1,7 @@
+Bạn đã thanh toán thành công vé xe <%= @type %> trong tháng <%= @vehicle_finance.started_time.strftime("%m/%Y") %> của chung cư <%= Tower.find_by_subdomain(Apartment::Tenant.current).name %>
+    Nợ: <%= @vehicle_finance.debt %> VND
+    Đã trả: <%= @vehicle_finance.paid %> VND
+    Chi phí trong tháng: <%= @vehicle_finance.fee %> VND
+
+Bạn có thể tiếp tục sử dụng dịch vụ của chung cư chúng tôi!
+Chúc bạn một ngày vui vẻ!

@@ -1,0 +1,10 @@
+<script type="text/javascript">
+    $('#listaccount_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab5")) %>");
+    $('#listaccount_tab').addClass('active');
+    $('#settingfinace_tab').removeClass('active');
+    $('#settingreport_tab').removeClass('active');
+    $('#settingaccount_tab').removeClass('active');
+    $('#updateaccount_tab').removeClass('active');
+  });
+</script>

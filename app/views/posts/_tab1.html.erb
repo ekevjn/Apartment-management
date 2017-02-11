@@ -1,0 +1,83 @@
+<div class="ui segment">
+  <%= form_tag(posts_path ,remote: true, role: :form, 'data-model' => 'post', id: 'postform') do %>
+  <h2 class="ui header">
+    <i class="users icon"></i>
+    <div class="content">
+      Tạo bài thông báo cho chung cư
+    </div>
+  </h2>
+  <div class="ui form">
+    <div class="field">
+      <div class="field">
+        <label>Tiêu đề (*)</label>
+        <%= text_field_tag :title, '',placeholder: "Nhập tiêu đề bài đăng" %>
+        <span class="help-block"></span>
+      </div>
+      <div class="field">
+        <label>Nội dung</label>
+        <%= text_area_tag :content, '', class: "ckeditor",
+                placeholder: "Nhập nội dung muốn thông báo đến cư dân" %>
+        <span class="help-block"></span>
+      </div>
+    </div>
+  </div>
+  <%= submit_tag('Đồng ý', class: 'ui green button') %>
+  <% end %>
+</div>
+
+<!-- Modal thong bao input thanh cong -->
+<div class="ui basic modal" id="inputpostsuccess">
+  <i class="close icon"></i>
+  <div class="header">
+    Thêm bài đăng thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description" id="error_content">
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao input thanh cong -->
+
+<script type="text/javascript">
+  $(document).bind('ajaxError', 'form#postform', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + field + '"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+    };
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+  $(document).ready(function(){
+    if ($('textarea').length > 0) {
+      var data = $('.ckeditor');
+      $.each(data, function(i) {
+        CKEDITOR.replace(data[i].id)
+      });
+    }
+  });
+</script>

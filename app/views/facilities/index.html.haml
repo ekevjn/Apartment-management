@@ -1,0 +1,12 @@
+= render 'layouts/sidebarmanager'
+= render 'layouts/topnav'
+.right_col{:role => "main", :style => "min-height: 1575px;"}
+  #layout-messages
+    = render 'layouts/messages'
+  .row
+    .col-md-12.col-sm-12.col-xs-12
+      = render partial: 'layouts/subdomain_navigation', locals: { type: "facility", path: "facilities_path", new_path: "new_facilities_path", |
+        export_path: "export_facilities_path", import_path: "import_facilities_path"}                                                      |
+      %br/
+      #facilities
+        = render 'facilities'

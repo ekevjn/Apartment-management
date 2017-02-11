@@ -1,0 +1,50 @@
+<% citizen_card = @citizen_card if @citizen_card %>
+<%= form_for(citizen_card, remote: true,
+html: {role: :form, 'data-model' => 'citizen_card'}) do |f| %>
+<div class="ui grid">
+  <div class="sixteen wide column">
+    <div class="panel panel-primary">
+      <div class="panel-heading text-center">Thông tin thẻ cư dân</div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Số thẻ (*)</label>
+            <div class="col-sm-9">
+              <%= f.text_field :card_no, class: 'form-control' %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Mặt bằng (*)</label>
+            <div class="col-sm-9">
+              <% if citizen_card.new_record? %>
+                  <%= text_field_tag :ground_name_search, '',
+                        class: 'form-control', :id => "ground_name_search_add" %>
+                  <%= f.hidden_field :ground_id, id: "ground_name_id_add" %>
+                <% else %>
+                  <%= text_field_tag :ground_name_search, citizen_card.ground_name,
+                        class: 'form-control', id: "ground_name_search_edit_#{citizen_card.id}" %>
+                  <%= f.hidden_field :ground_id, id: "ground_name_id_edit_#{citizen_card.id}" %>
+                <% end %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Tình trạng (*)</label>
+            <div class="col-sm-9">
+              <%= f.select :status, CitizenCard::STATUS, {},
+                    { class: 'form-control' } %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right floated four wide column actions">
+    <div class="ui negative button" >Hủy</div>
+    <%= f.submit(citizen_card.new_record? ? 'Tạo' : 'Lưu', class: 'ui green button') %>
+  </div>
+</div>
+<% end %>

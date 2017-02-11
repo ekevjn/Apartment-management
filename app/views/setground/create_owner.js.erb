@@ -1,0 +1,12 @@
+$('#create_citizen').modal("show");
+$('#owner_name_search_add').val("<%= @citizen.name %>");
+$('#ground_owner_id_add').val("<%= @citizen.id %>");
+$("html, body").animate({ scrollTop: 0 }, "slow");
+var form = document.getElementById("new_citizen");
+form.reset();
+$('.field').each(function(){
+  $('.help-block').html('');
+  $('.help-block').removeClass('ui red message');
+});
+$(".collapse").collapse('hide');
+$("html, body").animate({ scrollTop: 0 }, "slow");

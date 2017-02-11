@@ -1,0 +1,38 @@
+<!-- Modal thong bao -->
+<div class="ui basic modal" id="send_mail_modal">
+  <i class="close icon"></i>
+  <div class="header">
+    <% if @error_messages.present? %>
+      Gửi mail thất bại
+    <% else %>
+      Gửi mail thành công
+    <% end %>
+  </div>
+  <div class="image content">
+    <div class="image">
+      <% if @error_messages.present? %>
+        <i class="remove icon"></i>
+      <% else %>
+        <i class="checkmark icon"></i>
+      <% end %>
+    </div>
+    <div class="description">
+      <% if @error_messages.present? %>
+        <%= @error_messages %>
+      <% elsif @is_owner.present? %>
+        Đã gửi mail thành công tới chủ hộ của cư dân này
+      <% else %>
+        Đã gửi mail thành công tới cư dân này
+      <% end %>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao -->

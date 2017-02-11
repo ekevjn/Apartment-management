@@ -1,0 +1,32 @@
+<table class="ui celled striped table">
+  <thead>
+    <tr>
+      <th>Mã số thẻ</th>
+      <th>Loại xe</th>
+      <th>Cư dân</th>
+      <th>Tình trạng</th>
+      <th>Ngày tạo</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @vehicle_cards.each do |vehicle_card| %>
+      <tr>
+        <td><%= vehicle_card.card_no %></td>
+        <td><%= vehicle_card.vehicle_type %></td>
+        <td><%= vehicle_card.citizen_name %></td>
+        <td><%= vehicle_card.status %></td>
+        <td><%= vehicle_card.created_at.strftime("%d/%m/%Y") %></td>
+        <td>
+          <% if exist_vehicle_finances?(vehicle_card) %>
+            <div class="ui red message">
+              Đã mở dịch vụ tháng <%= Date.today.month %>
+            </div>
+          <% else %>
+            <%= link_to "Mở dịch vụ tháng #{Date.today.month}", open_service_setcard_index_path(vehicle_card.id), class: "ui  green basic button", remote: true  %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

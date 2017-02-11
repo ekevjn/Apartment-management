@@ -1,0 +1,45 @@
+<div class="ui modal" id='<%= "viewModal_#{history.id}" %>'>
+  <div class="header">
+    <h4 class="modal-title text-center h1">
+      <span class="glyphicon glyphicon-info-sign" aria-hidden="true" style="color:blue"></span>
+      <%= "#{history.id}" %>
+    </h4>
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-primary">
+          <div class="panel-heading text-center">Thông tin log</div>
+          <div class="panel-body">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Email tài khoản</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= history.account_email %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Nội dung</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= history.content %></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Ngày log</label>
+                <div class="col-sm-9">
+                  <p class="form-control-static"><%= history.created_at.strftime("%d/%m/%Y") %></p>
+                </div>
+              </div>
+            </form>
+          </div><!-- end panel body -->
+        </div><!-- end panel -->
+      </div> <!-- end reporting -->
+    </div><!-- end row -->
+  </div> <!-- end modal body -->
+  <div class="actions">
+    <div class="ui negative right labeled icon button" >
+     Đóng<i class="remove icon"></i></div>
+  </div>
+</div>

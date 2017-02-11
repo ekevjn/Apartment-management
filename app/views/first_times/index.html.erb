@@ -1,0 +1,27 @@
+<div class="ui grid">
+  <div class="sixteen wide column">
+    <div class="alert alert-danger h4 text-center">
+      Chung cư không có dữ liệu, có thể đây là lần đầu đăng nhập của bạn.
+      <h3 style="color: white;">Vui lòng nhập thông tin như bên dưới để có thể tiếp tục sử dụng<h3>
+    </div>
+  </div>
+
+  <div class="four wide column">
+    <div id="center layout-overview">
+      <%= render "layout_overview" %>
+    </div>
+  </div>
+  <div class="twelve wide column">
+    <div class="ui segment">
+      <div class="ui middle aligned very relaxed stackable grid">
+        <div class="column" id="first_time_content">
+          <%= render partial: "step1_setting_tower" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.ui.dropdown').dropdown();
+</script>

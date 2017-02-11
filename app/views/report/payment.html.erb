@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to my site</title>
+  <meta charset='utf-8' />
+  <%= wicked_pdf_stylesheet_link_tag "bootstrap-sass-official" -%>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-6">
+        <h3>CÔNG HÒA XÃ HÔỊ CHỦ NGHĨA VIÊT NAM</h3>
+          <h6 style="text-decoration: underline;">Độc lập - Tự do - Hạnh phúc</h6>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="text-center">
+        <h1>THÔNG BÁO</h1>
+      </div>
+    </div>
+    <div class="col-md-12">
+      Kính gửi: <%= (@owner.gender == 1) ? "Ông" : "Bà" %> <%= @owner.name %><br/>
+      Phòng: <%= @ground.name %>
+    </div>
+    <div class="col-md-12">
+      Ban quản lí tòa nhà chúng tôi xin thông báo tiền nước, phí chung cư, phí trông giữ xe của Ông (bà) trong tháng <%= @service.started_time.month %> năm <%= @service.started_time.year %> như sau
+    </div>
+    <div class="col-md-12">
+      1. Phí dịch vụ chung cư: <%= @service.fee %><br/>
+      2. Nước sinh hoạt: <%= @water.fee %> <br/>
+      3. Số tiền nợ tháng trưóc <%= @service.debt + @water.debt %><br/>
+      <strong>Tổng số tiền phải nộp: <%= @service.remain + @water.remain %></strong>
+    </div>
+    <br/><br/>
+    <div class="col-md-12">
+      Vậy ban quản trị chúng tôi xin thông báo tới quý khách hàng nạp số tiền trên cho ban Quản trị chung cư
+    </div>
+  </div>
+</body>
+</html>
+
+
+<%= link_to done_pay_path(@service.ground.id, { :format => 'pdf' }) %>

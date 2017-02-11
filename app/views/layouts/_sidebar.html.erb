@@ -1,0 +1,20 @@
+<div class="sidebar" data-color="sidebar-color" data-image="london.jpg">
+  <div class="sidebar-wrapper">
+    <div class="logo">
+    <%= image_tag("royal.jpg", class: "img-circle") %>
+    <%= Tower.find_by_subdomain(Apartment::Tenant.current).name.titleize %>
+    </div>
+    <ul class="nav">
+      <li id="dashboard_tab"><a class="simple-text" href="<%= dashboard_index_path %>" ><i class="dashboard icon"></i>Tổng quan</a></li>
+      <li id="payment_tab"><a class="simple-text" href="<%= payment_index_path %>" ><i class="dollar icon"></i>Thanh toán</a></li>
+      <li id="setbuilding_tab"><a class="simple-text" href="<%= setbuilding_index_path %>" ><i class="building outline icon"></i>Tòa nhà</a></li>
+      <li id ="setground_tab"><a class="simple-text" href="<%= setground_index_path %>" ><i class="block layout icon"></i>Mặt bằng</a></li>
+      <li id ="setcitizen_tab"><a class="simple-text" href="<%= setcitizen_index_path %>" ><i class="users icon"></i>Cư dân</a></li>
+      <li id="setcard_tab"><a class="simple-text" href="<%= setcard_index_path %>" ><i class="car icon"></i>Thẻ xe</a></li>
+      <li id="posts_tab"><a class="simple-text" href="<%= posts_path %>" ><i class="alarm outline icon"></i>Thông báo</a></li>
+      <li id="setfacility_tab"><a class="simple-text" href="<%= setfacility_path %>" ><i class="cubes icon"></i>Tài sản</a></li>
+      <li id="setting_tab"><a class="simple-text" href="<%= setting_index_path %>" ><i class="settings icon"></i>Cài đặt</a></li>
+    </ul>
+  </div>
+  <div class="sidebar-background"></div>
+</div>

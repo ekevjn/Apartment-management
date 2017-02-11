@@ -1,0 +1,25 @@
+<table class="ui celled striped table">
+  <thead>
+    <tr>
+      <th>Mã số thẻ</th>
+      <th>Mặt bằng</th>
+      <th>Tình trạng</th>
+      <th>Ngày tạo</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @ground_cards.each do |citizen_card| %>
+      <tr>
+        <td><%= citizen_card.card_no %></td>
+        <td><%= citizen_card.ground_name %></td>
+        <td><%= citizen_card.status %></td>
+        <td><%= citizen_card.created_at.strftime("%d/%m/%Y") %></td>
+        <td>
+          <%= link_to "Mất thẻ", citizen_card_lost_setcitizen_index_path(citizen_card.id, ground_id: citizen_card.ground_id), class: "ui green basic button", remote: true  %>
+          <%= link_to "Khóa thẻ", citizen_card_lock_setcitizen_index_path(citizen_card.id,ground_id: citizen_card.ground_id), class: "ui red basic button", remote: true %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

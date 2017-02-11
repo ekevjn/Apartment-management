@@ -1,0 +1,91 @@
+<%= render 'layouts/sidebarnew' %>
+<%= render 'layouts/topnav' %>
+<div class="right_col" role="main" style="min-height: 1575px;">
+  <div id="layout-messages">
+    <%= render 'layouts/messages' %>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active" id="citizeninput_tab"><a>Tạo cư dân</a></li>
+        <li role="presentation" id="citizenimport_tab"><a>Nhập cư dân từ excel</a></li>
+        <li role="presentation" id="citizencardinput_tab"><a>Nhập thẻ cư dân</a></li>
+        <li role="presentation" id="citizencardimport_tab"><a>Nhập thẻ cư dân từ excel</a></li>
+        <li role="presentation" id="citizencardopen_tab"><a>Khóa - Báo mất thẻ</a></li>
+      </ul>
+      <br>
+      <div id="tab_content">
+        <%= render "tab1" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal thong bao input thanh cong -->
+<div class="ui basic modal" id="ground_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Tạo cư dân thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p>Tạo cư dân thành công</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao input thanh cong -->
+
+<script type="text/javascript">
+  $('#setcitizen_tab').addClass('active');
+  $('#citizeninput_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab1")) %>");
+    $('#citizeninput_tab').addClass('active');
+    $('#citizenimport_tab').removeClass('active');
+    $('#citizencardinput_tab').removeClass('active');
+    $('#citizencardimport_tab').removeClass('active');
+    $('#citizencardopen_tab').removeClass('active');
+  });
+  $('#citizenimport_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab2")) %>");
+    $('#citizeninput_tab').removeClass('active');
+    $('#citizenimport_tab').addClass('active');
+    $('#citizencardinput_tab').removeClass('active');
+    $('#citizencardimport_tab').removeClass('active');
+    $('#citizencardopen_tab').removeClass('active');
+  });
+  $('#citizencardinput_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab3")) %>");
+    $('#citizeninput_tab').removeClass('active');
+    $('#citizenimport_tab').removeClass('active');
+    $('#citizencardinput_tab').addClass('active');
+    $('#citizencardimport_tab').removeClass('active');
+    $('#citizencardopen_tab').removeClass('active');
+  });
+  $('#citizencardimport_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab4")) %>");
+    $('#citizeninput_tab').removeClass('active');
+    $('#citizenimport_tab').removeClass('active');
+    $('#citizencardinput_tab').removeClass('active');
+    $('#citizencardimport_tab').addClass('active');
+    $('#citizencardopen_tab').removeClass('active');
+  });
+  $('#citizencardopen_tab').click(function(){
+    $("#tab_content").html("<%= escape_javascript(render("tab5")) %>");
+    $('#citizeninput_tab').removeClass('active');
+    $('#citizenimport_tab').removeClass('active');
+    $('#citizencardinput_tab').removeClass('active');
+    $('#citizencardimport_tab').removeClass('active');
+    $('#citizencardopen_tab').addClass('active');
+  });
+</script>

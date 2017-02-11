@@ -1,0 +1,7 @@
+Bạn đã thanh toán thành công phí dịch vụ trong tháng <%= @service.started_time.strftime("%m/%Y") %> của chung cư <%= Tower.find_by_subdomain(Apartment::Tenant.current).name %>
+  <br/>Nợ: <%= @service.debt %> VND
+  <br/>Đã trả: <%= @service.paid %> VND
+  <br/>Chi phí trong tháng: <%= @service.fee %> VND
+
+<br/>Bạn có thể tiếp tục sử dụng dịch vụ của chung cư chúng tôi!
+<br/>Chúc bạn một ngày vui vẻ!

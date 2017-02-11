@@ -1,0 +1,131 @@
+<%= form_for(@ground,url: setground_index_path, remote: true,
+html: {role: :form, 'data-model' => 'ground', id: "groundform"}) do |f| %>
+  <h2 class="ui header">
+    <i class="block layout icon"></i>
+    <div class="content">
+    Tạo mặt bằng
+    </div>
+  </h2>
+  <div class="ui form">
+    <div class="field">
+      <label>Nhập tên (*)</label>
+      <div class="field">
+        <%= f.text_field :name, placeholder: "Nhập tên mặt bằng" %>
+        <span class="help-block"></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Diện tích mặt bằng</label>
+      <div class="two fields">
+        <div class="field">
+          <%= f.text_field :area_length, placeholder: "m" %>
+          <span class="help-block"></span>
+        </div>
+        <div class="field">
+          <%= f.text_field :area_width, placeholder: "m"  %>
+          <span class="help-block"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Loại mặt bằng (*)</label>
+      <div class="field">
+        <%= f.text_field :kind, class: 'form-control' %>
+        <span class="help-block"></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Trạng thái</label>
+      <%= text_field_tag :status, "#{Ground::STATUS_EMPTY}",
+                class: 'form-control', disabled: true %>
+      <span class="help-block"></span>
+    </div>
+
+    <div class="field">
+      <label>Tầng (*)</label>
+      <div class="field">
+        <%= f.text_field :floor, placeholder: "Nhập tầng của mặt bằng" %>
+        <span class="help-block"></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Tòa nhà (*)</label>
+      <div class="ui selection dropdown">
+        <%= f.hidden_field :building_id %>
+        <i class="dropdown icon"></i>
+        <div class="text">Chọn tòa nhà</div>
+        <div class="menu">
+          <% list_active_building.each do | building | %>
+          <div class="item" data-value="<%= building.id %>"><%= building.name %></div>
+          <% end %>
+        </div>
+      </div>
+      <span class="help-block"></span>
+    </div>
+
+    <div class="field">
+      <label >Số phòng</label>
+      <div class="field">
+        <%= f.text_field :num_rooms, placeholder: "Nhập số phòng của mặt bằng" %>
+        <span class="help-block"></span>
+      </div>
+      <span class="help-block"></span>
+    </div>
+
+    <%= f.submit('Tạo' , class: 'ui green button') %>
+  </div>
+<% end %>
+
+<!-- Modal thong bao input thanh cong -->
+<div class="ui basic modal" id="ground_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Tạo mặt bằng thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p>Tạo mặt bằng thành công</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao input thanh cong -->
+
+<script type="text/javascript">
+  $(document).bind('ajaxError', 'form#groundform', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+      // show error messages in input form-group help-block
+      $.each(errors, function(field, messages){
+        $input = $('input[name="' + model + '[' + field + ']"]');
+        $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+      });
+    };
+    $.fn.clear_previous_errors = function(){
+      $('.field', this).each(function(){
+        $('.help-block', $(this)).html('');
+        $('.help-block').removeClass('ui red message');
+      });
+    }
+  }(jQuery));
+  $('.ui.dropdown').dropdown();
+</script>

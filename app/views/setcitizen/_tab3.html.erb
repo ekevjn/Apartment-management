@@ -1,0 +1,116 @@
+<div id = "importcitizencardspace">
+  <div class="ui segment">
+    <div class="column">
+      <%= form_for(@citizencard,url: create_citizen_card_setcitizen_index_path, remote: true,
+      html: {role: :form, 'data-model' => 'citizen_card', id: "citizencard"}) do |f| %>
+      <h2 class="ui header">
+        <i class="block layout icon"></i>
+        <div class="content">
+          Tạo thẻ cư dân
+        </div>
+      </h2>
+      <div class="ui form">
+        <div class="field">
+          <label>Tên mặt bằng (*)</label>
+          <%= text_field_tag :ground_name_search, '',
+          class: 'form-control', :id => "ground_card_search_add", placeholder:"Nhập tên mặt bằng"  %>
+          <%= f.hidden_field :ground_id, id: "ground_card_id_add" %>
+          <span class="help-block"></span>
+        </div>
+
+        <div class="field">
+          <label>Trạng thái</label>
+          <div class="field">
+          <%= text_field_tag :status, CitizenCard::STATUS_AVAILABLE , disabled: true %>
+          </div>
+          <span class="help-block"></span>
+        </div>
+
+        <div class="field">
+          <label>Mã thẻ cư dân (*)</label>
+          <div class="field">
+            <%= f.text_field :card_no, placeholder: "Nhập mã số thẻ cư dân" %>
+            <span class="help-block"></span>
+          </div>
+        </div>
+
+        <%= f.submit('Tạo' , class: 'ui green button') %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Modal thong bao input thanh cong -->
+<div class="ui basic modal" id="citizen_card_success">
+  <i class="close icon"></i>
+  <div class="header">
+    Tạo thẻ cư dân thành công
+  </div>
+  <div class="image content">
+    <div class="image">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="description">
+      <p>Tạo thẻ cư dân thành công</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui ok green basic inverted button">
+        <i class="checkmark icon"></i>
+        Cảm ơn
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal thong bao input thanh cong -->
+
+<script type="text/javascript">
+  // autocomplete ground name for add modal
+  $("#ground_card_search_add").autocomplete({
+    source: '/grounds/autocomplete.json',
+    appendTo: "#addModal",
+    select: function( event, ui ) {
+      $( "#ground_card_search_add" ).val( ui.item.value );
+      $( "#ground_card_id_add" ).val( ui.item.key );
+      return false;
+    },
+    messages: {
+      noResults: '',
+      results: function() {}
+    },
+    change: function (event, ui) {
+      if (ui.item == null || ui.item == undefined) {
+        $("#ground_card_search_add").val("");
+        $("#ground_card_id_add").val("");
+        $("#ground_card_search_add").attr("disabled", false);
+      }
+    }
+  });
+
+
+  $(document).bind('ajaxError', 'form#citizencard', function(event, jqxhr, settings, exception){
+    $(event.data).render_form_errors( $.parseJSON(jqxhr.responseText) );
+  });
+
+  (function($) {
+    $.fn.render_form_errors = function(errors){
+      $form = this;
+      this.clear_previous_errors();
+      model = this.data('model');
+    // show error messages in input form-group help-block
+    $.each(errors, function(field, messages){
+      $input = $('input[name="' + model + '[' + field + ']"]');
+      $input.closest('.field').find('.help-block').addClass('ui red message').html( messages.join(' & ') );
+    });
+  };
+
+  $.fn.clear_previous_errors = function(){
+    $('.field', this).each(function(){
+      $('.help-block', $(this)).html('');
+      $('.help-block').removeClass('ui red message');
+    });
+  }
+}(jQuery));
+</script>
